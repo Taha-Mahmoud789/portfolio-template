@@ -1,8 +1,8 @@
 /**
  * LandingExperience
  *
- * Premium cinematic landing page.
- * Preloader → Logo reveal → Progress → Page reveal → Hero animation.
+ * TRIONN-inspired creative studio landing page.
+ * Preloader -> Hero -> Intro -> About -> Projects -> Expertise -> Process -> Contact -> Footer.
  * Respects prefers-reduced-motion. Keyboard accessible. 60 FPS target.
  */
 
@@ -10,13 +10,11 @@ import { useState, useEffect, useCallback } from "react";
 import { Hero } from "./components/hero";
 import { NoiseGrain } from "./components/noise-grain";
 import { Navigation } from "./components/navigation";
+import { Intro } from "./components/intro";
 import { About } from "./components/about";
-import { Stats } from "./components/stats";
 import { Projects } from "./components/projects";
 import { Expertise } from "./components/expertise";
-import { HowIWork } from "./components/how-i-work";
-import { WhyWorkWithMe } from "./components/why-work-with-me";
-import { CTA } from "./components/cta";
+import { Process } from "./components/how-i-work";
 import { Contact } from "./components/contact";
 import { Footer } from "./components/footer";
 import { BackToTop } from "./components/back-to-top";
@@ -59,9 +57,12 @@ function LandingContent() {
 
   useEffect(() => {
     if (!loaderDone) return;
-    const timer = setTimeout(() => {
-      setIsReady(true);
-    }, reducedMotion ? 0 : 100);
+    const timer = setTimeout(
+      () => {
+        setIsReady(true);
+      },
+      reducedMotion ? 0 : 100,
+    );
     return () => clearTimeout(timer);
   }, [loaderDone, reducedMotion]);
 
@@ -74,7 +75,7 @@ function LandingContent() {
         position: "relative",
         overflow: "hidden",
       }}
-      aria-label="Frontend Multiverse — Landing Experience"
+      aria-label="Creative Developer — Landing Experience"
     >
       {/* Preloader */}
       {!loaderDone && <Preloader onComplete={handleLoaderComplete} />}
@@ -83,18 +84,16 @@ function LandingContent() {
       {isReady && <Navigation onExploreWorlds={activatePortal} />}
 
       {/* Hero section */}
-      {isReady && <Hero isVisible={isReady} onExploreWorlds={activatePortal} />}
+      {isReady && <Hero isVisible={isReady} />}
 
       {/* Content sections */}
       {isReady && (
         <>
+          <Intro />
           <About />
-          <Stats />
           <Projects />
           <Expertise />
-          <HowIWork />
-          <WhyWorkWithMe />
-          <CTA />
+          <Process />
           <Contact />
           <Footer />
         </>
@@ -110,13 +109,8 @@ function LandingContent() {
       <BackToTop />
 
       {/* Screen reader announcer */}
-      <div
-        role="status"
-        aria-live="polite"
-        aria-atomic="true"
-        className="sr-only"
-      >
-        {isReady && "Welcome to the Frontend Multiverse. Scroll to explore."}
+      <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+        {isReady && "Welcome to the Creative Developer Portfolio. Scroll to explore."}
       </div>
     </div>
   );

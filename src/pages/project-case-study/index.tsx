@@ -3,6 +3,7 @@
  *
  * Dynamic route for /projects/:projectId
  * Loads project data and renders the case study experience.
+ * Integrates with the project transition system for cinematic navigation.
  */
 
 import { useParams, useNavigate } from "react-router";
@@ -10,6 +11,7 @@ import { useCallback, useEffect } from "react";
 import { ProjectPage } from "@/landing/projects";
 import { getProjectById } from "@/landing/projects";
 import { ROUTES } from "@/constants/routes";
+import { useTransitionStore } from "@/landing/components/project-transition-store";
 
 // ============================================================================
 // Component
@@ -18,6 +20,7 @@ import { ROUTES } from "@/constants/routes";
 export default function ProjectCaseStudyPage() {
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
+  const startReturn = useTransitionStore((s) => s.startReturn);
 
   const project = projectId ? getProjectById(projectId) : undefined;
 
@@ -66,25 +69,20 @@ export default function ProjectCaseStudyPage() {
     (nextId: string) => {
       window.scrollTo({ top: 0, behavior: "smooth" });
       setTimeout(() => {
-        navigate(`${ROUTES.PROJECT.replace(":projectId", nextId)}`);
+        void navigate(ROUTES.PROJECT.replace(":projectId", nextId));
       }, 300);
     },
     [navigate],
   );
 
   const handleBackToProjects = useCallback(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    setTimeout(() => {
-      navigate(ROUTES.HOME);
-      // Scroll to projects section after navigation
-      setTimeout(() => {
-        const projectsSection = document.getElementById("projects");
-        if (projectsSection) {
-          projectsSection.scrollIntoView({ behavior: "smooth" });
-        }
-      }, 400);
-    }, 200);
-  }, [navigate]);
+    // Trigger back transition overlay
+    startReturn();
+
+    // Navigate immediately — overlay handles the visual transition
+    // Landing page scroll restoration handles returning to the right position
+    void navigate(ROUTES.HOME);
+  }, [navigate, startReturn]);
 
   if (!project) {
     return (

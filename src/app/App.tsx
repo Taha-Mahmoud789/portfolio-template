@@ -25,6 +25,7 @@ import { LenisProvider } from "@/providers/lenis-provider";
 import { RootLayout } from "@/layouts";
 import { SuspenseFallback } from "@/components/shared/suspense-fallback";
 import { AppRouter } from "@/router/routes";
+import { ProjectTransitionOverlay } from "@/landing/components/project-transition-overlay";
 
 export function App() {
   return (
@@ -38,6 +39,7 @@ export function App() {
                   <RootLayout>
                     <AppRouter />
                   </RootLayout>
+                  <ProjectTransitionOverlay />
                 </Suspense>
               </NavigationProvider>
             </BrowserRouter>

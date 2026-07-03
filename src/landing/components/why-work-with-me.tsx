@@ -20,29 +20,39 @@ const VALUES: readonly Value[] = [
   {
     number: "01",
     title: "Performance",
-    description: "I optimize for speed — lazy loading, code splitting, efficient rendering. Users shouldn't wait for your interface.",
+    description:
+      "I optimize for speed — lazy loading, code splitting, efficient rendering. Users shouldn't wait for your interface.",
   },
   {
     number: "02",
     title: "Clean Architecture",
-    description: "Components that are reusable, state that is predictable, code that other developers can understand and extend.",
+    description:
+      "Components that are reusable, state that is predictable, code that other developers can understand and extend.",
   },
   {
     number: "03",
     title: "UX Thinking",
-    description: "I don't just implement designs — I think about user flows, error states, loading experiences, and edge cases.",
+    description:
+      "I don't just implement designs — I think about user flows, error states, loading experiences, and edge cases.",
   },
   {
     number: "04",
     title: "Accessibility",
-    description: "Semantic HTML, keyboard navigation, screen reader support. Every user should be able to use what I build.",
+    description:
+      "Semantic HTML, keyboard navigation, screen reader support. Every user should be able to use what I build.",
   },
 ] as const;
 
 function PerformanceIcon() {
   return (
     <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-      <path d="M4 16L8 12L12 16L16 8L20 14L24 10L28 16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d="M4 16L8 12L12 16L16 8L20 14L24 10L28 16"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
       <circle cx="28" cy="16" r="2" fill="currentColor" />
       <path d="M4 24H28" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
     </svg>
@@ -54,7 +64,13 @@ function DesignIcon() {
     <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
       <rect x="4" y="4" width="24" height="24" rx="4" stroke="currentColor" strokeWidth="1.5" />
       <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.5" />
-      <path d="M4 22L10 16L16 22L22 14L28 20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d="M4 22L10 16L16 22L22 14L28 20"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
@@ -62,9 +78,26 @@ function DesignIcon() {
 function StackIcon() {
   return (
     <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-      <path d="M16 4L4 10L16 16L28 10L16 4Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-      <path d="M4 16L16 22L28 16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M4 22L16 28L28 22" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d="M16 4L4 10L16 16L28 10L16 4Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M4 16L16 22L28 16"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M4 22L16 28L28 22"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
@@ -75,7 +108,13 @@ function AccessibilityIcon() {
       <circle cx="16" cy="5" r="3" stroke="currentColor" strokeWidth="1.5" />
       <path d="M10 12H22" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
       <path d="M16 12V20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M12 28L16 20L20 28" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d="M12 28L16 20L20 28"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
@@ -231,7 +270,8 @@ function ValueCard({
           position: "absolute",
           inset: 0,
           borderRadius: 16,
-          background: "radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.05) 0%, transparent 60%)",
+          background:
+            "radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.05) 0%, transparent 60%)",
           opacity: 0,
           pointerEvents: "none",
           transition: "opacity 0.4s ease",
@@ -248,7 +288,8 @@ function ValueCard({
           width: 52,
           height: 52,
           borderRadius: 14,
-          background: "linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(216, 216, 216, 0.03) 100%)",
+          background:
+            "linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(216, 216, 216, 0.03) 100%)",
           border: "1px solid rgba(255, 255, 255, 0.08)",
           color: "#a5b4fc",
           marginBottom: "1.25rem",
@@ -334,9 +375,7 @@ export function WhyWorkWithMe() {
 
             tl.to(gridRef.current, { opacity: 1, duration: 0.01 }, "<");
 
-            const cards = gridRef.current?.querySelectorAll<HTMLElement>(
-              "[data-why-work='card']",
-            );
+            const cards = gridRef.current?.querySelectorAll<HTMLElement>("[data-why-work='card']");
             if (cards && cards.length > 0) {
               tl.fromTo(
                 cards,
@@ -386,7 +425,8 @@ export function WhyWorkWithMe() {
           left: "10%",
           right: "10%",
           height: 1,
-          background: "linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.08) 50%, transparent 100%)",
+          background:
+            "linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.08) 50%, transparent 100%)",
         }}
       />
 
@@ -431,7 +471,7 @@ export function WhyWorkWithMe() {
           </span>
           <h2
             id="why-work-heading"
-            className="why-work-gradient-text"
+            className="gradient-text"
             style={{
               fontFamily: "'Space Grotesk', sans-serif",
               fontSize: "clamp(2rem, 5vw, 3.5rem)",
@@ -454,8 +494,7 @@ export function WhyWorkWithMe() {
               maxWidth: 520,
             }}
           >
-            What I focus on when I build — and what you can expect
-            when we work together.
+            What I focus on when I build — and what you can expect when we work together.
           </p>
         </div>
 

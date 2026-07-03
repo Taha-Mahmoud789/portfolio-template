@@ -1,8 +1,9 @@
 /**
- * CustomCursor — Premium cursor system
+ * CustomCursor — Cinematic cursor system
  *
- * Small dot + smooth follower circle.
- * Hover states: button (expand+glow), card (scale), text (minimal), magnetic (attract).
+ * Minimal dot + smooth follower circle.
+ * States: default, link, project (with "VIEW" text), text.
+ * Magnetic feel on buttons.
  * Disabled on touch/mobile. Respects prefers-reduced-motion.
  * GSAP quickTo for 60fps transforms only.
  */
@@ -11,15 +12,14 @@ import { useRef, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { gsap } from "gsap";
 import { useReducedMotion } from "../hooks";
+import { ANIMATION_EASINGS } from "@/animation/constants";
 
-type CursorVariant = "default" | "button" | "card" | "text" | "magnetic";
+type CursorVariant = "default" | "link" | "project" | "text";
 
-const DOT_SIZE = 8;
-const FOLLOWER_SIZE = 40;
-const BUTTON_SIZE = 56;
-const BUTTON_GLOW_SIZE = 72;
-const MAGNETIC_RANGE = 120;
-const MAGNETIC_STRENGTH = 0.35;
+const DOT_SIZE = 6;
+const FOLLOWER_SIZE = 36;
+const LINK_SIZE = 48;
+const PROJECT_SIZE = 72;
 
 function isTouchDevice(): boolean {
   if (typeof window === "undefined") return true;
@@ -44,24 +44,14 @@ function getVariant(el: HTMLElement | null): CursorVariant {
       node.classList.contains("contact-submit-btn") ||
       node.classList.contains("contact-method-link")
     ) {
-      return "button";
+      return "link";
     }
     if (
-      node.dataset.cursor === "magnetic" ||
-      node.classList.contains("nav-logo")
+      node.dataset.cursor === "project" ||
+      node.dataset.projects === "row" ||
+      node.dataset.projects === "preview"
     ) {
-      return "magnetic";
-    }
-    if (
-      node.dataset.cursor === "card" ||
-      node.dataset.projects === "card" ||
-      node.dataset.expertise === "card" ||
-      node.dataset.howIWork === "card" ||
-      node.dataset.whyWork === "card" ||
-      node.classList.contains("step-card") ||
-      node.classList.contains("value-card")
-    ) {
-      return "card";
+      return "project";
     }
     if (
       node.dataset.cursor === "text" ||
@@ -71,8 +61,7 @@ function getVariant(el: HTMLElement | null): CursorVariant {
       node.tagName === "H3" ||
       node.tagName === "H4" ||
       node.tagName === "H5" ||
-      node.tagName === "H6" ||
-      node.tagName === "SPAN"
+      node.tagName === "H6"
     ) {
       return "text";
     }
@@ -85,30 +74,15 @@ export function CustomCursor() {
   const reducedMotion = useReducedMotion();
   const dotRef = useRef<HTMLDivElement>(null);
   const followerRef = useRef<HTMLDivElement>(null);
-  const glowRef = useRef<HTMLDivElement>(null);
+  const labelRef = useRef<HTMLDivElement>(null);
   const variantRef = useRef<CursorVariant>("default");
   const mouseRef = useRef({ x: -999, y: -999 });
   const rafRef = useRef<number>(0);
-  const magneticTargetRef = useRef<{ x: number; y: number } | null>(null);
   const visibleRef = useRef(false);
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
     mouseRef.current.x = e.clientX;
     mouseRef.current.y = e.clientY;
-
-    if (variantRef.current === "magnetic") {
-      const target = magneticTargetRef.current;
-      if (target) {
-        const dx = target.x - e.clientX;
-        const dy = target.y - e.clientY;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < MAGNETIC_RANGE) {
-          const pull = (1 - dist / MAGNETIC_RANGE) * MAGNETIC_STRENGTH;
-          mouseRef.current.x += dx * pull;
-          mouseRef.current.y += dy * pull;
-        }
-      }
-    }
   }, []);
 
   const handleMouseOver = useCallback((e: MouseEvent) => {
@@ -116,99 +90,92 @@ export function CustomCursor() {
     const variant = getVariant(target);
     variantRef.current = variant;
 
-    if (variant === "magnetic") {
-      const node = target.closest("[data-cursor='magnetic'], .nav-logo");
-      if (node) {
-        const rect = node.getBoundingClientRect();
-        magneticTargetRef.current = {
-          x: rect.left + rect.width / 2,
-          y: rect.top + rect.height / 2,
-        };
-      }
-    } else {
-      magneticTargetRef.current = null;
-    }
-
     const follower = followerRef.current;
-    const glow = glowRef.current;
+    const label = labelRef.current;
     if (!follower) return;
 
     switch (variant) {
-      case "button":
+      case "link":
         gsap.to(follower, {
-          width: BUTTON_SIZE,
-          height: BUTTON_SIZE,
-          borderColor: "rgba(99, 102, 241, 0.5)",
+          width: LINK_SIZE,
+          height: LINK_SIZE,
+          borderColor: "rgba(255, 255, 255, 0.3)",
           duration: 0.3,
           ease: "power2.out",
         });
-        if (dotRef.current) dotRef.current.style.transform += " scale(0)";
-        if (glow) {
-          gsap.to(glow, {
-            opacity: 0.15,
-            duration: 0.3,
-            ease: "power2.out",
-          });
+        if (dotRef.current) {
+          gsap.to(dotRef.current, { scale: 0, duration: 0.2 });
+        }
+        if (label) {
+          gsap.to(label, { opacity: 0, scale: 0.8, duration: 0.2 });
         }
         break;
-      case "card":
+      case "project":
         gsap.to(follower, {
-          width: 52,
-          height: 52,
-          borderColor: "rgba(99, 102, 241, 0.3)",
-          duration: 0.3,
-          ease: "power2.out",
+          width: PROJECT_SIZE,
+          height: PROJECT_SIZE,
+          borderColor: "rgba(255, 255, 255, 0.25)",
+          background: "rgba(255, 255, 255, 0.04)",
+          duration: 0.4,
+          ease: ANIMATION_EASINGS.expoOut,
         });
-        if (glow) gsap.to(glow, { opacity: 0, duration: 0.2 });
+        if (dotRef.current) {
+          gsap.to(dotRef.current, { scale: 0, duration: 0.2 });
+        }
+        if (label) {
+          gsap.to(label, { opacity: 1, scale: 1, duration: 0.3, ease: "power2.out" });
+        }
         break;
       case "text":
         gsap.to(follower, {
-          width: 32,
-          height: 32,
-          borderColor: "rgba(255, 255, 255, 0.15)",
+          width: 28,
+          height: 28,
+          borderColor: "rgba(255, 255, 255, 0.1)",
           duration: 0.3,
           ease: "power2.out",
         });
-        if (glow) gsap.to(glow, { opacity: 0, duration: 0.2 });
-        break;
-      case "magnetic":
-        gsap.to(follower, {
-          width: 48,
-          height: 48,
-          borderColor: "rgba(99, 102, 241, 0.4)",
-          duration: 0.3,
-          ease: "power2.out",
-        });
-        if (glow) gsap.to(glow, { opacity: 0, duration: 0.2 });
+        if (label) {
+          gsap.to(label, { opacity: 0, scale: 0.8, duration: 0.2 });
+        }
         break;
       default:
         gsap.to(follower, {
           width: FOLLOWER_SIZE,
           height: FOLLOWER_SIZE,
-          borderColor: "rgba(255, 255, 255, 0.12)",
+          borderColor: "rgba(255, 255, 255, 0.1)",
+          background: "transparent",
           duration: 0.3,
           ease: "power2.out",
         });
-        if (glow) gsap.to(glow, { opacity: 0, duration: 0.2 });
+        if (dotRef.current) {
+          gsap.to(dotRef.current, { scale: 1, duration: 0.2 });
+        }
+        if (label) {
+          gsap.to(label, { opacity: 0, scale: 0.8, duration: 0.2 });
+        }
     }
   }, []);
 
   const handleMouseOut = useCallback(() => {
     variantRef.current = "default";
-    magneticTargetRef.current = null;
 
     const follower = followerRef.current;
-    const glow = glowRef.current;
     if (!follower) return;
 
     gsap.to(follower, {
       width: FOLLOWER_SIZE,
       height: FOLLOWER_SIZE,
-      borderColor: "rgba(255, 255, 255, 0.12)",
+      borderColor: "rgba(255, 255, 255, 0.1)",
+      background: "transparent",
       duration: 0.3,
       ease: "power2.out",
     });
-    if (glow) gsap.to(glow, { opacity: 0, duration: 0.2 });
+    if (dotRef.current) {
+      gsap.to(dotRef.current, { scale: 1, duration: 0.2 });
+    }
+    if (labelRef.current) {
+      gsap.to(labelRef.current, { opacity: 0, scale: 0.8, duration: 0.2 });
+    }
   }, []);
 
   useEffect(() => {
@@ -216,6 +183,7 @@ export function CustomCursor() {
 
     const dot = dotRef.current;
     const follower = followerRef.current;
+    const label = labelRef.current;
     if (!dot || !follower) return;
 
     const quickX = gsap.quickTo(follower, "left", {
@@ -227,19 +195,6 @@ export function CustomCursor() {
       ease: "power3",
     });
 
-    let quickGlowX: ReturnType<typeof gsap.quickTo> | null = null;
-    let quickGlowY: ReturnType<typeof gsap.quickTo> | null = null;
-    if (glowRef.current) {
-      quickGlowX = gsap.quickTo(glowRef.current, "left", {
-        duration: 0.2,
-        ease: "power3",
-      });
-      quickGlowY = gsap.quickTo(glowRef.current, "top", {
-        duration: 0.2,
-        ease: "power3",
-      });
-    }
-
     const tick = () => {
       const { x, y } = mouseRef.current;
 
@@ -250,9 +205,11 @@ export function CustomCursor() {
       quickX(x - FOLLOWER_SIZE / 2);
       quickY(y - FOLLOWER_SIZE / 2);
 
-      if (quickGlowX && quickGlowY) {
-        quickGlowX(x - BUTTON_GLOW_SIZE / 2);
-        quickGlowY(y - BUTTON_GLOW_SIZE / 2);
+      // Label follows cursor (for "VIEW" text)
+      if (label && variantRef.current === "project") {
+        label.style.left = "0";
+        label.style.top = "0";
+        label.style.transform = `translate(${String(x - 16)}px, ${String(y + PROJECT_SIZE / 2 + 8)}px)`;
       }
 
       if (!visibleRef.current) {
@@ -313,7 +270,7 @@ export function CustomCursor() {
           width: FOLLOWER_SIZE,
           height: FOLLOWER_SIZE,
           borderRadius: "50%",
-          border: "1px solid rgba(255, 255, 255, 0.12)",
+          border: "1px solid rgba(255, 255, 255, 0.1)",
           background: "transparent",
           pointerEvents: "none",
           zIndex: 99998,
@@ -325,23 +282,28 @@ export function CustomCursor() {
       />
 
       <div
-        ref={glowRef}
+        ref={labelRef}
         aria-hidden="true"
-        data-cursor-glow
+        data-cursor-label
         style={{
           position: "fixed",
-          width: BUTTON_GLOW_SIZE,
-          height: BUTTON_GLOW_SIZE,
-          borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, transparent 70%)",
           pointerEvents: "none",
           zIndex: 99997,
           opacity: 0,
-          willChange: "left, top, opacity",
+          fontFamily: "'JetBrains Mono', monospace",
+          fontSize: "0.5625rem",
+          fontWeight: 500,
+          letterSpacing: "0.2em",
+          textTransform: "uppercase" as const,
+          color: "rgba(255, 255, 255, 0.8)",
           left: -999,
           top: -999,
+          willChange: "transform",
+          transform: "scale(0.8)",
         }}
-      />
+      >
+        VIEW
+      </div>
     </>,
     document.body,
   );

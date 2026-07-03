@@ -1,12 +1,12 @@
 /**
- * Expertise Section
+ * Expertise Section — TRIONN-inspired service layout
  *
- * Premium categorized showcase — merges Skills and TechStack into
- * one cohesive experience. Large glass cards, SVG icons, hover
- * orchestration, GSAP scroll reveal. Fully accessible.
+ * Creative studio style. Large accordion.
+ * Frontend Development, Motion Systems,
+ * Interactive Experiences, Performance Engineering.
  */
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
 import { gsap } from "gsap";
 import { useReducedMotion } from "../hooks";
 import { ANIMATION_EASINGS } from "@/animation/constants";
@@ -15,314 +15,296 @@ import { ANIMATION_EASINGS } from "@/animation/constants";
 // Data
 // ============================================================================
 
-interface TechItem {
-  name: string;
-  icon: string;
-  color: string;
-}
-
-interface Category {
+interface Service {
+  number: string;
   title: string;
   description: string;
-  accentColor: string;
-  accentRgb: string;
-  items: TechItem[];
+  items: readonly string[];
 }
 
-const CATEGORIES: readonly Category[] = [
+const SERVICES: readonly Service[] = [
   {
-    title: "Frontend Development",
-    description: "The core of what I do — building interfaces that are fast, accessible, and built to scale.",
-    accentColor: "rgba(216, 216, 216, 0.8)",
-    accentRgb: "216, 216, 216",
+    number: "01",
+    title: "Frontend Architecture",
+    description:
+      "Building interfaces that are fast, accessible, and built to scale with modern frameworks.",
     items: [
-      { name: "React", icon: "M12 2a10 10 0 100 20 10 10 0 000-20zm-1 14.5v-2.1a2.5 2.5 0 01-2.5-2.5c0-1.7 1.3-3 3-3h.5v-2h-.5a5 5 0 00-5 5 1.8 1.8 0 00.9 3.2l4.1.9zm4 0v-2.2l4.1-.9A1.8 1.8 0 0020 11.4a5 5 0 00-5-5h-.5v2h.5a3 3 0 013 3 2.5 2.5 0 01-2.5 2.5v2.1a.5.5 0 01-.5.1.5.5 0 01-.5-.1z", color: "#61dafb" },
-      { name: "TypeScript", icon: "M3 3h18v18H3V3zm4.5 13.2V14H6.6v-6.8h.1l2.4 6.8h1.2l2.4-6.8h.1V14h-1.9v2.2h-1.2v-2.2H9.7v2.2H7.5zm10.2-3.4c0 .7-.2 1.2-.6 1.6-.4.4-1 .6-1.6.6s-1.1-.2-1.5-.5c-.4-.4-.6-.9-.6-1.5V10h1.2v2.9c0 .3.1.6.3.8s.5.3.8.3c.3 0 .6-.1.8-.3s.3-.5.3-.8V10h1.2v3.8z", color: "#3178c6" },
-      { name: "Next.js", icon: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.36 14.3L10.2 8.4h-.01V14H8V6h2.16l5.16 7.6V6H17v10.3h-1.64z", color: "#ffffff" },
-      { name: "JavaScript", icon: "M3 3h18v18H3V3zm9.6 14.4c.5 0 1-.1 1.4-.4.4-.3.7-.7.9-1.2l-1.4-.8c-.1.2-.3.4-.5.5-.2.1-.4.2-.7.2-.5 0-.8-.2-.9-.6V10h-1.4v5.4c0 1 .3 1.7.9 2.2.6.4 1.3.7 2.1.7 1 0 1.8-.3 2.5-.9V14c-.5.4-1.1.6-1.8.6-.7 0-1.3-.2-1.7-.6-.4-.4-.6-1-.6-1.8V10h-1.4v5.8c0 1.2.3 2.1.9 2.6z", color: "#f7df1e" },
-      { name: "Tailwind CSS", icon: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-2.1a2.5 2.5 0 01-2.5-2.5c0-1.7 1.3-3 3-3h.5v-2h-.5a5 5 0 00-5 5 1.8 1.8 0 00.9 3.2l4.1.9zm4 0v-2.2l4.1-.9A1.8 1.8 0 0020 11.4a5 5 0 00-5-5h-.5v2h.5a3 3 0 013 3 2.5 2.5 0 01-2.5 2.5v2.1a.5.5 0 01-.5.1.5.5 0 01-.5-.1z", color: "#38bdf8" },
+      "React & Next.js",
+      "TypeScript",
+      "Tailwind CSS",
+      "Component Architecture",
+      "State Management",
     ],
   },
   {
-    title: "Motion & 3D",
-    description: "Animation and spatial computing for interfaces that feel alive — without sacrificing performance.",
-    accentColor: "#a855f7",
-    accentRgb: "168, 85, 247",
+    number: "02",
+    title: "Motion & Rhythm",
+    description:
+      "Animation that moves with intention — scroll-driven reveals, page transitions, spatial computing.",
     items: [
-      { name: "GSAP", icon: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z", color: "#88ce02" },
-      { name: "Three.js", icon: "M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.2L19.5 8 12 11.8 4.5 8 12 4.2zM4 9.5l7 3.5v7l-7-3.5v-7zm9 10.5v-7l7-3.5v7l-7 3.5z", color: "#049ef4" },
-      { name: "React Three Fiber", icon: "M12 2a10 10 0 100 20 10 10 0 000-20zm-1 14.5v-2.1a2.5 2.5 0 01-2.5-2.5c0-1.7 1.3-3 3-3h.5v-2h-.5a5 5 0 00-5 5 1.8 1.8 0 00.9 3.2l4.1.9zm4 0v-2.2l4.1-.9A1.8 1.8 0 0020 11.4a5 5 0 00-5-5h-.5v2h.5a3 3 0 013 3 2.5 2.5 0 01-2.5 2.5v2.1a.5.5 0 01-.5.1.5.5 0 01-.5-.1z", color: "#61dafb" },
-      { name: "Shaders", icon: "M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.5L18.5 8 12 11.5 5.5 8 12 4.5zM4 9.2l7 3.5v6.6l-7-3.5V9.2zm9 10.1v-6.6l7-3.5v6.6l-7 3.5z", color: "#06b6d4" },
+      "GSAP & ScrollTrigger",
+      "Framer Motion",
+      "CSS Animations",
+      "Scroll-Driven Effects",
+      "Page Transitions",
     ],
   },
   {
-    title: "Tools & Workflow",
-    description: "The tooling that keeps projects running — version control, build systems, and design collaboration.",
-    accentColor: "#06b6d4",
-    accentRgb: "6, 182, 212",
+    number: "03",
+    title: "Interactive Worlds",
+    description:
+      "Creative development that pushes what a browser can do — 3D, shaders, spatial computing.",
     items: [
-      { name: "Git", icon: "M21 8.2a3.7 3.7 0 00-6-3.9 3.7 3.7 0 001.2 6.6 3 3 0 01-2.7 1.7h-3a4.5 4.5 0 00-3 1.2V7.6a3.7 3.7 0 10-1.5 0v8.9a3.7 3.7 0 101.8.3 3 3 0 012.7-1.7h3a4.5 4.5 0 004.2-3.1 3.7 3.7 0 003.3-3.7z", color: "#f05032" },
-      { name: "GitHub", icon: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z", color: "#ffffff" },
-      { name: "Figma", icon: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.36 14.3L10.2 8.4h-.01V14H8V6h2.16l5.16 7.6V6H17v10.3h-1.64z", color: "#a259ff" },
-      { name: "Vite", icon: "M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.5L18.5 8 12 11.5 5.5 8 12 4.5zM4 9.2l7 3.5v6.6l-7-3.5V9.2zm9 10.1v-6.6l7-3.5v6.6l-7 3.5z", color: "#bd34fe" },
-      { name: "Node.js", icon: "M12 2l-8 4.5v7L12 18l8-2.5v-7L12 2zm0 2.2L18 7v5l-6 2.2L6 12V7l6-2.8zM6 13.5v-3L12 13l6-2.5v3L12 16l-6-2.5z", color: "#68a063" },
+      "Three.js & WebGL",
+      "React Three Fiber",
+      "Canvas API",
+      "Web Audio",
+      "Shader Programming",
+    ],
+  },
+  {
+    number: "04",
+    title: "Performance Craft",
+    description:
+      "Optimizing for speed — lazy loading, code splitting, efficient rendering. Users shouldn't wait.",
+    items: [
+      "Core Web Vitals",
+      "Bundle Optimization",
+      "Image Optimization",
+      "Caching Strategies",
+      "Monitoring",
     ],
   },
 ] as const;
 
 // ============================================================================
-// Category Card
+// Accordion Item
 // ============================================================================
 
-function CategoryCard({
-  category,
+function AccordionItem({
+  service,
+  isOpen,
+  onToggle,
+  index,
   reducedMotion,
 }: {
-  category: Category;
+  service: Service;
+  isOpen: boolean;
+  onToggle: () => void;
+  index: number;
   reducedMotion: boolean;
 }) {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const iconRefs = useRef<(SVGSVGElement | null)[]>([]);
+  const itemRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
   const itemsRef = useRef<HTMLDivElement>(null);
-  const glowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const card = cardRef.current;
-    if (!card || reducedMotion) return;
+    const content = contentRef.current;
+    const items = itemsRef.current;
+    if (!content || !items || reducedMotion) return;
 
-    const onEnter = () => {
-      gsap.to(card, {
-        y: -4,
+    if (isOpen) {
+      const itemsHeight = items.scrollHeight;
+      gsap.to(content, {
+        height: itemsHeight + 24,
+        opacity: 1,
+        duration: 0.6,
+        ease: ANIMATION_EASINGS.expoOut,
+        overwrite: "auto",
+      });
+      const children = items.querySelectorAll<HTMLElement>("[data-service-item]");
+      gsap.fromTo(
+        children,
+        { y: 12, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.4,
+          stagger: 0.04,
+          ease: ANIMATION_EASINGS.expoOut,
+          delay: 0.15,
+        },
+      );
+    } else {
+      gsap.to(content, {
+        height: 0,
+        opacity: 0,
         duration: 0.4,
         ease: ANIMATION_EASINGS.expoOut,
         overwrite: "auto",
       });
-      if (glowRef.current) {
-        gsap.to(glowRef.current, { opacity: 1, duration: 0.4, ease: ANIMATION_EASINGS.expoOut, overwrite: "auto" });
-      }
-      card.style.borderColor = `rgba(${category.accentRgb}, 0.25)`;
-      card.style.boxShadow = `0 12px 40px rgba(${category.accentRgb}, 0.08), 0 0 0 1px rgba(${category.accentRgb}, 0.12)`;
-      iconRefs.current.forEach((icon, i) => {
-        if (icon) {
-          gsap.to(icon, {
-            rotation: 8,
-            scale: 1.1,
-            duration: 0.4,
-            delay: i * 0.03,
-            ease: ANIMATION_EASINGS.backOut,
-            overwrite: "auto",
-          });
-        }
-      });
-      if (itemsRef.current) {
-        const items = itemsRef.current.querySelectorAll<HTMLElement>("[data-expertise-item]");
-        gsap.to(items, {
-          x: 4,
-          duration: 0.3,
-          stagger: 0.03,
-          ease: ANIMATION_EASINGS.expoOut,
-          overwrite: "auto",
-        });
-      }
-    };
+    }
+  }, [isOpen, reducedMotion]);
 
-    const onLeave = () => {
-      gsap.to(card, {
-        y: 0,
-        duration: 0.4,
-        ease: ANIMATION_EASINGS.expoOut,
-        overwrite: "auto",
-      });
-      if (glowRef.current) {
-        gsap.to(glowRef.current, { opacity: 0, duration: 0.3, ease: ANIMATION_EASINGS.expoOut, overwrite: "auto" });
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        onToggle();
       }
-      card.style.borderColor = `rgba(${category.accentRgb}, 0.1)`;
-      card.style.boxShadow = `0 4px 24px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.04)`;
-      iconRefs.current.forEach((icon) => {
-        if (icon) {
-          gsap.to(icon, {
-            rotation: 0,
-            scale: 1,
-            duration: 0.4,
-            ease: ANIMATION_EASINGS.expoOut,
-            overwrite: "auto",
-          });
-        }
-      });
-      if (itemsRef.current) {
-        const items = itemsRef.current.querySelectorAll<HTMLElement>("[data-expertise-item]");
-        gsap.to(items, {
-          x: 0,
-          duration: 0.3,
-          stagger: 0.02,
-          ease: ANIMATION_EASINGS.expoOut,
-          overwrite: "auto",
-        });
-      }
-    };
-
-    card.addEventListener("mouseenter", onEnter);
-    card.addEventListener("mouseleave", onLeave);
-    card.addEventListener("focus", onEnter);
-    card.addEventListener("blur", onLeave);
-
-    return () => {
-      card.removeEventListener("mouseenter", onEnter);
-      card.removeEventListener("mouseleave", onLeave);
-      card.removeEventListener("focus", onEnter);
-      card.removeEventListener("blur", onLeave);
-    };
-  }, [reducedMotion, category.accentRgb]);
+    },
+    [onToggle],
+  );
 
   return (
     <div
-      ref={cardRef}
-      tabIndex={0}
-      role="article"
-      aria-label={`${category.title} — ${String(category.items.length)} technologies`}
-      data-expertise="card"
+      ref={itemRef}
+      data-service="item"
       style={{
-        position: "relative",
-        padding: "clamp(1.75rem, 3vw, 2.5rem)",
-        borderRadius: 16,
-        background: `linear-gradient(135deg, rgba(${category.accentRgb}, 0.06) 0%, rgba(${category.accentRgb}, 0.02) 100%)`,
-        border: `1px solid rgba(${category.accentRgb}, 0.1)`,
-        boxShadow: `0 4px 24px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.04)`,
-        cursor: "default",
-        outline: "none",
-        overflow: "hidden",
-        willChange: "transform",
-        display: "flex",
-        flexDirection: "column",
-      }}
-      onFocus={(e) => {
-        e.currentTarget.style.borderColor = `rgba(${category.accentRgb}, 0.3)`;
-        e.currentTarget.style.boxShadow = `0 8px 40px rgba(${category.accentRgb}, 0.1), 0 0 0 1px rgba(${category.accentRgb}, 0.15)`;
-      }}
-      onBlur={(e) => {
-        e.currentTarget.style.borderColor = `rgba(${category.accentRgb}, 0.1)`;
-        e.currentTarget.style.boxShadow = `0 4px 24px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.04)`;
+        borderBottom: "1px solid rgba(255, 255, 255, 0.04)",
       }}
     >
-      {/* Background glow */}
-      <div
-        ref={glowRef}
-        aria-hidden="true"
+      {/* Header */}
+      <button
+        onClick={onToggle}
+        onKeyDown={handleKeyDown}
+        aria-expanded={isOpen}
+        aria-controls={`service-content-${String(index)}`}
         style={{
-          position: "absolute",
-          inset: 0,
-          borderRadius: 16,
-          background: `radial-gradient(ellipse at 50% 0%, rgba(${category.accentRgb}, 0.08) 0%, transparent 60%)`,
-          opacity: 0,
-          pointerEvents: "none",
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: "clamp(1rem, 2vw, 2rem)",
+          padding: "clamp(1.5rem, 3vw, 2.5rem) 0",
+          background: "none",
+          border: "none",
+          cursor: "pointer",
+          textAlign: "left",
+          transition: "opacity 0.3s ease",
         }}
-      />
-
-      {/* Content */}
-      <div style={{ position: "relative", zIndex: 1, flex: 1, display: "flex", flexDirection: "column" }}>
-        {/* Category header */}
-        <div style={{ marginBottom: "clamp(1.25rem, 2.5vw, 1.75rem)" }}>
+        className="focus-ring"
+        onMouseEnter={(e) => {
+          if (!reducedMotion) {
+            gsap.to(e.currentTarget, { opacity: 0.8, duration: 0.2, ease: "power2.out" });
+          }
+        }}
+        onMouseLeave={(e) => {
+          if (!reducedMotion) {
+            gsap.to(e.currentTarget, { opacity: 1, duration: 0.2, ease: "power2.out" });
+          }
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: "clamp(1.5rem, 3vw, 3rem)" }}>
+          <span
+            style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: "clamp(0.6875rem, 0.8vw, 0.8125rem)",
+              fontWeight: 400,
+              letterSpacing: "0.15em",
+              color: isOpen ? "rgba(255, 255, 255, 0.7)" : "rgba(216, 216, 216, 0.45)",
+              transition: "color 0.3s ease",
+              minWidth: 32,
+            }}
+          >
+            {service.number}
+          </span>
           <h3
             style={{
               fontFamily: "'Space Grotesk', sans-serif",
-              fontSize: "clamp(1.125rem, 1.8vw, 1.375rem)",
-              fontWeight: 700,
-              letterSpacing: "-0.02em",
-              lineHeight: 1.2,
-              color: "#f0f0f5",
-              margin: "0 0 0.5rem 0",
-            }}
-          >
-            {category.title}
-          </h3>
-          <p
-            style={{
-              fontFamily: "'Inter', sans-serif",
-              fontSize: "clamp(0.8125rem, 1vw, 0.875rem)",
-              fontWeight: 400,
-              lineHeight: 1.6,
-              color: "rgba(226, 232, 240, 0.55)",
+              fontSize: "clamp(1.5rem, 3.5vw, 3rem)",
+              fontWeight: 500,
+              letterSpacing: "-0.03em",
+              lineHeight: 1.1,
+              color: isOpen ? "rgba(255, 255, 255, 0.95)" : "rgba(216, 216, 216, 0.4)",
               margin: 0,
+              transition: "color 0.3s ease",
             }}
           >
-            {category.description}
-          </p>
+            {service.title}
+          </h3>
         </div>
 
-        {/* Divider */}
+        {/* Toggle icon */}
         <div
-          aria-hidden="true"
           style={{
-            height: 1,
-            background: `linear-gradient(90deg, rgba(${category.accentRgb}, 0.2) 0%, rgba(${category.accentRgb}, 0.05) 100%)`,
-            marginBottom: "clamp(1.25rem, 2.5vw, 1.75rem)",
+            width: 40,
+            height: 40,
+            borderRadius: "50%",
+            border: "1px solid rgba(255, 255, 255, 0.08)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexShrink: 0,
+            transition: "border-color 0.3s ease, transform 0.4s ease",
+            transform: isOpen ? "rotate(45deg)" : "rotate(0deg)",
           }}
-        />
+        >
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            aria-hidden="true"
+            style={{
+              color: isOpen ? "rgba(255, 255, 255, 0.7)" : "rgba(216, 216, 216, 0.45)",
+              transition: "color 0.3s ease",
+            }}
+          >
+            <path
+              d="M8 3v10M3 8h10"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+            />
+          </svg>
+        </div>
+      </button>
 
-        {/* Technology items */}
+      {/* Content */}
+      <div
+        ref={contentRef}
+        id={`service-content-${String(index)}`}
+        role="region"
+        aria-labelledby={`service-title-${String(index)}`}
+        style={{
+          height: 0,
+          opacity: 0,
+          overflow: "hidden",
+        }}
+      >
         <div
           ref={itemsRef}
           style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "clamp(0.625rem, 1.2vw, 0.875rem)",
-            flex: 1,
+            paddingBottom: "clamp(1.5rem, 3vw, 2rem)",
+            paddingLeft: "calc(clamp(0.6875rem, 0.8vw, 0.8125rem) + clamp(1.5rem, 3vw, 3rem))",
           }}
         >
-          {category.items.map((item, i) => (
-            <div
-              key={item.name}
-              data-expertise-item
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "clamp(0.75rem, 1.5vw, 1rem)",
-                padding: "clamp(0.5rem, 1vw, 0.625rem) clamp(0.625rem, 1.2vw, 0.875rem)",
-                borderRadius: 12,
-                background: "rgba(255, 255, 255, 0.03)",
-                border: "1px solid rgba(255, 255, 255, 0.04)",
-                transition: "background 0.25s ease, border-color 0.25s ease",
-                willChange: "transform",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = `rgba(${category.accentRgb}, 0.06)`;
-                e.currentTarget.style.borderColor = `rgba(${category.accentRgb}, 0.12)`;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = "rgba(255, 255, 255, 0.03)";
-                e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.04)";
-              }}
-            >
-              {/* SVG Icon */}
-              <svg
-                ref={(el) => { iconRefs.current[i] = el; }}
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                aria-hidden="true"
-                style={{
-                  flexShrink: 0,
-                  willChange: "transform",
-                }}
-              >
-                <path d={item.icon} fill={item.color} fillOpacity={0.85} />
-              </svg>
-
-              {/* Name */}
+          <p
+            data-service-item
+            style={{
+              fontFamily: "'Inter', sans-serif",
+              fontSize: "clamp(0.9375rem, 1.1vw, 1.0625rem)",
+              fontWeight: 400,
+              lineHeight: 1.7,
+              color: "rgba(216, 216, 216, 0.4)",
+              margin: "0 0 clamp(1.5rem, 3vw, 2rem) 0",
+              maxWidth: 560,
+            }}
+          >
+            {service.description}
+          </p>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+            {service.items.map((item) => (
               <span
+                key={item}
+                data-service-item
                 style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: "clamp(0.8125rem, 1vw, 0.9375rem)",
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: "0.6875rem",
                   fontWeight: 500,
-                  color: "rgba(226, 232, 240, 0.75)",
-                  letterSpacing: "0.01em",
+                  letterSpacing: "0.02em",
+                  color: "rgba(255, 255, 255, 0.5)",
+                  padding: "6px 14px",
+                  borderRadius: 100,
+                  background: "rgba(255, 255, 255, 0.03)",
+                  border: "1px solid rgba(255, 255, 255, 0.06)",
                 }}
               >
-                {item.name}
+                {item}
               </span>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>
@@ -337,8 +319,8 @@ export function Expertise() {
   const reducedMotion = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
-  const subtitleRef = useRef<HTMLParagraphElement>(null);
-  const gridRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -350,58 +332,56 @@ export function Expertise() {
         if (!entry?.isIntersecting) return;
         observer.disconnect();
 
-        if (reducedMotion) {
-          if (headerRef.current) headerRef.current.style.opacity = "1";
-          if (subtitleRef.current) subtitleRef.current.style.opacity = "1";
-          if (gridRef.current) gridRef.current.style.opacity = "1";
-          return;
-        }
+        if (reducedMotion) return;
 
         ctx = gsap.context(() => {
           const tl = gsap.timeline({ defaults: { ease: ANIMATION_EASINGS.expoOut } });
 
-          // Header
+          // Header — clip-path mask reveal
           if (headerRef.current) {
-            tl.fromTo(
-              headerRef.current,
-              { y: 30, opacity: 0 },
-              { y: 0, opacity: 1, duration: 0.8 },
-            );
-          }
-
-          // Subtitle
-          if (subtitleRef.current) {
-            tl.fromTo(
-              subtitleRef.current,
-              { y: 16, opacity: 0 },
-              { y: 0, opacity: 1, duration: 0.6 },
-              "-=0.5",
-            );
-          }
-
-          // Cards
-          if (gridRef.current) {
-            tl.to(gridRef.current, { opacity: 1, duration: 0.01 }, "<");
-            const cards = gridRef.current.querySelectorAll<HTMLElement>("[data-expertise='card']");
-            if (cards.length > 0) {
+            const headerLines =
+              headerRef.current.querySelectorAll<HTMLElement>("[data-header-line]");
+            if (headerLines.length > 0) {
+              headerLines.forEach((line, i) => {
+                tl.fromTo(
+                  line,
+                  { clipPath: "inset(0 100% 0 0)", opacity: 1 },
+                  {
+                    clipPath: "inset(0 0% 0 0)",
+                    duration: 0.9,
+                  },
+                  i * 0.15,
+                );
+              });
+            } else {
               tl.fromTo(
-                cards,
-                { y: 40, opacity: 0, scale: 0.97 },
+                headerRef.current,
+                { clipPath: "inset(0 100% 0 0)", opacity: 1 },
                 {
-                  y: 0,
-                  opacity: 1,
-                  scale: 1,
-                  duration: 0.7,
-                  stagger: 0.1,
-                  ease: ANIMATION_EASINGS.backOut,
+                  clipPath: "inset(0 0% 0 0)",
+                  duration: 0.9,
                 },
-                "-=0.3",
               );
             }
           }
+
+          // Accordion items — staggered clip-path reveal
+          if (listRef.current) {
+            const items = listRef.current.querySelectorAll<HTMLElement>("[data-service='item']");
+            tl.fromTo(
+              items,
+              { clipPath: "inset(0 0 100% 0)", opacity: 1 },
+              {
+                clipPath: "inset(0 0 0% 0)",
+                duration: 0.7,
+                stagger: 0.1,
+              },
+              "-=0.3",
+            );
+          }
         }, sectionRef);
       },
-      { threshold: 0.12 },
+      { threshold: 0.15 },
     );
 
     observer.observe(section);
@@ -420,7 +400,7 @@ export function Expertise() {
       style={{
         position: "relative",
         padding: "clamp(5rem, 12vh, 10rem) clamp(1.5rem, 5vw, 6rem)",
-        background: "linear-gradient(180deg, #0a0a1a 0%, #050510 50%, #000000 100%)",
+        background: "#040508",
       }}
     >
       {/* Top divider */}
@@ -433,103 +413,66 @@ export function Expertise() {
           right: "10%",
           height: 1,
           background:
-            "linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.08) 50%, transparent 100%)",
+            "linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.06) 50%, transparent 100%)",
         }}
       />
 
-      {/* Ambient glow */}
-      <div
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          top: "8%",
-          left: "50%",
-          transform: "translateX(-50%)",
-          width: 500,
-          height: 350,
-          borderRadius: "50%",
-          background:
-            "radial-gradient(circle, rgba(255, 255, 255, 0.025) 0%, transparent 70%)",
-          filter: "blur(80px)",
-          pointerEvents: "none",
-        }}
-      />
-
-      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+      <div style={{ maxWidth: 1000, margin: "0 auto" }}>
         {/* Header */}
         <div
           ref={headerRef}
           style={{
-            marginBottom: "clamp(0.75rem, 1.5vw, 1rem)",
-            opacity: reducedMotion ? 1 : 0,
+            marginBottom: "clamp(3rem, 6vw, 5rem)",
           }}
         >
-          <span
-            style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: "clamp(0.625rem, 0.8vw, 0.75rem)",
-              fontWeight: 400,
-              letterSpacing: "0.3em",
-              textTransform: "uppercase" as const,
-              color: "rgba(216, 216, 216, 0.5)",
-              display: "block",
-              marginBottom: "clamp(0.75rem, 1.5vw, 1.25rem)",
-            }}
-          >
-            Expertise
-          </span>
           <h2
             id="expertise-heading"
             style={{
               fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: "clamp(2rem, 5vw, 3.5rem)",
-              fontWeight: 700,
-              letterSpacing: "-0.03em",
-              lineHeight: 1.05,
-              color: "#f0f0f5",
+              fontSize: "clamp(2.5rem, 6vw, 5rem)",
+              fontWeight: 600,
+              letterSpacing: "-0.04em",
+              lineHeight: 1,
               margin: 0,
             }}
           >
-            Skills &
+            <span
+              data-header-line
+              style={{
+                color: "rgba(255, 255, 255, 0.95)",
+                display: "block",
+                willChange: "clip-path",
+              }}
+            >
+              Focused vision.
+            </span>
             <br />
-            <span className="expertise-gradient-text">
-              Technologies
+            <span
+              data-header-line
+              style={{
+                display: "block",
+                willChange: "clip-path",
+                background:
+                  "linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(216,216,216,0.7) 100%)",
+                backgroundClip: "text",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              Measured execution.
             </span>
           </h2>
         </div>
 
-        {/* Subtitle */}
-        <p
-          ref={subtitleRef}
-          style={{
-            fontFamily: "'Inter', sans-serif",
-            fontSize: "clamp(0.9375rem, 1.15vw, 1.0625rem)",
-            fontWeight: 400,
-            lineHeight: 1.6,
-            color: "rgba(226, 232, 240, 0.5)",
-            margin: "0 0 clamp(3rem, 6vw, 5rem) 0",
-            maxWidth: 480,
-            opacity: reducedMotion ? 1 : 0,
-          }}
-        >
-          Technologies I work with daily, chosen for reliability, performance, and developer experience.
-        </p>
-
-        {/* Category grid */}
-        <div
-          ref={gridRef}
-          data-expertise="grid"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: "clamp(1.25rem, 2.5vw, 1.75rem)",
-            opacity: reducedMotion ? 1 : 0,
-          }}
-        >
-          {CATEGORIES.map((category) => (
-            <CategoryCard
-              key={category.title}
-              category={category}
+        {/* Accordion */}
+        <div ref={listRef}>
+          {SERVICES.map((service, index) => (
+            <AccordionItem
+              key={service.number}
+              service={service}
+              isOpen={openIndex === index}
+              onToggle={() => setOpenIndex(openIndex === index ? null : index)}
+              index={index}
               reducedMotion={reducedMotion}
             />
           ))}

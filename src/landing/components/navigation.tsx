@@ -55,16 +55,20 @@ function CharLink({ href, label, isActive, onClick, size = "nav" }: CharLinkProp
       stagger: 0.02,
       ease: ANIMATION_EASINGS.expoOut,
     });
-    gsap.fromTo(clone, {
-      y: 24,
-      opacity: 0,
-    }, {
-      y: 0,
-      opacity: 1,
-      duration: 0.3,
-      stagger: 0.02,
-      ease: ANIMATION_EASINGS.expoOut,
-    });
+    gsap.fromTo(
+      clone,
+      {
+        y: 24,
+        opacity: 0,
+      },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.3,
+        stagger: 0.02,
+        ease: ANIMATION_EASINGS.expoOut,
+      },
+    );
   }, []);
 
   const handleMouseLeave = useCallback(() => {
@@ -123,7 +127,9 @@ function CharLink({ href, label, isActive, onClick, size = "nav" }: CharLinkProp
         {label.split("").map((char, i) => (
           <span
             key={`orig-${String(i)}`}
-            ref={(el) => { if (el) originalCharsRef.current[i] = el; }}
+            ref={(el) => {
+              if (el) originalCharsRef.current[i] = el;
+            }}
             className="inline-block"
             style={{ willChange: "transform, opacity" }}
           >
@@ -132,11 +138,16 @@ function CharLink({ href, label, isActive, onClick, size = "nav" }: CharLinkProp
         ))}
       </span>
       {/* Clone layer (hidden initially) */}
-      <span className="absolute left-0 top-0 inline-flex opacity-0 pointer-events-none" aria-hidden="true">
+      <span
+        className="absolute left-0 top-0 inline-flex opacity-0 pointer-events-none"
+        aria-hidden="true"
+      >
         {label.split("").map((char, i) => (
           <span
             key={`clone-${String(i)}`}
-            ref={(el) => { if (el) cloneCharsRef.current[i] = el; }}
+            ref={(el) => {
+              if (el) cloneCharsRef.current[i] = el;
+            }}
             className="inline-block"
             style={{ willChange: "transform, opacity" }}
           >
@@ -168,13 +179,43 @@ function Hamburger({ isOpen, onClick }: HamburgerProps) {
     if (!line1Ref.current || !line2Ref.current || !line3Ref.current) return;
 
     if (isOpen) {
-      gsap.to(line1Ref.current, { y: 7, rotation: 45, duration: 0.35, ease: ANIMATION_EASINGS.backOut });
-      gsap.to(line2Ref.current, { opacity: 0, scaleX: 0, duration: 0.2, ease: ANIMATION_EASINGS.expoIn });
-      gsap.to(line3Ref.current, { y: -7, rotation: -45, duration: 0.35, ease: ANIMATION_EASINGS.backOut });
+      gsap.to(line1Ref.current, {
+        y: 7,
+        rotation: 45,
+        duration: 0.35,
+        ease: ANIMATION_EASINGS.backOut,
+      });
+      gsap.to(line2Ref.current, {
+        opacity: 0,
+        scaleX: 0,
+        duration: 0.2,
+        ease: ANIMATION_EASINGS.expoIn,
+      });
+      gsap.to(line3Ref.current, {
+        y: -7,
+        rotation: -45,
+        duration: 0.35,
+        ease: ANIMATION_EASINGS.backOut,
+      });
     } else {
-      gsap.to(line1Ref.current, { y: 0, rotation: 0, duration: 0.35, ease: ANIMATION_EASINGS.backOut });
-      gsap.to(line2Ref.current, { opacity: 1, scaleX: 1, duration: 0.2, ease: ANIMATION_EASINGS.expoOut });
-      gsap.to(line3Ref.current, { y: 0, rotation: 0, duration: 0.35, ease: ANIMATION_EASINGS.backOut });
+      gsap.to(line1Ref.current, {
+        y: 0,
+        rotation: 0,
+        duration: 0.35,
+        ease: ANIMATION_EASINGS.backOut,
+      });
+      gsap.to(line2Ref.current, {
+        opacity: 1,
+        scaleX: 1,
+        duration: 0.2,
+        ease: ANIMATION_EASINGS.expoOut,
+      });
+      gsap.to(line3Ref.current, {
+        y: 0,
+        rotation: 0,
+        duration: 0.35,
+        ease: ANIMATION_EASINGS.backOut,
+      });
     }
   }, [isOpen]);
 
@@ -294,7 +335,10 @@ function MobileMenu({ isOpen, onClose, onNavigate }: MobileMenuProps) {
           </div>
 
           <p className="text-white/30 text-sm text-center">Business enquiry</p>
-          <a href="mailto:hello@example.com" className="text-white/60 text-sm hover:text-white transition-colors">
+          <a
+            href="mailto:hello@example.com"
+            className="text-white/60 text-sm hover:text-white transition-colors"
+          >
             E. hello@example.com
           </a>
         </div>
@@ -316,7 +360,10 @@ function ScrollProgress() {
     const onScroll = () => {
       if (!ticking) {
         rafId = requestAnimationFrame(() => {
-          if (!barRef.current) { ticking = false; return; }
+          if (!barRef.current) {
+            ticking = false;
+            return;
+          }
           const scrollTop = window.scrollY;
           const docHeight = document.documentElement.scrollHeight - window.innerHeight;
           const progress = docHeight > 0 ? scrollTop / docHeight : 0;
@@ -350,7 +397,11 @@ function ScrollProgress() {
 // Navigation
 // ============================================================================
 
-export function Navigation({ onExploreWorlds: _onExploreWorlds }: { onExploreWorlds?: () => void }) {
+export function Navigation({
+  onExploreWorlds: _onExploreWorlds,
+}: {
+  onExploreWorlds?: () => void;
+}) {
   const reducedMotion = useReducedMotion();
   const scrollTo = useScrollTo();
   const [scrolled, setScrolled] = useState(false);
@@ -360,10 +411,7 @@ export function Navigation({ onExploreWorlds: _onExploreWorlds }: { onExploreWor
 
   // Entrance animation
   useEffect(() => {
-    if (reducedMotion || !navRef.current) {
-      if (navRef.current) navRef.current.style.opacity = "1";
-      return;
-    }
+    if (!navRef.current) return;
     gsap.fromTo(
       navRef.current,
       { y: -20, opacity: 0 },
@@ -420,9 +468,12 @@ export function Navigation({ onExploreWorlds: _onExploreWorlds }: { onExploreWor
     };
   }, []);
 
-  const handleNavigate = useCallback((href: string) => {
-    scrollTo(href);
-  }, [scrollTo]);
+  const handleNavigate = useCallback(
+    (href: string) => {
+      scrollTo(href);
+    },
+    [scrollTo],
+  );
 
   const toggleMobile = useCallback(() => {
     setIsMobileOpen((prev) => !prev);
@@ -457,7 +508,6 @@ export function Navigation({ onExploreWorlds: _onExploreWorlds }: { onExploreWor
         className="fixed top-0 left-0 right-0 z-50"
         style={{
           padding: "1rem clamp(1rem, 4vw, 3rem)",
-          opacity: 0,
         }}
       >
         {/* Container */}
@@ -467,9 +517,7 @@ export function Navigation({ onExploreWorlds: _onExploreWorlds }: { onExploreWor
             maxWidth: 1200,
             padding: scrolled ? "0.75rem 1.5rem" : "0.875rem 2rem",
             borderRadius: scrolled ? 14 : 16,
-            background: scrolled
-              ? "rgba(4, 5, 8, 0.85)"
-              : "rgba(4, 5, 8, 0.4)",
+            background: scrolled ? "rgba(4, 5, 8, 0.85)" : "rgba(4, 5, 8, 0.4)",
             backdropFilter: "blur(20px) saturate(150%)",
             WebkitBackdropFilter: "blur(20px) saturate(150%)",
             border: scrolled
@@ -504,7 +552,10 @@ export function Navigation({ onExploreWorlds: _onExploreWorlds }: { onExploreWor
           <div className="hidden lg:flex items-center shrink-0">
             <a
               href="#contact"
-              onClick={(e) => { e.preventDefault(); handleNavigate("#contact"); }}
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavigate("#contact");
+              }}
               className="inline-flex items-center rounded-full px-5 py-2 text-[11px] font-medium uppercase tracking-[0.12em] text-white/70 border transition-all duration-300 hover:text-white hover:border-white/20 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/30"
               style={{
                 borderColor: "rgba(216, 216, 216, 0.12)",
@@ -524,11 +575,7 @@ export function Navigation({ onExploreWorlds: _onExploreWorlds }: { onExploreWor
       </nav>
 
       {/* Mobile menu */}
-      <MobileMenu
-        isOpen={isMobileOpen}
-        onClose={closeMobile}
-        onNavigate={handleNavigate}
-      />
+      <MobileMenu isOpen={isMobileOpen} onClose={closeMobile} onNavigate={handleNavigate} />
     </>
   );
 }

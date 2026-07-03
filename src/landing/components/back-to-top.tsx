@@ -77,7 +77,7 @@ export function BackToTop() {
       ref={btnRef}
       onClick={handleClick}
       aria-label="Scroll back to the top of the page"
-      className="back-to-top-btn focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-indigo-500"
+      className="back-to-top-btn focus-ring"
       style={{
         position: "fixed",
         bottom: "clamp(1.5rem, 3vw, 2rem)",
@@ -95,7 +95,6 @@ export function BackToTop() {
         WebkitBackdropFilter: "blur(16px)",
         boxShadow: "0 4px 24px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.04)",
         cursor: "pointer",
-        outline: "none",
         opacity: 0,
         pointerEvents: "none",
         transform: "scale(0.8)",
@@ -111,7 +110,8 @@ export function BackToTop() {
           position: "absolute",
           inset: -1,
           borderRadius: 14,
-          background: "linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(216, 216, 216, 0.03) 100%)",
+          background:
+            "linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(216, 216, 216, 0.03) 100%)",
           opacity: 0,
           transition: "opacity 0.3s ease",
           pointerEvents: "none",

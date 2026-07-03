@@ -1,8 +1,10 @@
 /**
- * Hero — TRIONN-inspired premium hero
+ * Hero — Cinematic text reveal system
  *
- * Ultra-clean dark aesthetic. Large display typography with
- * character-by-character SplitText reveal. Minimal motion, maximum impact.
+ * Clip-path mask reveals per line.
+ * Ambient glow reacts to scroll.
+ * Scroll indicator with breathing animation.
+ * Each line enters with intentional stagger.
  */
 
 import { useRef, useEffect, useCallback } from "react";
@@ -16,187 +18,13 @@ import { ANIMATION_EASINGS } from "@/animation/constants";
 // ============================================================================
 
 const TIMING = {
-  eyebrowDelay: 0.2,
-  eyebrowDuration: 0.5,
-  charDuration: 0.5,
-  charStagger: 0.025,
-  lineGap: 0.3,
-  subtitleDuration: 0.6,
-  ctaDuration: 0.5,
-  ctaStagger: 0.1,
-  scrollDelay: 0.8,
-} as const;
-
-const COLORS = {
-  bg: "#040508",
-  title: "rgba(255, 255, 255, 0.95)",
-  subtitle: "rgba(216, 216, 216, 0.5)",
-  eyebrow: "rgba(216, 216, 216, 0.35)",
+  lineDelay: 0.2,
+  charStagger: 0.03,
+  scrollDelay: 1.8,
 } as const;
 
 // ============================================================================
-// CTAPrimary
-// ============================================================================
-
-function CTAPrimary({ label, onClick }: { label: string; onClick: () => void }) {
-  const btnRef = useRef<HTMLButtonElement>(null);
-
-  const handleMouseEnter = useCallback(() => {
-    if (!btnRef.current) return;
-    gsap.to(btnRef.current, {
-      boxShadow: "0 0 30px rgba(255, 255, 255, 0.06), 0 0 60px rgba(255, 255, 255, 0.02)",
-      borderColor: "rgba(255, 255, 255, 0.3)",
-      duration: 0.35,
-      ease: ANIMATION_EASINGS.expoOut,
-      overwrite: true,
-    });
-  }, []);
-
-  const handleMouseLeave = useCallback(() => {
-    if (!btnRef.current) return;
-    gsap.to(btnRef.current, {
-      boxShadow: "0 0 0px rgba(255, 255, 255, 0)",
-      borderColor: "rgba(255, 255, 255, 0.12)",
-      duration: 0.4,
-      ease: ANIMATION_EASINGS.expoOut,
-      overwrite: true,
-    });
-  }, []);
-
-  const handleMouseDown = useCallback(() => {
-    if (!btnRef.current) return;
-    gsap.to(btnRef.current, { scale: 0.96, duration: 0.12, ease: "power2.in", overwrite: true });
-  }, []);
-
-  const handleMouseUp = useCallback(() => {
-    if (!btnRef.current) return;
-    gsap.to(btnRef.current, {
-      scale: 1,
-      duration: 0.5,
-      ease: ANIMATION_EASINGS.elastic,
-      overwrite: true,
-    });
-  }, []);
-
-  return (
-    <button
-      ref={btnRef}
-      onClick={onClick}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
-      className="focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/30"
-      style={{
-        display: "inline-flex",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: 10,
-        padding: "clamp(0.875rem, 2vw, 1.1rem) clamp(2rem, 4vw, 3.25rem)",
-        fontFamily: "'Space Grotesk', sans-serif",
-        fontSize: "clamp(0.8125rem, 1vw, 0.9375rem)",
-        fontWeight: 500,
-        letterSpacing: "0.08em",
-        textTransform: "uppercase" as const,
-        color: "#ffffff",
-        background: "rgba(255, 255, 255, 0.06)",
-        border: "1px solid rgba(255, 255, 255, 0.12)",
-        borderRadius: 100,
-        cursor: "pointer",
-        whiteSpace: "nowrap" as const,
-        position: "relative",
-        overflow: "hidden",
-        willChange: "transform",
-      }}
-      aria-label={label}
-    >
-      {label}
-      <svg
-        width="14"
-        height="14"
-        viewBox="0 0 16 16"
-        fill="none"
-        aria-hidden="true"
-        style={{ transition: "transform 0.3s ease" }}
-      >
-        <path
-          d="M3 8h10M9 4l4 4-4 4"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    </button>
-  );
-}
-
-// ============================================================================
-// CTASecondary
-// ============================================================================
-
-function CTASecondary({ label, onClick }: { label: string; onClick: () => void }) {
-  const btnRef = useRef<HTMLButtonElement>(null);
-
-  const handleMouseEnter = useCallback(() => {
-    if (!btnRef.current) return;
-    gsap.to(btnRef.current, {
-      background: "rgba(255, 255, 255, 0.04)",
-      borderColor: "rgba(255, 255, 255, 0.2)",
-      duration: 0.3,
-      ease: ANIMATION_EASINGS.expoOut,
-      overwrite: true,
-    });
-  }, []);
-
-  const handleMouseLeave = useCallback(() => {
-    if (!btnRef.current) return;
-    gsap.to(btnRef.current, {
-      background: "transparent",
-      borderColor: "rgba(255, 255, 255, 0.1)",
-      duration: 0.3,
-      ease: ANIMATION_EASINGS.expoOut,
-      overwrite: true,
-    });
-  }, []);
-
-  return (
-    <button
-      ref={btnRef}
-      onClick={onClick}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      className="focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/30"
-      style={{
-        display: "inline-flex",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: 10,
-        padding: "clamp(0.875rem, 2vw, 1.1rem) clamp(2rem, 4vw, 3.25rem)",
-        fontFamily: "'Space Grotesk', sans-serif",
-        fontSize: "clamp(0.8125rem, 1vw, 0.9375rem)",
-        fontWeight: 500,
-        letterSpacing: "0.08em",
-        textTransform: "uppercase" as const,
-        color: "rgba(216, 216, 216, 0.6)",
-        background: "transparent",
-        border: "1px solid rgba(255, 255, 255, 0.1)",
-        borderRadius: 100,
-        cursor: "pointer",
-        whiteSpace: "nowrap" as const,
-        position: "relative",
-        overflow: "hidden",
-        transition: "border-color 0.3s ease",
-      }}
-      aria-label={label}
-    >
-      {label}
-    </button>
-  );
-}
-
-// ============================================================================
-// ScrollIndicator — minimal refined mouse icon
+// ScrollIndicator
 // ============================================================================
 
 function ScrollIndicator({
@@ -213,14 +41,14 @@ function ScrollIndicator({
       className="focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/30"
       style={{
         position: "absolute",
-        bottom: "clamp(2rem, 4vh, 3rem)",
+        bottom: "clamp(5rem, 8vh, 7rem)",
         left: "50%",
         transform: "translateX(-50%)",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        gap: 10,
-        zIndex: 2,
+        gap: 8,
+        zIndex: 10,
         background: "none",
         border: "none",
         cursor: "pointer",
@@ -231,7 +59,7 @@ function ScrollIndicator({
         style={{
           fontFamily: "'JetBrains Mono', monospace",
           fontSize: 9,
-          color: "rgba(216, 216, 216, 0.3)",
+          color: "rgba(216, 216, 216, 0.45)",
           letterSpacing: "0.3em",
           textTransform: "uppercase" as const,
         }}
@@ -239,29 +67,16 @@ function ScrollIndicator({
         Scroll
       </span>
       <svg
-        width="18"
-        height="28"
-        viewBox="0 0 18 28"
+        width="1"
+        height="32"
+        viewBox="0 0 1 32"
         fill="none"
         aria-hidden="true"
         style={{
           animation: reducedMotion ? "none" : "hero-breathe-mouse 2.5s ease-in-out infinite",
         }}
       >
-        <rect
-          x="1"
-          y="1"
-          width="16"
-          height="26"
-          rx="8"
-          stroke="rgba(216, 216, 216, 0.2)"
-          strokeWidth="1"
-        />
-        <circle cx="9" cy="9" r="1.5" fill="rgba(216, 216, 216, 0.35)">
-          {reducedMotion ? null : (
-            <animate attributeName="cy" values="7;15;7" dur="2.5s" repeatCount="indefinite" />
-          )}
-        </circle>
+        <line x1="0.5" y1="0" x2="0.5" y2="32" stroke="rgba(216, 216, 216, 0.2)" strokeWidth="1" />
       </svg>
     </button>
   );
@@ -273,19 +88,19 @@ function ScrollIndicator({
 
 interface HeroProps {
   isVisible: boolean;
-  onExploreWorlds?: () => void;
 }
 
-export function Hero({ isVisible, onExploreWorlds }: HeroProps) {
+export function Hero({ isVisible }: HeroProps) {
   const reducedMotion = useReducedMotion();
   const scrollTo = useScrollTo();
 
+  const sectionRef = useRef<HTMLElement>(null);
   const eyebrowRef = useRef<HTMLDivElement>(null);
-  const titleLine1Ref = useRef<HTMLDivElement>(null);
-  const titleLine2Ref = useRef<HTMLDivElement>(null);
-  const subtitleRef = useRef<HTMLParagraphElement>(null);
-  const ctaRef = useRef<HTMLDivElement>(null);
+  const line1Ref = useRef<HTMLDivElement>(null);
+  const line2Ref = useRef<HTMLDivElement>(null);
+  const subtitleRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const glowRef = useRef<HTMLDivElement>(null);
   const hasAnimated = useRef(false);
 
   // ── Entrance animation ──────────────────────────────────────────────
@@ -293,114 +108,108 @@ export function Hero({ isVisible, onExploreWorlds }: HeroProps) {
     if (!isVisible || hasAnimated.current) return;
     hasAnimated.current = true;
 
-    if (reducedMotion) {
-      [eyebrowRef, titleLine1Ref, titleLine2Ref, subtitleRef, ctaRef, scrollRef].forEach(
-        (ref) => {
-          if (ref.current) ref.current.style.opacity = "1";
-        },
-      );
-      return;
-    }
+    if (reducedMotion) return;
 
     const tl = gsap.timeline();
 
-    // Eyebrow
+    // Eyebrow — fade + slide
     if (eyebrowRef.current) {
       tl.fromTo(
         eyebrowRef.current,
-        { y: 10, opacity: 0 },
-        { y: 0, opacity: 1, duration: TIMING.eyebrowDuration, ease: ANIMATION_EASINGS.expoOut },
-        TIMING.eyebrowDelay,
+        { y: 30, opacity: 0, clipPath: "inset(0 100% 0 0)" },
+        {
+          y: 0,
+          opacity: 1,
+          clipPath: "inset(0 0% 0 0)",
+          duration: 0.9,
+          ease: ANIMATION_EASINGS.expoOut,
+        },
+        TIMING.lineDelay,
       );
     }
 
-    // Title line 1 — "FRONTEND"
-    if (titleLine1Ref.current) {
-      const chars = titleLine1Ref.current.querySelectorAll<HTMLElement>("[data-char]");
+    // Line 1 — clip-path mask reveal with char stagger
+    if (line1Ref.current) {
+      const chars = line1Ref.current.querySelectorAll<HTMLElement>("[data-char]");
       tl.fromTo(
-        titleLine1Ref.current,
-        { opacity: 0 },
-        { opacity: 1, duration: 0.2 },
-        TIMING.eyebrowDelay + 0.15,
+        line1Ref.current,
+        { opacity: 1, clipPath: "inset(0 100% 0 0)" },
+        {
+          clipPath: "inset(0 0% 0 0)",
+          duration: 0.8,
+          ease: ANIMATION_EASINGS.expoOut,
+        },
+        TIMING.lineDelay + 0.4,
       );
       if (chars.length > 0) {
         tl.fromTo(
           chars,
-          { y: 60, opacity: 0, rotateX: -40 },
+          { y: 80, opacity: 0, rotateX: -40 },
           {
             y: 0,
             opacity: 1,
             rotateX: 0,
-            duration: TIMING.charDuration,
+            duration: 1.1,
             stagger: { each: TIMING.charStagger, from: "start" },
             ease: ANIMATION_EASINGS.expoOut,
           },
-          "<0.1",
+          "<0.2",
         );
       }
     }
 
-    // Title line 2 — "MULTIVERSE"
-    if (titleLine2Ref.current) {
-      const chars = titleLine2Ref.current.querySelectorAll<HTMLElement>("[data-char]");
+    // Line 2 — clip-path mask reveal with char stagger
+    if (line2Ref.current) {
+      const chars = line2Ref.current.querySelectorAll<HTMLElement>("[data-char]");
+      tl.fromTo(
+        line2Ref.current,
+        { opacity: 1, clipPath: "inset(0 100% 0 0)" },
+        {
+          clipPath: "inset(0 0% 0 0)",
+          duration: 0.8,
+          ease: ANIMATION_EASINGS.expoOut,
+        },
+        "-=0.6",
+      );
       if (chars.length > 0) {
         tl.fromTo(
           chars,
-          { y: 60, opacity: 0, rotateX: -40 },
+          { y: 80, opacity: 0, rotateX: -40 },
           {
             y: 0,
             opacity: 1,
             rotateX: 0,
-            duration: TIMING.charDuration,
+            duration: 1.1,
             stagger: { each: TIMING.charStagger, from: "start" },
             ease: ANIMATION_EASINGS.expoOut,
           },
-          `-=${String(TIMING.lineGap)}`,
+          "<0.2",
         );
       }
     }
 
-    // Subtitle
+    // Subtitle — slide up with mask reveal
     if (subtitleRef.current) {
       tl.fromTo(
         subtitleRef.current,
-        { y: 14, opacity: 0 },
-        { y: 0, opacity: 1, duration: TIMING.subtitleDuration, ease: ANIMATION_EASINGS.expoOut },
-        "-=0.35",
+        { y: 30, opacity: 0, clipPath: "inset(0 0 100% 0)" },
+        {
+          y: 0,
+          opacity: 1,
+          clipPath: "inset(0 0 0% 0)",
+          duration: 0.9,
+          ease: ANIMATION_EASINGS.expoOut,
+        },
+        "-=0.5",
       );
     }
 
-    // CTA
-    if (ctaRef.current) {
-      const buttons = ctaRef.current.querySelectorAll<HTMLElement>("button");
-      tl.fromTo(
-        ctaRef.current,
-        { opacity: 0 },
-        { opacity: 1, duration: 0.3 },
-        "-=0.25",
-      );
-      if (buttons.length > 0) {
-        tl.fromTo(
-          buttons,
-          { y: 10, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: TIMING.ctaDuration,
-            stagger: TIMING.ctaStagger,
-            ease: ANIMATION_EASINGS.expoOut,
-          },
-          "-=0.2",
-        );
-      }
-    }
-
-    // Scroll indicator
+    // Scroll indicator — fade in
     if (scrollRef.current) {
       tl.fromTo(
         scrollRef.current,
-        { opacity: 0 },
-        { opacity: 1, duration: 0.6, ease: "power2.out" },
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" },
         `+=${String(TIMING.scrollDelay)}`,
       );
     }
@@ -411,34 +220,68 @@ export function Hero({ isVisible, onExploreWorlds }: HeroProps) {
     };
   }, [isVisible, reducedMotion]);
 
+  // ── Scroll-reactive glow ────────────────────────────────────────────
+  useEffect(() => {
+    if (reducedMotion || !glowRef.current || !sectionRef.current) return;
+
+    const glow = glowRef.current;
+    const section = sectionRef.current;
+
+    const handleScroll = () => {
+      const rect = section.getBoundingClientRect();
+      const progress = Math.max(0, Math.min(1, -rect.top / rect.height));
+      gsap.set(glow, {
+        y: progress * -80,
+        opacity: 0.6 + progress * 0.4,
+        scale: 1 + progress * 0.15,
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [reducedMotion]);
+
   // ── Callbacks ───────────────────────────────────────────────────────
-  const scrollToProjects = useCallback(() => {
-    scrollTo("#projects");
-  }, [scrollTo]);
-
-  const handleExploreWorlds = useCallback(() => {
-    onExploreWorlds?.();
-  }, [onExploreWorlds]);
-
   const scrollToNext = useCallback(() => {
-    scrollTo("#about");
+    scrollTo("#intro");
   }, [scrollTo]);
 
   // ── Render ──────────────────────────────────────────────────────────
   return (
     <section
+      ref={sectionRef}
       id="hero"
-      aria-label="Frontend Multiverse — Hero"
+      aria-label="Creative Developer — Hero"
       style={{
         position: "relative",
         width: "100%",
         minHeight: "100dvh",
         display: "flex",
-        alignItems: "center",
+        flexDirection: "column",
+        justifyContent: "center",
         overflow: "hidden",
-        background: COLORS.bg,
+        background: "#040508",
       }}
     >
+      {/* Subtle ambient glow — scroll-reactive */}
+      <div
+        ref={glowRef}
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: "30%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: "clamp(600px, 80vw, 1200px)",
+          height: "clamp(400px, 50vw, 800px)",
+          borderRadius: "50%",
+          background: "radial-gradient(ellipse, rgba(255, 255, 255, 0.02) 0%, transparent 70%)",
+          filter: "blur(80px)",
+          pointerEvents: "none",
+          willChange: "transform, opacity",
+        }}
+      />
+
       {/* Content */}
       <div
         className="hero-content"
@@ -446,9 +289,9 @@ export function Hero({ isVisible, onExploreWorlds }: HeroProps) {
           position: "relative",
           zIndex: 10,
           width: "100%",
-          maxWidth: 1200,
+          maxWidth: 1400,
           margin: "0 auto",
-          padding: "clamp(6rem, 14vh, 11rem) clamp(1.5rem, 5vw, 6rem) clamp(4rem, 8vh, 8rem)",
+          padding: "clamp(6rem, 14vh, 10rem) clamp(1.5rem, 5vw, 6rem) clamp(4rem, 8vh, 6rem)",
           display: "flex",
           flexDirection: "column",
           alignItems: "flex-start",
@@ -459,16 +302,25 @@ export function Hero({ isVisible, onExploreWorlds }: HeroProps) {
           ref={eyebrowRef}
           style={{
             fontFamily: "'JetBrains Mono', monospace",
-            fontSize: "clamp(0.6875rem, 0.8vw, 0.8125rem)",
-            fontWeight: 400,
-            letterSpacing: "0.3em",
+            fontSize: "clamp(0.625rem, 0.75vw, 0.75rem)",
+            fontWeight: 500,
+            letterSpacing: "0.18em",
             textTransform: "uppercase" as const,
-            color: COLORS.eyebrow,
-            marginBottom: "clamp(1.25rem, 2.5vw, 2rem)",
-            opacity: reducedMotion ? 1 : 0,
+            color: "rgba(216, 216, 216, 0.45)",
+            marginBottom: "clamp(2rem, 4vw, 3.5rem)",
+            display: "flex",
+            alignItems: "center",
+            gap: 16,
           }}
         >
-          Frontend Developer
+          <span
+            style={{
+              width: 32,
+              height: 1,
+              background: "rgba(216, 216, 216, 0.15)",
+            }}
+          />
+          Creative Developer &amp; Frontend Engineer
         </div>
 
         {/* Headline */}
@@ -483,21 +335,26 @@ export function Hero({ isVisible, onExploreWorlds }: HeroProps) {
             perspective: 800,
           }}
         >
-          {/* Line 1 — FRONTEND */}
+          {/* Line 1 — DESIGNED TO MEAN */}
           <div
-            ref={titleLine1Ref}
+            ref={line1Ref}
             style={{
               fontFamily: "'Space Grotesk', sans-serif",
-              fontSize: "clamp(3.5rem, 9vw, 7.5rem)",
-              color: COLORS.title,
-              opacity: reducedMotion ? 1 : 0,
+              fontSize: "clamp(3.5rem, 11vw, 10rem)",
               display: "flex",
               flexWrap: "wrap",
+              lineHeight: 0.88,
               transformOrigin: "bottom center",
+              background:
+                "linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(216,216,216,0.7) 100%)",
+              backgroundClip: "text",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              willChange: "clip-path",
             }}
-            aria-label="FRONTEND"
+            aria-label="DESIGNED TO MEAN"
           >
-            {"FRONTEND".split("").map((char, i) => (
+            {"DESIGNED TO MEAN".split("").map((char, i) => (
               <span
                 key={`l1-${String(i)}`}
                 data-char
@@ -513,26 +370,23 @@ export function Hero({ isVisible, onExploreWorlds }: HeroProps) {
             ))}
           </div>
 
-          {/* Line 2 — MULTIVERSE */}
+          {/* Line 2 — SOMETHING */}
           <div
-            ref={titleLine2Ref}
+            ref={line2Ref}
             style={{
               fontFamily: "'Space Grotesk', sans-serif",
-              fontSize: "clamp(4.5rem, 14vw, 11rem)",
-              opacity: reducedMotion ? 1 : 0,
+              fontSize: "clamp(3.5rem, 11vw, 10rem)",
+              color: "rgba(255, 255, 255, 0.95)",
               display: "flex",
               flexWrap: "wrap",
-              marginTop: "clamp(-0.25rem, -0.8vw, -0.75rem)",
+              marginTop: "clamp(-0.25rem, -0.5vw, -0.5rem)",
               lineHeight: 0.88,
               transformOrigin: "top center",
-              background: "linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(216,216,216,0.7) 100%)",
-              backgroundClip: "text",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
+              willChange: "clip-path",
             }}
-            aria-label="MULTIVERSE"
+            aria-label="SOMETHING"
           >
-            {"MULTIVERSE".split("").map((char, i) => (
+            {"SOMETHING".split("").map((char, i) => (
               <span
                 key={`l2-${String(i)}`}
                 data-char
@@ -550,39 +404,29 @@ export function Hero({ isVisible, onExploreWorlds }: HeroProps) {
         </h1>
 
         {/* Subtitle */}
-        <p
+        <div
           ref={subtitleRef}
           style={{
-            margin: 0,
-            marginTop: "clamp(1.75rem, 3.5vw, 2.75rem)",
-            fontFamily: "'Inter', sans-serif",
-            fontSize: "clamp(0.9375rem, 1.2vw, 1.0625rem)",
-            fontWeight: 400,
-            lineHeight: 1.7,
-            color: COLORS.subtitle,
-            letterSpacing: "0.01em",
+            marginTop: "clamp(2.5rem, 5vw, 4rem)",
             maxWidth: "clamp(340px, 40vw, 480px)",
-            opacity: reducedMotion ? 1 : 0,
-          }}
-        >
-          I build fast, accessible web applications with React and
-          TypeScript — combining solid engineering with thoughtful design
-          to create interfaces that work well and feel right.
-        </p>
-
-        {/* CTA */}
-        <div
-          ref={ctaRef}
-          style={{
             display: "flex",
-            gap: "clamp(0.75rem, 1.5vw, 1rem)",
-            marginTop: "clamp(2.25rem, 4.5vw, 3.5rem)",
-            opacity: reducedMotion ? 1 : 0,
-            flexWrap: "wrap",
+            flexDirection: "column",
+            gap: "clamp(1.5rem, 3vw, 2rem)",
           }}
         >
-          <CTAPrimary label="Let's Talk" onClick={handleExploreWorlds} />
-          <CTASecondary label="View My Work" onClick={scrollToProjects} />
+          <p
+            style={{
+              margin: 0,
+              fontFamily: "'Inter', sans-serif",
+              fontSize: "clamp(0.9375rem, 1.1vw, 1.0625rem)",
+              fontWeight: 400,
+              lineHeight: 1.7,
+              color: "rgba(216, 216, 216, 0.4)",
+              letterSpacing: "0.01em",
+            }}
+          >
+            Interfaces built with intention. Motion with purpose. Every pixel earned its place.
+          </p>
         </div>
       </div>
 
@@ -590,9 +434,8 @@ export function Hero({ isVisible, onExploreWorlds }: HeroProps) {
       <div
         ref={scrollRef}
         style={{
-          opacity: reducedMotion ? 1 : 0,
           position: "absolute",
-          bottom: 0,
+          bottom: "clamp(48px, 6vh, 64px)",
           left: 0,
           right: 0,
           zIndex: 10,

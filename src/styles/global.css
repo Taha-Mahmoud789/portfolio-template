@@ -2,6 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  /* Remove outline on click, show on keyboard focus */
+  .focus-ring {
+    outline: none;
+  }
+  .focus-ring:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.3);
+    outline-offset: 4px;
+  }
+}
+
 @layer base {
   :root {
     /* Color tokens */
@@ -256,7 +267,8 @@
   --section-max-w: 1100px;
 
   /* Typography — Headings */
-  --heading-font: "Space Grotesk", "Familjen Grotesk", -apple-system, BlinkMacSystemFont, sans-serif;
+  --heading-font:
+    "Space Grotesk", "Familjen Grotesk", -apple-system, BlinkMacSystemFont, sans-serif;
   --heading-size: clamp(2rem, 5vw, 3.5rem);
   --heading-weight: 600;
   --heading-tracking: -0.03em;
@@ -359,56 +371,113 @@ html.lenis body {
 
 /* Landing Experience Animations */
 @keyframes landing-grain {
-  0%, 100% { transform: translate(0, 0); }
-  10% { transform: translate(-2%, -3%); }
-  20% { transform: translate(3%, 1%); }
-  30% { transform: translate(-1%, 2%); }
-  40% { transform: translate(2%, -2%); }
-  50% { transform: translate(-3%, 1%); }
-  60% { transform: translate(1%, -1%); }
-  70% { transform: translate(-2%, 3%); }
-  80% { transform: translate(3%, -3%); }
-  90% { transform: translate(-1%, 2%); }
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  10% {
+    transform: translate(-2%, -3%);
+  }
+  20% {
+    transform: translate(3%, 1%);
+  }
+  30% {
+    transform: translate(-1%, 2%);
+  }
+  40% {
+    transform: translate(2%, -2%);
+  }
+  50% {
+    transform: translate(-3%, 1%);
+  }
+  60% {
+    transform: translate(1%, -1%);
+  }
+  70% {
+    transform: translate(-2%, 3%);
+  }
+  80% {
+    transform: translate(3%, -3%);
+  }
+  90% {
+    transform: translate(-1%, 2%);
+  }
 }
 
 @keyframes landing-breathe {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: 0 0 0 rgba(255, 255, 255, 0);
     border-color: rgba(255, 255, 255, 0.12);
   }
   50% {
-    box-shadow: 0 0 24px rgba(255, 255, 255, 0.04), inset 0 0 12px rgba(255, 255, 255, 0.01);
+    box-shadow:
+      0 0 24px rgba(255, 255, 255, 0.04),
+      inset 0 0 12px rgba(255, 255, 255, 0.01);
     border-color: rgba(255, 255, 255, 0.2);
   }
 }
 
 /* Hero Section Animations */
 @keyframes hero-float {
-  0%, 100% { transform: translate(-50%, -50%) scale(1); }
-  25% { transform: translate(-48%, -52%) scale(1.02); }
-  50% { transform: translate(-52%, -48%) scale(0.98); }
-  75% { transform: translate(-50%, -50%) scale(1.01); }
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  25% {
+    transform: translate(-48%, -52%) scale(1.02);
+  }
+  50% {
+    transform: translate(-52%, -48%) scale(0.98);
+  }
+  75% {
+    transform: translate(-50%, -50%) scale(1.01);
+  }
 }
 
 @keyframes hero-breathe-void {
-  0%, 100% { opacity: 0.3; transform: scale(1); }
-  50% { opacity: 0.6; transform: scale(1.05); }
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.05);
+  }
 }
 
 @keyframes hero-scroll-line {
-  0% { transform: translateY(-100%); opacity: 0; }
-  30% { opacity: 1; }
-  70% { opacity: 1; }
-  100% { transform: translateY(100%); opacity: 0; }
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
 }
 
 @keyframes hero-breathe-mouse {
-  0%, 100% { opacity: 0.6; transform: translateY(0); }
-  50% { opacity: 0.3; transform: translateY(2px); }
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 0.3;
+    transform: translateY(2px);
+  }
 }
 
-/* Hero gradient text — background-clip: text doesn't work reliably via inline styles */
-.hero-gradient-text {
+/* Gradient text — reusable */
+.gradient-text {
   background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(216, 216, 216, 0.8) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -427,145 +496,61 @@ html.lenis body {
 }
 
 @keyframes hero-noise-shift {
-  0% { transform: translate(0, 0); }
-  25% { transform: translate(-2px, 1px); }
-  50% { transform: translate(1px, -1px); }
-  75% { transform: translate(-1px, -2px); }
-  100% { transform: translate(0, 0); }
-}
-
-/* Projects gradient text */
-.projects-gradient-text {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(216, 216, 216, 0.8) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Expertise gradient text */
-.expertise-gradient-text {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(216, 216, 216, 0.8) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* How I Work gradient text */
-.how-i-work-gradient-text {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(216, 216, 216, 0.8) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Why Work With Me gradient text */
-.why-work-gradient-text {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(216, 216, 216, 0.8) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* CTA gradient text */
-.cta-gradient-text {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(216, 216, 216, 0.8) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Contact gradient text */
-.contact-gradient-text {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(216, 216, 216, 0.8) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Expertise responsive */
-@media (max-width: 1024px) {
-  [data-expertise="grid"] {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: clamp(1.5rem, 3vw, 2rem) !important;
+  0% {
+    transform: translate(0, 0);
   }
-  [data-expertise="card"] {
-    min-width: 0 !important;
+  25% {
+    transform: translate(-2px, 1px);
+  }
+  50% {
+    transform: translate(1px, -1px);
+  }
+  75% {
+    transform: translate(-1px, -2px);
+  }
+  100% {
+    transform: translate(0, 0);
   }
 }
 
+/* ============================================================================
+   TRIONN-inspired responsive styles
+   ============================================================================ */
+
+/* About section responsive */
 @media (max-width: 768px) {
-  [data-expertise="grid"] {
-    grid-template-columns: 1fr !important;
-    gap: clamp(1.25rem, 2.5vw, 1.75rem) !important;
-  }
-}
-
-@media (max-width: 480px) {
-  [data-expertise="card"] {
-    padding: clamp(1.25rem, 2.5vw, 1.75rem) !important;
-  }
-}
-
-/* How I Work responsive — stable data-attribute selectors */
-@media (max-width: 1024px) {
-  [data-how-i-work="grid"] {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: clamp(1.5rem, 3vw, 2rem) !important;
-  }
-  [data-how-i-work="line"] {
-    display: none !important;
-  }
-  [data-how-i-work="dots"] {
-    display: none !important;
-  }
-}
-
-@media (max-width: 768px) {
-  [data-how-i-work="grid"] {
-    gap: clamp(1.25rem, 2.5vw, 1.75rem) !important;
-  }
-}
-
-@media (max-width: 640px) {
-  [data-how-i-work="grid"] {
-    grid-template-columns: 1fr !important;
-    gap: clamp(1rem, 2vw, 1.25rem) !important;
-  }
-  [data-how-i-work="card"] {
-    padding: clamp(1.25rem, 2.5vw, 1.5rem) clamp(1rem, 2vw, 1.25rem) !important;
-  }
-}
-
-/* Projects showcase responsive */
-@media (max-width: 1024px) {
-  [data-projects="showcase"] {
+  #about > div > div:last-child {
     grid-template-columns: 1fr !important;
     gap: clamp(2rem, 4vw, 3rem) !important;
-    align-items: start !important;
-  }
-  [data-projects="preview-wrapper"] {
-    max-width: 100% !important;
-    justify-self: auto !important;
-  }
-  [data-projects="info"] {
-    order: -1 !important;
-    max-width: 100% !important;
   }
 }
 
+/* Expertise accordion responsive */
 @media (max-width: 640px) {
-  [data-projects="showcase"] {
-    gap: clamp(1.5rem, 3vw, 2rem) !important;
+  [data-service="item"] button > div:first-child {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
   }
-  [data-projects="tags"] {
-    gap: 6px !important;
+}
+
+/* Process steps responsive */
+@media (max-width: 768px) {
+  [data-process-step] {
+    grid-template-columns: 1fr !important;
+    gap: clamp(1rem, 2vw, 1.5rem) !important;
   }
-  [data-projects="buttons"] {
-    flex-direction: column !important;
-    gap: 10px !important;
+  [data-process-step] > div:first-child {
+    font-size: clamp(2.5rem, 10vw, 4rem) !important;
   }
-  [data-projects="buttons"] a {
-    justify-content: center !important;
+}
+
+/* Projects row responsive */
+@media (max-width: 768px) {
+  [data-projects="row"] > div:last-child {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(1rem, 2vw, 1.5rem) !important;
   }
 }
 
@@ -626,7 +611,7 @@ html.lenis body {
 }
 
 .footer-headline {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-size: clamp(1.75rem, 4vw, 2.75rem);
   font-weight: 700;
   letter-spacing: -0.03em;
@@ -635,7 +620,7 @@ html.lenis body {
 }
 
 .footer-headline-dim {
-  color: rgba(226, 232, 240, 0.2);
+  color: rgba(226, 232, 240, 0.45);
 }
 
 .footer-headline-gradient {
@@ -646,10 +631,10 @@ html.lenis body {
 }
 
 .footer-subtext {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: clamp(0.875rem, 1.1vw, 1rem);
   font-weight: 400;
-  color: rgba(226, 232, 240, 0.4);
+  color: rgba(226, 232, 240, 0.5);
   margin: 0;
 }
 
@@ -673,7 +658,9 @@ html.lenis body {
   display: inline-flex;
   text-decoration: none;
   width: fit-content;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
 }
 
 .footer-logo-link:hover {
@@ -682,11 +669,11 @@ html.lenis body {
 }
 
 .footer-description {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: clamp(0.8125rem, 1vw, 0.9375rem);
   font-weight: 400;
   line-height: 1.65;
-  color: rgba(226, 232, 240, 0.35);
+  color: rgba(226, 232, 240, 0.45);
   margin: 0;
   max-width: 280px;
 }
@@ -720,7 +707,7 @@ html.lenis body {
 
 /* Column labels */
 .footer-col-label {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-size: clamp(0.6875rem, 0.85vw, 0.8125rem);
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -740,13 +727,15 @@ html.lenis body {
 }
 
 .footer-nav-link {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: clamp(0.8125rem, 1vw, 0.9375rem);
   font-weight: 400;
   color: rgba(226, 232, 240, 0.4);
   text-decoration: none;
   display: inline-block;
-  transition: color 0.3s ease, transform 0.3s ease;
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
 }
 
 .footer-nav-link:hover {
@@ -765,7 +754,7 @@ html.lenis body {
 }
 
 .footer-connect-link {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: clamp(0.8125rem, 1vw, 0.9375rem);
   font-weight: 400;
   color: rgba(226, 232, 240, 0.4);
@@ -773,7 +762,9 @@ html.lenis body {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  transition: color 0.3s ease, transform 0.3s ease;
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
 }
 
 .footer-connect-link:hover {
@@ -802,7 +793,7 @@ html.lenis body {
 }
 
 .footer-copyright {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: "JetBrains Mono", monospace;
   font-size: clamp(0.625rem, 0.75vw, 0.6875rem);
   font-weight: 400;
   letter-spacing: 0.1em;
@@ -811,7 +802,7 @@ html.lenis body {
 }
 
 .footer-credit {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: "JetBrains Mono", monospace;
   font-size: clamp(0.625rem, 0.75vw, 0.6875rem);
   font-weight: 400;
   letter-spacing: 0.1em;
@@ -840,15 +831,19 @@ html.lenis body {
 
 /* Navigation — floating pill */
 .nav-pill {
-  transition: padding 0.5s cubic-bezier(0.19, 1, 0.22, 1),
-              border-radius 0.5s cubic-bezier(0.19, 1, 0.22, 1),
-              background 0.5s cubic-bezier(0.19, 1, 0.22, 1),
-              border-color 0.5s cubic-bezier(0.19, 1, 0.22, 1),
-              box-shadow 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  transition:
+    padding 0.5s cubic-bezier(0.19, 1, 0.22, 1),
+    border-radius 0.5s cubic-bezier(0.19, 1, 0.22, 1),
+    background 0.5s cubic-bezier(0.19, 1, 0.22, 1),
+    border-color 0.5s cubic-bezier(0.19, 1, 0.22, 1),
+    box-shadow 0.5s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .nav-logo {
-  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s ease;
 }
 
 .nav-pill:hover .nav-logo {
@@ -882,7 +877,9 @@ html.lenis body {
 .back-to-top-btn:hover {
   border-color: rgba(255, 255, 255, 0.25) !important;
   background: rgba(4, 5, 8, 0.85) !important;
-  box-shadow: 0 4px 32px rgba(255, 255, 255, 0.05), 0 0 0 1px rgba(255, 255, 255, 0.08) !important;
+  box-shadow:
+    0 4px 32px rgba(255, 255, 255, 0.05),
+    0 0 0 1px rgba(255, 255, 255, 0.08) !important;
 }
 
 .back-to-top-btn:hover .back-to-top-glow {
@@ -907,8 +904,12 @@ html.lenis body {
 }
 
 @keyframes about-ring-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* About metric gradient text — background-clip: text needs CSS class */
@@ -949,8 +950,15 @@ html.lenis body {
 
 /* Portal breathing orbs */
 @keyframes portal-orb-breathe {
-  0%, 100% { opacity: 0.6; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.08); }
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
 }
 
 .portal-orb {
@@ -969,8 +977,13 @@ html.lenis body {
 
 /* Portal selection glow pulse */
 @keyframes portal-selection-pulse {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 0.9; }
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.9;
+  }
 }
 
 .portal-selection-glow {
@@ -987,7 +1000,8 @@ html.lenis body {
 
 /* World selection card hover border glow */
 @keyframes world-card-border-glow {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: 0 0 0 rgba(255, 255, 255, 0);
     border-color: rgba(255, 255, 255, 0.06);
   }
@@ -999,7 +1013,8 @@ html.lenis body {
 
 /* World selection focus ring animation */
 @keyframes world-focus-ring {
-  0%, 100% {
+  0%,
+  100% {
     outline-color: rgba(255, 255, 255, 0.3);
     outline-offset: 4px;
   }
@@ -1015,7 +1030,8 @@ html.lenis body {
 
 /* World selection ambient float */
 @keyframes world-ambient-float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translate(-50%, -50%) scale(1);
     opacity: 0.6;
   }
@@ -1072,7 +1088,9 @@ html.lenis body {
 .step-card:focus-visible {
   border-color: rgba(255, 255, 255, 0.12) !important;
   background: rgba(255, 255, 255, 0.04) !important;
-  box-shadow: 0 8px 40px rgba(255, 255, 255, 0.04), 0 0 0 1px rgba(255, 255, 255, 0.06) !important;
+  box-shadow:
+    0 8px 40px rgba(255, 255, 255, 0.04),
+    0 0 0 1px rgba(255, 255, 255, 0.06) !important;
 }
 .step-card:hover .step-glow,
 .step-card:focus-visible .step-glow {
@@ -1088,7 +1106,11 @@ html.lenis body {
 }
 .step-card:hover .step-icon,
 .step-card:focus-visible .step-icon {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(216, 216, 216, 0.04) 100%) !important;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(216, 216, 216, 0.04) 100%
+  ) !important;
   border-color: rgba(255, 255, 255, 0.12) !important;
   box-shadow: 0 4px 20px rgba(255, 255, 255, 0.04) !important;
 }
@@ -1124,13 +1146,17 @@ html.lenis body {
    ========================================================================== */
 .value-card:focus-visible {
   border-color: rgba(255, 255, 255, 0.3) !important;
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1), 0 8px 40px rgba(255, 255, 255, 0.04) !important;
+  box-shadow:
+    0 0 0 2px rgba(255, 255, 255, 0.1),
+    0 8px 40px rgba(255, 255, 255, 0.04) !important;
 }
 .value-card:hover,
 .value-card:focus-visible {
   border-color: rgba(255, 255, 255, 0.1) !important;
   background: rgba(255, 255, 255, 0.04) !important;
-  box-shadow: 0 8px 40px rgba(255, 255, 255, 0.04), 0 0 0 1px rgba(255, 255, 255, 0.06) !important;
+  box-shadow:
+    0 8px 40px rgba(255, 255, 255, 0.04),
+    0 0 0 1px rgba(255, 255, 255, 0.06) !important;
 }
 .value-card:hover .value-glow,
 .value-card:focus-visible .value-glow {
@@ -1138,7 +1164,11 @@ html.lenis body {
 }
 .value-card:hover .value-icon,
 .value-card:focus-visible .value-icon {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(216, 216, 216, 0.04) 100%) !important;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(216, 216, 216, 0.04) 100%
+  ) !important;
   border-color: rgba(255, 255, 255, 0.12) !important;
   box-shadow: 0 4px 20px rgba(255, 255, 255, 0.04) !important;
 }
@@ -1168,12 +1198,20 @@ html.lenis body {
    ========================================================================== */
 .cta-primary-btn:focus-visible {
   border-color: rgba(255, 255, 255, 0.5) !important;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1), 0 0 40px rgba(255, 255, 255, 0.05) !important;
+  box-shadow:
+    0 0 0 3px rgba(255, 255, 255, 0.1),
+    0 0 40px rgba(255, 255, 255, 0.05) !important;
 }
 .cta-primary-btn:hover {
   border-color: rgba(255, 255, 255, 0.5) !important;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(216, 216, 216, 0.06) 100%) !important;
-  box-shadow: 0 0 40px rgba(255, 255, 255, 0.06), 0 0 80px rgba(255, 255, 255, 0.02) !important;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(216, 216, 216, 0.06) 100%
+  ) !important;
+  box-shadow:
+    0 0 40px rgba(255, 255, 255, 0.06),
+    0 0 80px rgba(255, 255, 255, 0.02) !important;
 }
 .cta-primary-btn:hover .cta-btn-glow {
   opacity: 1 !important;
@@ -1253,7 +1291,11 @@ html.lenis body {
 }
 .contact-submit-btn:hover:not(:disabled) {
   border-color: rgba(255, 255, 255, 0.4) !important;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(216, 216, 216, 0.06) 100%) !important;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(216, 216, 216, 0.06) 100%
+  ) !important;
   box-shadow: 0 0 32px rgba(255, 255, 255, 0.05) !important;
 }
 .contact-submit-btn:hover:not(:disabled) svg {
@@ -1268,11 +1310,18 @@ html.lenis body {
   animation: contact-spin 0.6s linear infinite;
 }
 @keyframes contact-spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 @keyframes contact-pulse {
-  0%, 100% { box-shadow: 0 0 4px rgba(52, 211, 153, 0.4); }
-  50% { box-shadow: 0 0 12px rgba(52, 211, 153, 0.7); }
+  0%,
+  100% {
+    box-shadow: 0 0 4px rgba(52, 211, 153, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 12px rgba(52, 211, 153, 0.7);
+  }
 }
 .availability-dot {
   animation: contact-pulse 2s ease-in-out infinite;
@@ -1592,8 +1641,8 @@ button[disabled] {
   inset: 0;
   opacity: 0.04;
   background-image:
-    linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
   background-size: 64px 64px;
 }
 
@@ -1810,7 +1859,9 @@ button[disabled] {
   border-radius: 100px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: border-color 0.2s ease, background 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
 }
 
 .project-tech-tag:hover {
@@ -1910,7 +1961,9 @@ button[disabled] {
   border-radius: var(--radius-card);
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: border-color 0.3s ease, transform 0.3s ease;
+  transition:
+    border-color 0.3s ease,
+    transform 0.3s ease;
 }
 
 .project-result-card:hover {

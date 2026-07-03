@@ -1,15 +1,24 @@
 /**
- * Featured Projects Showcase
+ * Featured Projects — Premium editorial showcase
  *
- * Premium case study previews — one per row, large 16:10 preview,
- * GSAP scroll reveal, hover orchestration, fully accessible.
+ * TRIONN/Cuberto/Locomotive-inspired full-viewport project sections.
+ * Each project: 100vh, oversized editorial typography,
+ * GSAP ScrollTrigger scrub-based reveal sequences,
+ * magnetic hover interactions, full-bleed imagery.
+ *
+ * No-JS: all content visible by default.
+ * Animations are enhancement only.
  */
 
 import { useRef, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router";
 import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useReducedMotion } from "../hooks";
-import { ANIMATION_EASINGS } from "@/animation/constants";
 import { ROUTES } from "@/constants/routes";
+import { useTransitionStore } from "./project-transition-store";
+
+gsap.registerPlugin(ScrollTrigger);
 
 // ============================================================================
 // Data
@@ -18,208 +27,178 @@ import { ROUTES } from "@/constants/routes";
 interface Project {
   id: number;
   slug: string;
-  category: string;
+  number: string;
   title: string;
   description: string;
-  tags: string[];
-  accentColor: string;
+  year: string;
+  category: string;
+  technologies: readonly string[];
   accentRgb: string;
-  preview: {
-    gridLines: boolean;
-    orbs: { x: string; y: string; size: number; opacity: number }[];
-    window: { title: string; lines: number; buttons: number };
-  };
 }
 
 const PROJECTS: readonly Project[] = [
   {
     id: 1,
     slug: "frontend-multiverse",
-    category: "Portfolio",
+    number: "01",
     title: "Frontend Multiverse",
     description:
-      "A portfolio site built to push what a browser can do — portal transitions between 3D worlds, scroll-driven animations, and a custom cursor system. The challenge was making heavy animation feel lightweight.",
-    tags: ["React 19", "Three.js", "GSAP", "TypeScript", "Vite"],
-    accentColor: "rgba(216, 216, 216, 0.8)",
+      "A creative developer portfolio built with React 19, Three.js, and GSAP. Cinematic scroll experiences, spatial computing worlds, and a premium dark editorial design.",
+    year: "2025",
+    category: "Portfolio",
+    technologies: ["React 19", "Three.js", "GSAP", "TypeScript", "Vite"],
     accentRgb: "216, 216, 216",
-    preview: {
-      gridLines: true,
-      orbs: [
-        { x: "65%", y: "30%", size: 200, opacity: 0.15 },
-        { x: "25%", y: "65%", size: 160, opacity: 0.1 },
-        { x: "80%", y: "70%", size: 120, opacity: 0.07 },
-      ],
-      window: { title: "portfolio.tsx", lines: 6, buttons: 3 },
-    },
   },
   {
     id: 2,
     slug: "ai-architecture-studio",
-    category: "SaaS Platform",
+    number: "02",
     title: "AI Architecture Studio",
     description:
-      "A design system tool that helps teams generate and test UI components. Built the frontend architecture with Next.js, implemented real-time preview with Tailwind, and integrated a Python backend for ML-powered layout suggestions.",
-    tags: ["Next.js", "Python", "TensorFlow", "Tailwind", "Framer Motion"],
-    accentColor: "#a855f7",
+      "An intelligent SaaS platform for architectural visualization. AI-powered design suggestions, real-time rendering, and collaborative workspace for modern studios.",
+    year: "2024",
+    category: "SaaS Platform",
+    technologies: ["Next.js", "Python", "TensorFlow", "Tailwind", "Framer Motion"],
     accentRgb: "168, 85, 247",
-    preview: {
-      gridLines: true,
-      orbs: [
-        { x: "30%", y: "35%", size: 180, opacity: 0.13 },
-        { x: "70%", y: "60%", size: 140, opacity: 0.09 },
-        { x: "55%", y: "20%", size: 100, opacity: 0.06 },
-      ],
-      window: { title: "studio.config.ts", lines: 5, buttons: 2 },
-    },
   },
   {
     id: 3,
     slug: "window-corner",
-    category: "Creative Tool",
+    number: "03",
     title: "Window Corner",
     description:
-      "A desktop environment recreated in the browser — window management, drag-and-drop, live apps, and spatial audio. The technical challenge was building a performant canvas renderer that handles multiple animated windows without frame drops.",
-    tags: ["TypeScript", "Canvas API", "Web Audio", "GSAP", "Zustand"],
-    accentColor: "#06b6d4",
+      "A creative desktop customization tool. Canvas-based rendering, Web Audio integration, and real-time physics simulations for an immersive user experience.",
+    year: "2024",
+    category: "Creative Tool",
+    technologies: ["TypeScript", "Canvas API", "Web Audio", "GSAP", "Zustand"],
     accentRgb: "6, 182, 212",
-    preview: {
-      gridLines: true,
-      orbs: [
-        { x: "50%", y: "40%", size: 190, opacity: 0.14 },
-        { x: "20%", y: "55%", size: 150, opacity: 0.1 },
-        { x: "75%", y: "25%", size: 110, opacity: 0.07 },
-      ],
-      window: { title: "desktop.tsx", lines: 7, buttons: 3 },
-    },
   },
 ] as const;
 
 // ============================================================================
-// Preview Area
+// Preview Area — Full-bleed editorial imagery
 // ============================================================================
 
 function PreviewArea({
   project,
-  imageRef,
+  previewRef,
+  innerRef,
 }: {
   project: Project;
-  imageRef: React.RefObject<HTMLDivElement | null>;
+  previewRef: React.RefObject<HTMLDivElement | null>;
+  innerRef: React.RefObject<HTMLDivElement | null>;
 }) {
   return (
     <div
-      ref={imageRef}
+      ref={previewRef}
       data-projects="preview"
       role="img"
       aria-label={`${project.title} preview`}
       style={{
         position: "relative",
         width: "100%",
-        aspectRatio: "16 / 10",
-        borderRadius: 16,
+        aspectRatio: "16 / 9",
         overflow: "hidden",
-        background: `linear-gradient(135deg, rgba(${project.accentRgb}, 0.06) 0%, rgba(${project.accentRgb}, 0.02) 50%, rgba(0, 0, 0, 0.3) 100%)`,
-        border: "1px solid rgba(255, 255, 255, 0.06)",
-        boxShadow: `0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.04)`,
-        willChange: "transform",
+        background: `linear-gradient(180deg, rgba(${project.accentRgb}, 0.04) 0%, rgba(0, 0, 0, 0.6) 100%)`,
+        willChange: "clip-path, transform",
+        cursor: "pointer",
       }}
     >
-      {/* Grid pattern */}
-      {project.preview.gridLines && (
+      <div
+        ref={innerRef}
+        style={{
+          position: "absolute",
+          inset: "-10%",
+          willChange: "transform",
+        }}
+      >
+        {/* Large ambient glow — the "image" */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "80%",
+            height: "80%",
+            borderRadius: "50%",
+            background: `radial-gradient(circle, rgba(${project.accentRgb}, 0.15) 0%, rgba(${project.accentRgb}, 0.04) 40%, transparent 70%)`,
+            filter: "blur(80px)",
+          }}
+        />
+
+        {/* Secondary orb */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            top: "30%",
+            right: "15%",
+            width: "35%",
+            height: "50%",
+            borderRadius: "50%",
+            background: `radial-gradient(circle, rgba(${project.accentRgb}, 0.08) 0%, transparent 60%)`,
+            filter: "blur(60px)",
+          }}
+        />
+
+        {/* Subtle grid texture */}
         <div
           aria-hidden="true"
           style={{
             position: "absolute",
             inset: 0,
-            opacity: 0.03,
+            opacity: 0.015,
             backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px)",
-            backgroundSize: "48px 48px",
+              "linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)",
+            backgroundSize: "80px 80px",
           }}
         />
-      )}
 
-      {/* Orbs */}
-      {project.preview.orbs.map((orb, i) => (
+        {/* Large number watermark */}
         <div
-          key={`orb-${String(i)}`}
           aria-hidden="true"
           style={{
             position: "absolute",
-            left: orb.x,
-            top: orb.y,
-            width: orb.size,
-            height: orb.size,
-            borderRadius: "50%",
-            background: `radial-gradient(circle, rgba(${project.accentRgb}, ${String(orb.opacity)}) 0%, transparent 70%)`,
-            filter: "blur(30px)",
-            transform: "translate(-50%, -50%)",
-          }}
-        />
-      ))}
-
-      {/* Mock window */}
-      <div
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: "60%",
-          maxWidth: 480,
-          borderRadius: 12,
-          background: "rgba(0, 0, 0, 0.3)",
-          border: "1px solid rgba(255, 255, 255, 0.06)",
-          backdropFilter: "blur(8px)",
-          overflow: "hidden",
-        }}
-      >
-        {/* Window chrome */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 6,
-            padding: "10px 14px",
-            borderBottom: "1px solid rgba(255, 255, 255, 0.04)",
+            bottom: "-5%",
+            right: "-2%",
+            fontFamily: "'Space Grotesk', sans-serif",
+            fontSize: "clamp(10rem, 25vw, 20rem)",
+            fontWeight: 700,
+            letterSpacing: "-0.05em",
+            lineHeight: 0.8,
+            color: `rgba(${project.accentRgb}, 0.03)`,
+            userSelect: "none",
+            pointerEvents: "none",
           }}
         >
-          <div style={{ width: 8, height: 8, borderRadius: "50%", background: "rgba(255, 95, 86, 0.6)" }} />
-          <div style={{ width: 8, height: 8, borderRadius: "50%", background: "rgba(255, 189, 46, 0.6)" }} />
-          <div style={{ width: 8, height: 8, borderRadius: "50%", background: "rgba(39, 201, 63, 0.6)" }} />
-          <span
-            style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: "0.6rem",
-              color: "rgba(255, 255, 255, 0.3)",
-              marginLeft: 8,
-            }}
-          >
-            {project.preview.window.title}
-          </span>
-        </div>
-        {/* Window content */}
-        <div style={{ padding: "14px 16px", display: "flex", flexDirection: "column", gap: 7 }}>
-          <div style={{ width: "70%", height: 6, borderRadius: 3, background: `rgba(${project.accentRgb}, 0.2)` }} />
-          <div style={{ width: "50%", height: 4, borderRadius: 2, background: "rgba(255, 255, 255, 0.06)" }} />
-          <div style={{ width: "85%", height: 4, borderRadius: 2, background: "rgba(255, 255, 255, 0.04)" }} />
-          <div style={{ width: "40%", height: 4, borderRadius: 2, background: "rgba(255, 255, 255, 0.04)" }} />
-          <div style={{ width: "65%", height: 4, borderRadius: 2, background: "rgba(255, 255, 255, 0.03)" }} />
-          <div style={{ display: "flex", gap: 8, marginTop: 6 }}>
-            <div style={{ width: 60, height: 24, borderRadius: 6, background: `rgba(${project.accentRgb}, 0.15)` }} />
-            <div style={{ width: 60, height: 24, borderRadius: 6, background: "rgba(255, 255, 255, 0.04)" }} />
-          </div>
+          {project.number}
         </div>
       </div>
+
+      {/* Hover overlay — subtle vignette */}
+      <div
+        aria-hidden="true"
+        className="project-preview-overlay"
+        style={{
+          position: "absolute",
+          inset: 0,
+          background: `radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.3) 100%)`,
+          opacity: 0,
+          transition: "opacity 0.6s ease",
+          pointerEvents: "none",
+        }}
+      />
     </div>
   );
 }
 
 // ============================================================================
-// Project Showcase Row
+// Project Section — Full editorial block
 // ============================================================================
 
-function ProjectShowcase({
+function ProjectSection({
   project,
   index,
   reducedMotion,
@@ -228,35 +207,201 @@ function ProjectShowcase({
   index: number;
   reducedMotion: boolean;
 }) {
-  const rowRef = useRef<HTMLDivElement>(null);
-  const previewRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+  const startTransition = useTransitionStore((s) => s.startTransition);
+  const sectionRef = useRef<HTMLElement>(null);
+  const numberRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const descRef = useRef<HTMLParagraphElement>(null);
-  const tagsRef = useRef<HTMLDivElement>(null);
-  const buttonsRef = useRef<HTMLDivElement>(null);
+  const metaRef = useRef<HTMLDivElement>(null);
+  const previewRef = useRef<HTMLDivElement>(null);
+  const previewInnerRef = useRef<HTMLDivElement>(null);
+  const techRef = useRef<HTMLDivElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef(0);
-
-  const isReversed = index % 2 === 1;
 
   useEffect(() => {
     return () => cancelAnimationFrame(rafRef.current);
   }, []);
 
+  // ── Scroll-triggered reveal via ScrollTrigger scrub ──────────────────
+  useEffect(() => {
+    if (reducedMotion || !sectionRef.current) return;
+
+    const section = sectionRef.current;
+    const number = numberRef.current;
+    const title = titleRef.current;
+    const desc = descRef.current;
+    const meta = metaRef.current;
+    const preview = previewRef.current;
+    const tech = techRef.current;
+
+    let ctx: gsap.Context | null = null;
+
+    ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        defaults: { ease: "none" },
+        scrollTrigger: {
+          trigger: section,
+          start: "top 90%",
+          end: "center center",
+          scrub: 0.8,
+        },
+      });
+
+      // 1. Number — fade + rise
+      if (number) {
+        tl.fromTo(
+          number,
+          { y: 80, opacity: 0, scale: 0.9 },
+          { y: 0, opacity: 1, scale: 1, duration: 1 },
+          0,
+        );
+      }
+
+      // 2. Title — clip-path wipe reveal
+      if (title) {
+        tl.fromTo(
+          title,
+          { clipPath: "inset(0 100% 0 0)", opacity: 1 },
+          { clipPath: "inset(0 0% 0 0)", duration: 1.5 },
+          0.1,
+        );
+      }
+
+      // 3. Description — rise + fade
+      if (desc) {
+        tl.fromTo(desc, { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 1 }, 0.3);
+      }
+
+      // 4. Meta — staggered rise
+      if (meta) {
+        const items = meta.querySelectorAll<HTMLElement>("[data-project-meta]");
+        if (items.length > 0) {
+          tl.fromTo(
+            items,
+            { y: 25, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.8, stagger: 0.1 },
+            0.35,
+          );
+        }
+      }
+
+      // 5. Preview — dramatic clip-path reveal + scale
+      if (preview) {
+        tl.fromTo(
+          preview,
+          { clipPath: "inset(15% 0% 15% 0)", opacity: 0, scale: 0.92 },
+          {
+            clipPath: "inset(0% 0% 0% 0)",
+            opacity: 1,
+            scale: 1,
+            duration: 2,
+          },
+          0.15,
+        );
+      }
+
+      // 6. Tech — staggered rise
+      if (tech) {
+        const tags = tech.querySelectorAll<HTMLElement>("[data-tech-tag]");
+        if (tags.length > 0) {
+          tl.fromTo(
+            tags,
+            { y: 15, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.6, stagger: 0.06 },
+            0.6,
+          );
+        }
+      }
+    }, sectionRef);
+
+    return () => {
+      ctx.revert();
+    };
+  }, [reducedMotion]);
+
+  // ── Scroll parallax on preview (continuous scrub) ────────────────────
+  useEffect(() => {
+    if (reducedMotion || !sectionRef.current || !previewInnerRef.current) return;
+
+    const section = sectionRef.current;
+    const inner = previewInnerRef.current;
+
+    const st = ScrollTrigger.create({
+      trigger: section,
+      start: "top bottom",
+      end: "bottom top",
+      scrub: 1.2,
+      onUpdate: (self) => {
+        const progress = self.progress;
+        gsap.set(inner, {
+          y: (progress - 0.5) * -60,
+          scale: 1 + Math.abs(progress - 0.5) * 0.04,
+        });
+      },
+    });
+
+    return () => {
+      st.kill();
+    };
+  }, [reducedMotion]);
+
+  // ── Hover: magnetic pull + preview zoom + lift ───────────────────────
   const handleMouseMove = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
       if (reducedMotion) return;
-      const row = rowRef.current;
-      if (!row) return;
+      const section = sectionRef.current;
+      if (!section) return;
 
-      const rect = row.getBoundingClientRect();
+      const rect = section.getBoundingClientRect();
       const x = ((e.clientX - rect.left) / rect.width) * 100;
       const y = ((e.clientY - rect.top) / rect.height) * 100;
 
       cancelAnimationFrame(rafRef.current);
       rafRef.current = requestAnimationFrame(() => {
+        // Magnetic pull on preview inner — stronger factor for living feel
+        if (previewInnerRef.current) {
+          const offsetX = (x - 50) * 0.08;
+          const offsetY = (y - 50) * 0.08;
+          gsap.to(previewInnerRef.current, {
+            x: offsetX,
+            y: offsetY,
+            duration: 1.2,
+            ease: "expo.out",
+            overwrite: "auto",
+          });
+        }
+
+        // Subtle perspective tilt on the entire section
+        if (sectionRef.current) {
+          const rotateY = ((x - 50) / 50) * 0.4;
+          const rotateX = ((y - 50) / 50) * -0.3;
+          gsap.to(sectionRef.current, {
+            rotateX,
+            rotateY,
+            duration: 1,
+            ease: "expo.out",
+            overwrite: "auto",
+            transformPerspective: 1200,
+            transformOrigin: "center center",
+          });
+        }
+
+        // Magnetic pull on title — more responsive
+        if (titleRef.current) {
+          const titleOffsetX = (x - 50) * 0.012;
+          gsap.to(titleRef.current, {
+            x: titleOffsetX,
+            duration: 0.8,
+            ease: "expo.out",
+            overwrite: "auto",
+          });
+        }
+
+        // Glow follows cursor — larger radius, more visible
         if (glowRef.current) {
-          glowRef.current.style.background = `radial-gradient(800px circle at ${String(x)}% ${String(y)}%, rgba(${project.accentRgb}, 0.06), transparent 50%)`;
+          glowRef.current.style.background = `radial-gradient(1600px circle at ${String(x)}% ${String(y)}%, rgba(${project.accentRgb}, 0.08), transparent 50%)`;
         }
       });
     },
@@ -266,311 +411,361 @@ function ProjectShowcase({
   const handleMouseEnter = useCallback(() => {
     if (reducedMotion) return;
 
+    if (sectionRef.current) {
+      // Lift the entire card — depth illusion
+      gsap.to(sectionRef.current, {
+        y: -4,
+        duration: 0.8,
+        ease: "expo.out",
+        overwrite: "auto",
+      });
+    }
+
     if (previewRef.current) {
       gsap.to(previewRef.current, {
+        scale: 1.04,
+        y: -6,
+        duration: 1.2,
+        ease: "expo.out",
+        overwrite: "auto",
+      });
+      const overlay = previewRef.current.querySelector<HTMLElement>(".project-preview-overlay");
+      if (overlay) {
+        gsap.to(overlay, { opacity: 1, duration: 0.6 });
+      }
+    }
+    if (numberRef.current) {
+      gsap.to(numberRef.current, {
+        y: -8,
         scale: 1.03,
-        duration: 0.6,
-        ease: ANIMATION_EASINGS.expoOut,
-        overwrite: "auto",
-      });
-      previewRef.current.style.borderColor = `rgba(${project.accentRgb}, 0.25)`;
-    }
-    if (titleRef.current) {
-      gsap.to(titleRef.current, {
-        x: isReversed ? -4 : 4,
-        duration: 0.4,
-        ease: ANIMATION_EASINGS.expoOut,
-        overwrite: "auto",
-      });
-    }
-    if (buttonsRef.current) {
-      gsap.to(buttonsRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.35,
-        ease: ANIMATION_EASINGS.expoOut,
-        overwrite: "auto",
-      });
-    }
-    if (tagsRef.current) {
-      const pills = tagsRef.current.querySelectorAll<HTMLElement>("[data-tag]");
-      gsap.to(pills, {
-        y: -2,
-        duration: 0.3,
-        ease: ANIMATION_EASINGS.expoOut,
-        stagger: 0.03,
+        duration: 0.8,
+        ease: "expo.out",
         overwrite: "auto",
       });
     }
     if (glowRef.current) {
-      gsap.to(glowRef.current, { opacity: 1, duration: 0.4, ease: ANIMATION_EASINGS.expoOut });
+      gsap.to(glowRef.current, { opacity: 1, duration: 0.8 });
     }
-  }, [reducedMotion, project.accentRgb, isReversed]);
+  }, [reducedMotion]);
 
   const handleMouseLeave = useCallback(() => {
     if (reducedMotion) return;
 
+    if (sectionRef.current) {
+      gsap.to(sectionRef.current, {
+        y: 0,
+        rotateX: 0,
+        rotateY: 0,
+        duration: 0.8,
+        ease: "expo.out",
+        overwrite: "auto",
+      });
+    }
+
     if (previewRef.current) {
       gsap.to(previewRef.current, {
         scale: 1,
-        duration: 0.5,
-        ease: ANIMATION_EASINGS.expoOut,
+        y: 0,
+        duration: 1,
+        ease: "expo.out",
         overwrite: "auto",
       });
-      previewRef.current.style.borderColor = "rgba(255, 255, 255, 0.06)";
+      const overlay = previewRef.current.querySelector<HTMLElement>(".project-preview-overlay");
+      if (overlay) {
+        gsap.to(overlay, { opacity: 0, duration: 0.5 });
+      }
+    }
+    if (previewInnerRef.current) {
+      gsap.to(previewInnerRef.current, {
+        x: 0,
+        y: 0,
+        duration: 1,
+        ease: "expo.out",
+        overwrite: "auto",
+      });
     }
     if (titleRef.current) {
       gsap.to(titleRef.current, {
         x: 0,
-        duration: 0.4,
-        ease: ANIMATION_EASINGS.expoOut,
+        duration: 0.8,
+        ease: "expo.out",
         overwrite: "auto",
       });
     }
-    if (buttonsRef.current) {
-      gsap.to(buttonsRef.current, {
-        opacity: 0,
-        y: 8,
-        duration: 0.3,
-        ease: ANIMATION_EASINGS.expoOut,
-        overwrite: "auto",
-      });
-    }
-    if (tagsRef.current) {
-      const pills = tagsRef.current.querySelectorAll<HTMLElement>("[data-tag]");
-      gsap.to(pills, {
+    if (numberRef.current) {
+      gsap.to(numberRef.current, {
         y: 0,
-        duration: 0.3,
-        ease: ANIMATION_EASINGS.expoOut,
-        stagger: 0.02,
+        scale: 1,
+        duration: 0.7,
+        ease: "expo.out",
+        overwrite: "auto",
       });
     }
     if (glowRef.current) {
-      gsap.to(glowRef.current, { opacity: 0, duration: 0.4, ease: ANIMATION_EASINGS.expoOut });
+      gsap.to(glowRef.current, { opacity: 0, duration: 0.7 });
     }
   }, [reducedMotion]);
 
+  // ── Click — entire project is the CTA ───────────────────────────────
+  const handleClick = useCallback(() => {
+    const target = ROUTES.PROJECT.replace(":projectId", project.slug);
+
+    if (reducedMotion || !previewRef.current) {
+      // No animation: direct navigation
+      void navigate(target);
+      return;
+    }
+
+    // Lock body scroll during transition
+    document.body.style.overflow = "hidden";
+
+    // Dim the source card — creates depth during clone expansion
+    if (sectionRef.current) {
+      gsap.to(sectionRef.current, {
+        opacity: 0.3,
+        scale: 0.98,
+        duration: 0.5,
+        ease: "power2.inOut",
+      });
+    }
+
+    // Capture preview bounding rect for shared-element transition
+    const rect = previewRef.current.getBoundingClientRect();
+    startTransition({
+      fromRect: rect,
+      projectId: project.slug,
+      accentRgb: project.accentRgb,
+      projectNumber: project.number,
+    });
+
+    // Navigate immediately — overlay handles the visual transition
+    void navigate(target);
+  }, [reducedMotion, project.slug, project.accentRgb, project.number, navigate, startTransition]);
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        handleClick();
+      }
+    },
+    [handleClick],
+  );
+
   return (
     <article
-      ref={rowRef}
-      data-projects="showcase"
+      ref={sectionRef}
+      data-projects="row"
+      data-cursor="project"
       aria-label={`${project.title} — ${project.category}`}
+      role="article"
+      tabIndex={0}
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
+      onKeyDown={handleKeyDown}
       style={{
-        display: "grid",
-        gridTemplateColumns: "1fr 1fr",
-        gap: "clamp(2rem, 5vw, 4rem)",
-        alignItems: "center",
         position: "relative",
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        padding: "clamp(6rem, 15vh, 12rem) clamp(2rem, 6vw, 8rem)",
+        gap: "clamp(1.5rem, 3vw, 2.5rem)",
+        cursor: "pointer",
+        outline: "none",
+      }}
+      onFocus={(e) => {
+        e.currentTarget.style.outline = "2px solid rgba(255, 255, 255, 0.15)";
+        e.currentTarget.style.outlineOffset = "-4px";
+      }}
+      onBlur={(e) => {
+        e.currentTarget.style.outline = "none";
       }}
     >
-      {/* Preview column */}
-      <div
-        data-projects="preview-wrapper"
-        style={{
-          order: isReversed ? 2 : 1,
-          maxWidth: 640,
-        }}
-      >
-        <PreviewArea project={project} imageRef={previewRef} />
-      </div>
-
-      {/* Info column */}
-      <div
-        data-projects="info"
-        style={{
-          order: isReversed ? 1 : 2,
-          maxWidth: 480,
-        }}
-      >
-        {/* Category */}
-        <span
-          data-projects="category"
-          style={{
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: "clamp(0.625rem, 0.75vw, 0.75rem)",
-            fontWeight: 400,
-            letterSpacing: "0.3em",
-            textTransform: "uppercase" as const,
-            color: `rgba(${project.accentRgb}, 0.7)`,
-            display: "inline-block",
-            padding: "0.4em 0.9em",
-            border: `1px solid rgba(${project.accentRgb}, 0.15)`,
-            borderRadius: 100,
-            marginBottom: "clamp(1rem, 2vw, 1.5rem)",
-          }}
-        >
-          {project.category}
-        </span>
-
-        {/* Title */}
-        <h3
-          ref={titleRef}
-          data-projects="title"
-          style={{
-            fontFamily: "'Space Grotesk', sans-serif",
-            fontSize: "clamp(1.75rem, 3.5vw, 2.75rem)",
-            fontWeight: 700,
-            letterSpacing: "-0.03em",
-            lineHeight: 1.1,
-            color: "#f0f0f5",
-            margin: "0 0 clamp(1rem, 2vw, 1.5rem) 0",
-            willChange: "transform",
-          }}
-        >
-          {project.title}
-        </h3>
-
-        {/* Description */}
-        <p
-          ref={descRef}
-          data-projects="desc"
-          style={{
-            fontFamily: "'Inter', sans-serif",
-            fontSize: "clamp(0.9375rem, 1.1vw, 1.0625rem)",
-            fontWeight: 400,
-            lineHeight: 1.65,
-            color: "rgba(226, 232, 240, 0.5)",
-            margin: "0 0 clamp(1.5rem, 3vw, 2rem) 0",
-          }}
-        >
-          {project.description}
-        </p>
-
-        {/* Tags */}
+      {/* Top divider — full width, no margin */}
+      {index > 0 && (
         <div
-          ref={tagsRef}
-          data-projects="tags"
+          aria-hidden="true"
           style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: 8,
-            marginBottom: "clamp(1.5rem, 3vw, 2rem)",
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            height: 1,
+            background:
+              "linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.06) 20%, rgba(255, 255, 255, 0.06) 80%, transparent 100%)",
           }}
-        >
-          {project.tags.map((tag) => (
-            <span
-              key={tag}
-              data-tag
-              style={{
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: "0.6875rem",
-                fontWeight: 500,
-                letterSpacing: "0.02em",
-                color: `rgba(${project.accentRgb}, 0.85)`,
-                padding: "5px 12px",
-                borderRadius: 100,
-                background: `rgba(${project.accentRgb}, 0.08)`,
-                border: `1px solid rgba(${project.accentRgb}, 0.12)`,
-                willChange: "transform",
-                transition: "border-color 0.2s ease",
-              }}
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
+        />
+      )}
 
-        {/* Buttons */}
-        <div
-          ref={buttonsRef}
-          data-projects="buttons"
-          style={{
-            display: "flex",
-            gap: 12,
-            opacity: 0,
-            transform: "translateY(8px)",
-            willChange: "transform, opacity",
-          }}
-        >
-          <a
-            href={`${ROUTES.PROJECT.replace(":projectId", project.slug)}`}
-            aria-label={`${project.title} — view case study`}
-            style={{
-              fontFamily: "'Space Grotesk', sans-serif",
-              fontSize: "0.8125rem",
-              fontWeight: 600,
-              letterSpacing: "0.02em",
-              color: "#fff",
-              padding: "10px 20px",
-              borderRadius: 10,
-              background: `rgba(${project.accentRgb}, 0.2)`,
-              border: `1px solid rgba(${project.accentRgb}, 0.35)`,
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              textDecoration: "none",
-              transition: "background 0.2s ease, outline 0.2s ease",
-              cursor: "pointer",
-              outline: "2px solid transparent",
-              outlineOffset: 2,
-            }}
-            onFocus={(e) => {
-              e.currentTarget.style.outline = `2px solid ${project.accentColor}`;
-            }}
-            onBlur={(e) => {
-              e.currentTarget.style.outline = "2px solid transparent";
-            }}
-          >
-            View Case Study
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-              <path d="M2.5 6H9.5M7 3.5L9.5 6L7 8.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </a>
-          <a
-            href="#projects"
-            aria-label={`${project.title} — live demo`}
-            aria-disabled="true"
-            tabIndex={-1}
-            style={{
-              fontFamily: "'Space Grotesk', sans-serif",
-              fontSize: "0.8125rem",
-              fontWeight: 500,
-              letterSpacing: "0.02em",
-              color: "rgba(226, 232, 240, 0.5)",
-              padding: "10px 20px",
-              borderRadius: 10,
-              background: "rgba(255, 255, 255, 0.03)",
-              border: "1px solid rgba(255, 255, 255, 0.06)",
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              textDecoration: "none",
-              transition: "background 0.2s ease, color 0.2s ease, outline 0.2s ease",
-              cursor: "pointer",
-              outline: "2px solid transparent",
-              outlineOffset: 2,
-            }}
-            onFocus={(e) => {
-              e.currentTarget.style.outline = "2px solid rgba(255, 255, 255, 0.3)";
-            }}
-            onBlur={(e) => {
-              e.currentTarget.style.outline = "2px solid transparent";
-            }}
-          >
-            Live Demo
-            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
-              <path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </a>
-        </div>
-      </div>
-
-      {/* Hover glow */}
+      {/* Ambient glow */}
       <div
         ref={glowRef}
         aria-hidden="true"
         style={{
           position: "absolute",
           inset: 0,
-          borderRadius: 24,
           opacity: 0,
           pointerEvents: "none",
           willChange: "opacity",
         }}
       />
+
+      {/* Content wrapper — full width */}
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          gap: "clamp(1rem, 2vw, 1.5rem)",
+        }}
+      >
+        {/* Meta row — Category · Year · Number */}
+        <div
+          ref={metaRef}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "clamp(1.5rem, 3vw, 3rem)",
+            flexWrap: "wrap",
+          }}
+        >
+          <span
+            data-project-meta
+            style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: "clamp(0.6875rem, 0.75vw, 0.75rem)",
+              fontWeight: 500,
+              letterSpacing: "0.15em",
+              textTransform: "uppercase" as const,
+              color: "rgba(216, 216, 216, 0.45)",
+            }}
+          >
+            {project.category}
+          </span>
+          <span
+            data-project-meta
+            aria-hidden="true"
+            style={{
+              width: 24,
+              height: 1,
+              background: "rgba(255, 255, 255, 0.1)",
+            }}
+          />
+          <span
+            data-project-meta
+            style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: "clamp(0.6875rem, 0.75vw, 0.75rem)",
+              fontWeight: 400,
+              letterSpacing: "0.1em",
+              color: "rgba(216, 216, 216, 0.35)",
+            }}
+          >
+            {project.year}
+          </span>
+          <span
+            data-project-meta
+            aria-hidden="true"
+            style={{
+              width: 24,
+              height: 1,
+              background: "rgba(255, 255, 255, 0.1)",
+            }}
+          />
+          <span
+            data-project-meta
+            ref={numberRef}
+            style={{
+              fontFamily: "'Space Grotesk', sans-serif",
+              fontSize: "clamp(0.8125rem, 1vw, 1rem)",
+              fontWeight: 600,
+              letterSpacing: "0.05em",
+              color: "rgba(255, 255, 255, 0.6)",
+              willChange: "transform",
+            }}
+          >
+            {project.number}
+          </span>
+        </div>
+
+        {/* Title — oversized editorial */}
+        <h3
+          ref={titleRef}
+          style={{
+            fontFamily: "'Space Grotesk', sans-serif",
+            fontSize: "clamp(3rem, 8vw, 7.5rem)",
+            fontWeight: 600,
+            letterSpacing: "-0.04em",
+            lineHeight: 0.95,
+            color: "rgba(255, 255, 255, 0.95)",
+            margin: 0,
+            willChange: "clip-path, transform",
+          }}
+        >
+          {project.title}
+        </h3>
+
+        {/* Description — editorial subtitle */}
+        <p
+          ref={descRef}
+          style={{
+            fontFamily: "'Inter', sans-serif",
+            fontSize: "clamp(1rem, 1.2vw, 1.125rem)",
+            fontWeight: 400,
+            lineHeight: 1.7,
+            color: "rgba(216, 216, 216, 0.4)",
+            margin: 0,
+            maxWidth: 520,
+          }}
+        >
+          {project.description}
+        </p>
+      </div>
+
+      {/* Preview — full width, edge-to-edge */}
+      <PreviewArea project={project} previewRef={previewRef} innerRef={previewInnerRef} />
+
+      {/* Bottom row — Tech flowing text */}
+      <div
+        ref={techRef}
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          alignItems: "center",
+          gap: "6px",
+          maxWidth: 600,
+        }}
+      >
+        {project.technologies.map((tech, i) => (
+          <span
+            key={tech}
+            data-tech-tag
+            style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: "0.6875rem",
+              fontWeight: 400,
+              letterSpacing: "0.02em",
+              color: i === 0 ? `rgba(${project.accentRgb}, 0.7)` : "rgba(216, 216, 216, 0.3)",
+            }}
+          >
+            {tech}
+            {i < project.technologies.length - 1 && (
+              <span
+                aria-hidden="true"
+                style={{
+                  margin: "0 8px",
+                  color: "rgba(255, 255, 255, 0.08)",
+                }}
+              >
+                /
+              </span>
+            )}
+          </span>
+        ))}
+      </div>
     </article>
   );
 }
@@ -583,93 +778,39 @@ export function Projects() {
   const reducedMotion = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
-  const subtitleRef = useRef<HTMLParagraphElement>(null);
-  const listRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
 
     let ctx: gsap.Context | null = null;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry?.isIntersecting) return;
-        observer.disconnect();
 
-        if (reducedMotion) {
-          if (headerRef.current) headerRef.current.style.opacity = "1";
-          if (subtitleRef.current) subtitleRef.current.style.opacity = "1";
-          if (listRef.current) listRef.current.style.opacity = "1";
-          return;
+    ctx = gsap.context(() => {
+      if (!reducedMotion && headerRef.current) {
+        const lines = headerRef.current.querySelectorAll<HTMLElement>("[data-header-line]");
+        if (lines.length > 0) {
+          const tl = gsap.timeline({
+            defaults: { ease: "expo.out" },
+            scrollTrigger: {
+              trigger: section,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          });
+          lines.forEach((line, i) => {
+            tl.fromTo(
+              line,
+              { clipPath: "inset(0 100% 0 0)", opacity: 1 },
+              { clipPath: "inset(0 0% 0 0)", duration: 1 },
+              i * 0.15,
+            );
+          });
         }
-
-        ctx = gsap.context(() => {
-          const tl = gsap.timeline({ defaults: { ease: ANIMATION_EASINGS.expoOut } });
-
-          // Header
-          if (headerRef.current) {
-            tl.fromTo(
-              headerRef.current,
-              { y: 30, opacity: 0 },
-              { y: 0, opacity: 1, duration: 0.8 },
-            );
-          }
-
-          // Subtitle
-          if (subtitleRef.current) {
-            tl.fromTo(
-              subtitleRef.current,
-              { y: 16, opacity: 0 },
-              { y: 0, opacity: 1, duration: 0.6 },
-              "-=0.5",
-            );
-          }
-
-          // Showcase rows
-          if (listRef.current) {
-            tl.to(listRef.current, { opacity: 1, duration: 0.01 }, "<");
-            const rows = listRef.current.querySelectorAll<HTMLElement>("[data-projects='showcase']");
-            rows.forEach((row, i) => {
-              const preview = row.querySelector<HTMLElement>("[data-projects='preview']");
-              const title = row.querySelector<HTMLElement>("[data-projects='title']");
-              const desc = row.querySelector<HTMLElement>("[data-projects='desc']");
-              const tags = row.querySelector<HTMLElement>("[data-projects='tags']");
-              const buttons = row.querySelector<HTMLElement>("[data-projects='buttons']");
-
-              const offset = i === 0 ? "-=0.2" : "-=0.5";
-
-              if (preview) {
-                tl.fromTo(
-                  preview,
-                  { y: 40, opacity: 0, scale: 0.98 },
-                  { y: 0, opacity: 1, scale: 1, duration: 0.6 },
-                  offset,
-                );
-              }
-              if (title) {
-                tl.fromTo(title, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5 }, "-=0.4");
-              }
-              if (desc) {
-                tl.fromTo(desc, { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5 }, "-=0.35");
-              }
-              if (tags) {
-                tl.fromTo(tags, { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5 }, "-=0.35");
-              }
-              if (buttons) {
-                tl.fromTo(buttons, { y: 8, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5 }, "-=0.35");
-              }
-            });
-          }
-        }, sectionRef);
-      },
-      { threshold: 0.12 },
-    );
-
-    observer.observe(section);
+      }
+    }, sectionRef);
 
     return () => {
-      observer.disconnect();
-      ctx?.revert();
+      ctx.revert();
     };
   }, [reducedMotion]);
 
@@ -680,122 +821,81 @@ export function Projects() {
       aria-labelledby="projects-heading"
       style={{
         position: "relative",
-        padding: "clamp(5rem, 12vh, 10rem) clamp(1.5rem, 5vw, 6rem)",
-        background: "linear-gradient(180deg, #000000 0%, #050510 50%, #0a0a1a 100%)",
+        background: "#040508",
       }}
     >
-      {/* Top divider */}
+      {/* Section header */}
       <div
-        aria-hidden="true"
         style={{
-          position: "absolute",
-          top: 0,
-          left: "10%",
-          right: "10%",
-          height: 1,
-          background:
-            "linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.08) 50%, transparent 100%)",
+          padding: "clamp(6rem, 15vh, 12rem) clamp(2rem, 6vw, 8rem) clamp(3rem, 6vh, 5rem)",
         }}
-      />
-
-      {/* Ambient glow */}
-      <div
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          top: "5%",
-          left: "50%",
-          transform: "translateX(-50%)",
-          width: 600,
-          height: 400,
-          borderRadius: "50%",
-          background:
-            "radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 70%)",
-          filter: "blur(80px)",
-          pointerEvents: "none",
-        }}
-      />
-
-      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-        {/* Header */}
-        <div
-          ref={headerRef}
-          style={{
-            marginBottom: "clamp(0.75rem, 1.5vw, 1rem)",
-            opacity: reducedMotion ? 1 : 0,
-          }}
-        >
-          <span
-            style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: "clamp(0.625rem, 0.8vw, 0.75rem)",
-              fontWeight: 400,
-              letterSpacing: "0.3em",
-              textTransform: "uppercase" as const,
-              color: "rgba(216, 216, 216, 0.5)",
-              display: "block",
-              marginBottom: "clamp(0.75rem, 1.5vw, 1.25rem)",
-            }}
-          >
-            Featured Work
-          </span>
+      >
+        <div ref={headerRef} style={{ willChange: "clip-path" }}>
           <h2
             id="projects-heading"
             style={{
               fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: "clamp(2rem, 5vw, 3.5rem)",
-              fontWeight: 700,
-              letterSpacing: "-0.03em",
-              lineHeight: 1.05,
-              color: "#f0f0f5",
-              margin: 0,
+              fontSize: "clamp(3rem, 7vw, 6rem)",
+              fontWeight: 600,
+              letterSpacing: "-0.04em",
+              lineHeight: 0.95,
+              margin: "0 0 clamp(1.5rem, 3vw, 2.5rem) 0",
             }}
           >
-            Selected
-            <br />
-            <span className="projects-gradient-text">
-              Projects
+            <span
+              data-header-line
+              style={{
+                color: "rgba(255, 255, 255, 0.95)",
+                display: "block",
+                willChange: "clip-path",
+              }}
+            >
+              Selected
+            </span>
+            <span
+              data-header-line
+              style={{
+                display: "block",
+                willChange: "clip-path",
+                background:
+                  "linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(216,216,216,0.6) 100%)",
+                backgroundClip: "text",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              Experiences
             </span>
           </h2>
-        </div>
 
-        {/* Subtitle */}
-        <p
-          ref={subtitleRef}
-          style={{
-            fontFamily: "'Inter', sans-serif",
-            fontSize: "clamp(0.9375rem, 1.15vw, 1.0625rem)",
-            fontWeight: 400,
-            lineHeight: 1.6,
-            color: "rgba(226, 232, 240, 0.5)",
-            margin: "0 0 clamp(3rem, 6vw, 5rem) 0",
-            maxWidth: 480,
-            opacity: reducedMotion ? 1 : 0,
-          }}
-        >
-          A selection of projects I&apos; built — each one solving a specific
-          problem with clean code and careful attention to detail.
-        </p>
-
-        {/* Showcase rows */}
-        <div
-          ref={listRef}
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "clamp(4rem, 8vh, 7rem)",
-            opacity: reducedMotion ? 1 : 0,
-          }}
-        >
-          {PROJECTS.map((project, i) => (
-            <ProjectShowcase
-              key={project.id}
-              project={project}
-              index={i}
-              reducedMotion={reducedMotion}
-            />
-          ))}
+          <p
+            data-header-line
+            style={{
+              fontFamily: "'Inter', sans-serif",
+              fontSize: "clamp(1rem, 1.2vw, 1.125rem)",
+              fontWeight: 400,
+              lineHeight: 1.7,
+              color: "rgba(216, 216, 216, 0.4)",
+              margin: 0,
+              maxWidth: 480,
+              willChange: "clip-path",
+            }}
+          >
+            Digital products crafted with code, motion and interaction.
+          </p>
         </div>
+      </div>
+
+      {/* Project sections */}
+      <div>
+        {PROJECTS.map((project, i) => (
+          <ProjectSection
+            key={project.id}
+            project={project}
+            index={i}
+            reducedMotion={reducedMotion}
+          />
+        ))}
       </div>
     </section>
   );

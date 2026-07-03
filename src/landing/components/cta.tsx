@@ -21,9 +21,32 @@ const SOCIALS = [
     href: "https://linkedin.com",
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        <rect x="2" y="9" width="4" height="12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        <circle cx="4" cy="4" r="2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path
+          d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <rect
+          x="2"
+          y="9"
+          width="4"
+          height="12"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <circle
+          cx="4"
+          cy="4"
+          r="2"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       </svg>
     ),
   },
@@ -32,7 +55,13 @@ const SOCIALS = [
     href: "https://github.com",
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path
+          d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       </svg>
     ),
   },
@@ -42,7 +71,13 @@ const SOCIALS = [
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <rect x="2" y="4" width="20" height="16" rx="2" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M22 4L12 13L2 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path
+          d="M22 4L12 13L2 4"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       </svg>
     ),
   },
@@ -90,7 +125,12 @@ function MagneticButton({
     };
 
     const handleMouseDown = () => {
-      gsap.to(el, { scale: 0.96, duration: 0.15, ease: ANIMATION_EASINGS.expoOut, overwrite: "auto" });
+      gsap.to(el, {
+        scale: 0.96,
+        duration: 0.15,
+        ease: ANIMATION_EASINGS.expoOut,
+        overwrite: "auto",
+      });
     };
 
     const handleMouseUp = () => {
@@ -127,7 +167,8 @@ function MagneticButton({
         letterSpacing: "0.06em",
         textTransform: "uppercase" as const,
         color: "#ffffff",
-        background: "linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(216, 216, 216, 0.06) 100%)",
+        background:
+          "linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(216, 216, 216, 0.06) 100%)",
         border: "1.5px solid rgba(255, 255, 255, 0.2)",
         borderRadius: 100,
         padding: "clamp(1rem, 2.5vw, 1.25rem) clamp(2.5rem, 6vw, 4rem)",
@@ -145,7 +186,8 @@ function MagneticButton({
           position: "absolute",
           inset: -2,
           borderRadius: 100,
-          background: "linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(216, 216, 216, 0.08) 100%)",
+          background:
+            "linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(216, 216, 216, 0.08) 100%)",
           opacity: 0,
           filter: "blur(16px)",
           pointerEvents: "none",
@@ -153,10 +195,22 @@ function MagneticButton({
           zIndex: -1,
         }}
       />
-
       Start a Project
-      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true" style={{ transition: "transform 0.3s ease" }}>
-        <path d="M4 9h10M10 5l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <svg
+        width="18"
+        height="18"
+        viewBox="0 0 18 18"
+        fill="none"
+        aria-hidden="true"
+        style={{ transition: "transform 0.3s ease" }}
+      >
+        <path
+          d="M4 9h10M10 5l4 4-4 4"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       </svg>
     </button>
   );
@@ -185,23 +239,18 @@ export function CTA() {
     const tl = gsap.timeline({ repeat: -1, yoyo: true });
 
     if (orb1Ref.current) {
-      tl.to(
-        orb1Ref.current,
-        { x: 40, y: -30, scale: 1.1, duration: 6, ease: "sine.inOut" },
-        0,
-      );
+      tl.to(orb1Ref.current, { x: 40, y: -30, scale: 1.1, duration: 6, ease: "sine.inOut" }, 0);
     }
     if (orb2Ref.current) {
-      tl.to(
-        orb2Ref.current,
-        { x: -50, y: 20, scale: 0.9, duration: 8, ease: "sine.inOut" },
-        0,
-      );
+      tl.to(orb2Ref.current, { x: -50, y: 20, scale: 0.9, duration: 8, ease: "sine.inOut" }, 0);
     }
 
     // Pause when section is off-screen
     const section = sectionRef.current;
-    if (!section) return () => { tl.kill(); };
+    if (!section)
+      return () => {
+        tl.kill();
+      };
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -236,19 +285,43 @@ export function CTA() {
             const tl = gsap.timeline({ defaults: { ease: ANIMATION_EASINGS.expoOut } });
 
             // Eyebrow
-            tl.fromTo(eyebrowRef.current, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6 });
+            tl.fromTo(
+              eyebrowRef.current,
+              { y: 20, opacity: 0 },
+              { y: 0, opacity: 1, duration: 0.6 },
+            );
 
             // Heading
-            tl.fromTo(headingRef.current, { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8 }, "-=0.3");
+            tl.fromTo(
+              headingRef.current,
+              { y: 40, opacity: 0 },
+              { y: 0, opacity: 1, duration: 0.8 },
+              "-=0.3",
+            );
 
             // Text
-            tl.fromTo(textRef.current, { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7 }, "-=0.5");
+            tl.fromTo(
+              textRef.current,
+              { y: 30, opacity: 0 },
+              { y: 0, opacity: 1, duration: 0.7 },
+              "-=0.5",
+            );
 
             // Button
-            tl.fromTo(buttonRef.current, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6 }, "-=0.4");
+            tl.fromTo(
+              buttonRef.current,
+              { y: 20, opacity: 0 },
+              { y: 0, opacity: 1, duration: 0.6 },
+              "-=0.4",
+            );
 
             // Social links
-            tl.fromTo(linksRef.current, { y: 15, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5 }, "-=0.3");
+            tl.fromTo(
+              linksRef.current,
+              { y: 15, opacity: 0 },
+              { y: 0, opacity: 1, duration: 0.5 },
+              "-=0.3",
+            );
           }, sectionRef);
         }
       },
@@ -338,7 +411,8 @@ export function CTA() {
         style={{
           position: "absolute",
           inset: 0,
-          backgroundImage: "radial-gradient(circle, rgba(255, 255, 255, 0.015) 1px, transparent 1px)",
+          backgroundImage:
+            "radial-gradient(circle, rgba(255, 255, 255, 0.015) 1px, transparent 1px)",
           backgroundSize: "16px 16px",
           pointerEvents: "none",
         }}
@@ -380,7 +454,7 @@ export function CTA() {
         >
           <span style={{ color: "#f0f0f5" }}>Have a Project</span>
           <br />
-          <span className="cta-gradient-text">in Mind?</span>
+          <span className="gradient-text">in Mind?</span>
         </h2>
 
         {/* Subtext */}
@@ -399,9 +473,8 @@ export function CTA() {
             opacity: reducedMotion ? 1 : 0,
           }}
         >
-          I&apos;m available for freelance work and full-time roles.
-          If you need a frontend developer who cares about quality,
-          let&apos;s talk.
+          I&apos;m available for freelance work and full-time roles. If you need a frontend
+          developer who cares about quality, let&apos;s talk.
         </p>
 
         {/* CTA Button */}
