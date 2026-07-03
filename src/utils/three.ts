@@ -1,0 +1,16 @@
+export function isWebGLSupported(): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    const canvas = document.createElement("canvas");
+    return !!(
+      window.WebGLRenderingContext &&
+      (canvas.getContext("webgl") ?? canvas.getContext("experimental-webgl"))
+    );
+  } catch {
+    return false;
+  }
+}
+
+export function getDevicePixelRatio(): number {
+  return Math.min(window.devicePixelRatio, 2);
+}
