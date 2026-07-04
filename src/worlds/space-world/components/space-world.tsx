@@ -1,7 +1,7 @@
 /**
  * SpaceWorld — Root Component
  *
- * The cosmos is indifferent. The user is a witness.
+ * Developer Solar System experience.
  * Built on BaseWorld foundation with fullscreen layout.
  * R3F Canvas provides the 3D scene.
  */

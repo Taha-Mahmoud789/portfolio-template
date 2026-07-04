@@ -3,12 +3,14 @@
  */
 
 export { SpaceScene } from "./SpaceScene";
+export { SpaceCarouselScene } from "./SpaceCarouselScene";
+export { DeveloperCore } from "./DeveloperCore";
+export { SolarPlanet } from "./SolarPlanet";
+export { Starfield } from "./Starfield";
+export { Nebula } from "./Nebula";
+export { EllipticLines } from "./EllipticLines";
+export { ConnectionArcs } from "./ConnectionArcs";
 export { DeepSpace } from "./DeepSpace";
-export { LightField } from "./LightField";
-export { AtmosphericFog } from "./AtmosphericFog";
-export { AbstractParticles } from "./AbstractParticles";
-export { ConstellationLines } from "./ConstellationLines";
-export { CosmicDust } from "./CosmicDust";
 export { EnergyCore } from "./EnergyCore";
 export { OrbitPaths } from "./OrbitPaths";
 export { SpaceEnvironment } from "./SpaceEnvironment";

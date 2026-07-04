@@ -1,8 +1,9 @@
 /**
  * Space World Configuration
  *
- * The cosmos is indifferent. The user is a witness.
- * Every element exists on the near side of the event horizon.
+ * Developer Solar System — a premium, organized experience.
+ * Center: Developer Core
+ * Orbits: Projects → Code → Creative → Future
  */
 
 import type { WorldSDKConfig } from "@/sdk/world/types";
@@ -13,9 +14,9 @@ import type { WorldSDKConfig } from "@/sdk/world/types";
 
 export const SPACE_WORLD_CONFIG: WorldSDKConfig = {
   id: "space-world",
-  name: "Space World",
+  name: "Solar System",
   description:
-    "The cosmos is indifferent. You are a witness, not a protagonist. Time dilates at 0.3x velocity.",
+    "A developer solar system — identity at the center, projects and skills orbiting in elegant paths.",
   theme: "space",
   route: "/worlds/space",
 
@@ -44,17 +45,17 @@ export const SPACE_WORLD_CONFIG: WorldSDKConfig = {
   },
 
   metadata: {
-    author: "Frontend Multiverse",
-    version: "1.0.0",
+    author: "Taha Mahmoud",
+    version: "2.0.0",
     createdAt: "2026-01-01",
-    tags: ["space", "cosmic", "stellar", "dark", "void", "constellation"],
+    tags: ["solar-system", "planets", "developer", "interactive", "premium"],
     category: "cosmic",
     featured: true,
   },
 };
 
 // ============================================================================
-// Constellation Definitions
+// Constellation Definitions — decorative spatial guides
 // ============================================================================
 
 export const CONSTELLATIONS = [
@@ -100,66 +101,6 @@ export const CONSTELLATIONS = [
       { x: 45, y: 40, brightness: 0.7 },
       { x: 50, y: 35, brightness: 0.5 },
       { x: 55, y: 42, brightness: 0.4 },
-    ],
-    lines: [
-      [0, 1],
-      [1, 2],
-    ],
-  },
-  {
-    id: "frontier",
-    name: "The Frontier",
-    description: "The edge of known space",
-    points: [
-      { x: 85, y: 60, brightness: 0.4 },
-      { x: 90, y: 55, brightness: 0.5 },
-      { x: 92, y: 65, brightness: 0.3 },
-      { x: 88, y: 70, brightness: 0.4 },
-    ],
-    lines: [
-      [0, 1],
-      [1, 2],
-      [2, 3],
-    ],
-  },
-  {
-    id: "relay",
-    name: "The Relay",
-    description: "Passing messages between stars",
-    points: [
-      { x: 30, y: 70, brightness: 0.5 },
-      { x: 35, y: 65, brightness: 0.4 },
-      { x: 40, y: 72, brightness: 0.6 },
-      { x: 38, y: 78, brightness: 0.3 },
-    ],
-    lines: [
-      [0, 1],
-      [1, 2],
-      [2, 3],
-    ],
-  },
-  {
-    id: "anchor",
-    name: "The Anchor",
-    description: "Holding position against the current",
-    points: [
-      { x: 60, y: 80, brightness: 0.4 },
-      { x: 65, y: 75, brightness: 0.5 },
-      { x: 62, y: 85, brightness: 0.3 },
-    ],
-    lines: [
-      [0, 1],
-      [0, 2],
-    ],
-  },
-  {
-    id: "void",
-    name: "The Void",
-    description: "An absence that defines everything around it",
-    points: [
-      { x: 10, y: 50, brightness: 0.2 },
-      { x: 15, y: 45, brightness: 0.15 },
-      { x: 12, y: 55, brightness: 0.1 },
     ],
     lines: [
       [0, 1],

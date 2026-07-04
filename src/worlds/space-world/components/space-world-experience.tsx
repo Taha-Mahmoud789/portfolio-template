@@ -1,17 +1,20 @@
 /**
- * Space World Experience
+ * Space World Experience — Developer Solar System
  *
- * 3D Card Carousel — objects in a rotating ring.
- * Front card is largest, back cards recede.
- * Click to select, drag to rotate, auto-rotate when idle.
+ * Interactive solar system:
+ * - Click a planet to focus
+ * - Camera travels to the planet
+ * - Info panel shows planet details
+ * - Click background to return to overview
+ * - Escape to deselect
+ *
+ * Minimal HUD: current planet, description, controls.
  */
 
 import { Component, useCallback, useEffect, useState } from "react";
 import type { ErrorInfo, ReactNode } from "react";
 import { SpaceCarouselScene } from "../scene/SpaceCarouselScene";
-import { OBJECTS, ORBITS } from "../data/space.config";
-import type { SpaceObject } from "../data/types";
-import { getProjectGalaxy } from "../data/project-galaxy-data";
+import { ORBITS } from "../data/space.config";
 
 // ============================================================================
 // Error Boundary
@@ -70,7 +73,7 @@ function WebGLFallback() {
             color: "#f5f0e8",
           }}
         >
-          Space World requires WebGL
+          Solar System requires WebGL
         </h2>
         <p
           style={{
@@ -107,30 +110,47 @@ function WebGLFallback() {
 }
 
 // ============================================================================
-// Info Panel
+// Planet Info Panel — glass card with details
 // ============================================================================
 
-function InfoPanel({
-  object,
+function PlanetInfoPanel({
+  orbitId,
   onClose,
 }: {
-  readonly object: SpaceObject;
+  readonly orbitId: string;
   readonly onClose: () => void;
 }) {
-  const isProject = object.type === "project";
-  const galaxy = isProject ? getProjectGalaxy(object.id) : null;
-  const orbitLabel = ORBITS.find((o) => o.group === object.orbitGroup)?.label;
+  const orbit = ORBITS.find((o) => o.id === orbitId);
+  if (!orbit) return null;
+
+  const planetColors: Record<string, string> = {
+    projects: "#3b82f6",
+    technology: "#06b6d4",
+    creative: "#a855f7",
+    future: "#f59e0b",
+  };
+
+  const planetDescriptions: Record<string, string> = {
+    projects:
+      "Interactive moons showcasing completed projects. Each moon represents a real product delivered to clients.",
+    technology:
+      "The code tools and frameworks that power every project. Technical precision meets creative ambition.",
+    creative: "The design philosophy and motion principles. Where aesthetics meet functionality.",
+    future: "Exploring the frontier. New technologies, new ideas, new possibilities.",
+  };
+
+  const color = planetColors[orbitId] ?? "#C9A96E";
 
   return (
     <div
-      className="pointer-events-auto absolute right-6 top-1/2 -translate-y-1/2 w-[300px] animate-[fadeIn_0.3s_ease-out]"
+      className="pointer-events-auto absolute right-6 top-1/2 -translate-y-1/2 w-[280px] animate-[fadeIn_0.3s_ease-out]"
       style={{ zIndex: 20 }}
     >
       <div
         style={{
           borderRadius: "16px",
           border: "1px solid rgba(201, 169, 110, 0.12)",
-          background: "rgba(8, 7, 6, 0.8)",
+          background: "rgba(8, 7, 6, 0.85)",
           backdropFilter: "blur(24px)",
           WebkitBackdropFilter: "blur(24px)",
           padding: "28px",
@@ -169,21 +189,29 @@ function InfoPanel({
           ×
         </button>
 
-        {/* Orbit label */}
-        {orbitLabel && (
-          <p
+        {/* Planet color dot */}
+        <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
+          <div
+            style={{
+              width: "8px",
+              height: "8px",
+              borderRadius: "50%",
+              background: color,
+              boxShadow: `0 0 12px ${color}40`,
+            }}
+          />
+          <span
             style={{
               fontFamily: "'JetBrains Mono', monospace",
               fontSize: "9px",
               letterSpacing: "0.2em",
               textTransform: "uppercase",
               color: "rgba(201, 169, 110, 0.5)",
-              marginBottom: "12px",
             }}
           >
-            {orbitLabel}
-          </p>
-        )}
+            Orbit {String(ORBITS.indexOf(orbit) + 1)}
+          </span>
+        </div>
 
         {/* Title */}
         <h3
@@ -196,125 +224,41 @@ function InfoPanel({
             margin: 0,
           }}
         >
-          {object.metadata.title}
+          {orbit.label}
         </h3>
 
-        {/* Subtitle */}
-        {object.metadata.subtitle && (
+        {/* Description */}
+        <p
+          style={{
+            fontFamily: "'Inter', sans-serif",
+            fontSize: "12px",
+            lineHeight: 1.7,
+            color: "rgba(180, 170, 155, 0.5)",
+            marginTop: "12px",
+          }}
+        >
+          {planetDescriptions[orbitId] ?? ""}
+        </p>
+
+        {/* Object count */}
+        <div
+          style={{
+            marginTop: "20px",
+            paddingTop: "16px",
+            borderTop: "1px solid rgba(201, 169, 110, 0.08)",
+          }}
+        >
           <p
             style={{
-              fontFamily: "'Inter', sans-serif",
-              fontSize: "13px",
-              color: "rgba(201, 169, 110, 0.7)",
-              marginTop: "4px",
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: "9px",
+              letterSpacing: "0.15em",
+              color: "rgba(180, 170, 155, 0.3)",
             }}
           >
-            {object.metadata.subtitle}
+            {String(orbit.objectIds.length)} objects in orbit
           </p>
-        )}
-
-        {/* Purpose */}
-        {object.metadata.purpose && (
-          <p
-            style={{
-              fontFamily: "'Inter', sans-serif",
-              fontSize: "12px",
-              lineHeight: 1.6,
-              color: "rgba(180, 170, 155, 0.5)",
-              marginTop: "16px",
-            }}
-          >
-            {object.metadata.purpose}
-          </p>
-        )}
-
-        {/* Tags */}
-        {object.metadata.tags && object.metadata.tags.length > 0 && (
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "16px" }}>
-            {object.metadata.tags.map((tag) => (
-              <span
-                key={tag}
-                style={{
-                  fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: "9px",
-                  letterSpacing: "0.05em",
-                  padding: "4px 10px",
-                  borderRadius: "6px",
-                  border: "1px solid rgba(201, 169, 110, 0.1)",
-                  color: "rgba(180, 170, 155, 0.5)",
-                }}
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        )}
-
-        {/* Actions */}
-        {galaxy && (
-          <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
-            {galaxy.actions.map((action) => (
-              <a
-                key={action.id}
-                href={action.url}
-                target={action.type === "live-site" ? "_blank" : undefined}
-                rel={action.type === "live-site" ? "noopener noreferrer" : undefined}
-                style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: "11px",
-                  fontWeight: 500,
-                  padding: "8px 16px",
-                  borderRadius: "8px",
-                  textDecoration: "none",
-                  transition: "all 0.2s ease",
-                  ...(action.type === "case-study"
-                    ? {
-                        background: "#C9A96E",
-                        color: "#080706",
-                      }
-                    : {
-                        border: "1px solid rgba(201, 169, 110, 0.2)",
-                        color: "rgba(180, 170, 155, 0.6)",
-                        background: "transparent",
-                      }),
-                }}
-                onMouseEnter={(e) => {
-                  if (action.type === "case-study") {
-                    e.currentTarget.style.filter = "brightness(1.1)";
-                  } else {
-                    e.currentTarget.style.borderColor = "rgba(201, 169, 110, 0.4)";
-                    e.currentTarget.style.color = "#f5f0e8";
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (action.type === "case-study") {
-                    e.currentTarget.style.filter = "none";
-                  } else {
-                    e.currentTarget.style.borderColor = "rgba(201, 169, 110, 0.2)";
-                    e.currentTarget.style.color = "rgba(180, 170, 155, 0.6)";
-                  }
-                }}
-              >
-                {action.label}
-              </a>
-            ))}
-          </div>
-        )}
-
-        {/* Description for non-project */}
-        {!isProject && object.metadata.description && (
-          <p
-            style={{
-              fontFamily: "'Inter', sans-serif",
-              fontSize: "12px",
-              lineHeight: 1.6,
-              color: "rgba(180, 170, 155, 0.4)",
-              marginTop: "12px",
-            }}
-          >
-            {object.metadata.description}
-          </p>
-        )}
+        </div>
       </div>
     </div>
   );
@@ -325,14 +269,12 @@ function InfoPanel({
 // ============================================================================
 
 interface SpaceWorldExperienceProps {
-  className?: string;
+  readonly className?: string;
 }
 
 export function SpaceWorldExperience({ className }: SpaceWorldExperienceProps) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [showUI, setShowUI] = useState(false);
-
-  const selectedObject = selectedId ? (OBJECTS.find((o) => o.id === selectedId) ?? null) : null;
 
   // Show UI after entrance
   useEffect(() => {
@@ -362,7 +304,7 @@ export function SpaceWorldExperience({ className }: SpaceWorldExperienceProps) {
   return (
     <WebGLErrorBoundary fallback={<WebGLFallback />}>
       <div className={`relative min-h-screen ${className ?? ""}`}>
-        {/* 3D Carousel */}
+        {/* 3D Solar System */}
         <SpaceCarouselScene
           className="absolute inset-0"
           selectedId={selectedId}
@@ -432,12 +374,12 @@ export function SpaceWorldExperience({ className }: SpaceWorldExperienceProps) {
                   color: "rgba(180, 170, 155, 0.4)",
                 }}
               >
-                Space
+                Solar System
               </h1>
             </div>
 
-            {/* Instructions */}
-            {!selectedObject && (
+            {/* Instructions — bottom center */}
+            {!selectedId && (
               <div
                 className="pointer-events-none absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
                 style={{
@@ -454,11 +396,11 @@ export function SpaceWorldExperience({ className }: SpaceWorldExperienceProps) {
                   WebkitBackdropFilter: "blur(8px)",
                 }}
               >
-                Drag to rotate · Click to explore
+                Click a planet to explore
               </div>
             )}
 
-            {/* Object counter */}
+            {/* Object counter — bottom right */}
             <div
               className="pointer-events-none absolute bottom-8 right-6 z-10"
               style={{
@@ -468,11 +410,11 @@ export function SpaceWorldExperience({ className }: SpaceWorldExperienceProps) {
                 color: "rgba(180, 170, 155, 0.25)",
               }}
             >
-              {OBJECTS.length} objects
+              {String(ORBITS.length)} orbits
             </div>
 
-            {/* Info Panel */}
-            {selectedObject && <InfoPanel object={selectedObject} onClose={handleClose} />}
+            {/* Planet Info Panel */}
+            {selectedId && <PlanetInfoPanel orbitId={selectedId} onClose={handleClose} />}
           </div>
         )}
       </div>

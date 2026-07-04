@@ -1,12 +1,11 @@
 /**
- * Space Scene Configuration
+ * Space Scene Configuration — Developer Solar System
  *
- * Single source of truth for the spatial experience.
- * 4 orbits: Projects → Technology → Creative → Future
- * All objects are data-driven. No hardcoded scene elements.
+ * Center: Developer Core (identity sphere)
+ * Orbits: Projects → Code → Creative → Future
+ * Each orbit has a planet with moons (project previews).
  *
- * To add a project: add an entry to OBJECTS + add connections.
- * To add a technology: add an entry to OBJECTS.
+ * Inspired by bobbyroe/solar-system — premium, not astronomy.
  */
 
 import type {
@@ -20,15 +19,15 @@ import type {
 } from "./types";
 
 // ============================================================================
-// Core — Center of the universe
+// Core — Developer Identity (center of the solar system)
 // ============================================================================
 
 export const CORE = {
   position: [0, 0, 0] as [number, number, number],
-  radius: 0.5,
-  color: "#6366f1",
-  glowColor: "#818cf8",
-  pulseSpeed: 1.0,
+  radius: 0.8,
+  color: "#C9A96E",
+  glowColor: "#f5f0e8",
+  pulseSpeed: 0.6,
 } as const;
 
 // ============================================================================
@@ -39,52 +38,52 @@ export const ORBITS = [
   {
     id: "projects",
     group: "projects" as const,
-    label: "What I Built",
-    radius: 3.5,
-    speed: 0.003,
+    label: "Projects",
+    radius: 4,
+    speed: 0.15,
     tilt: 0,
     objectIds: ["project-over-benefits", "project-window-corner", "project-mts-med"],
   },
   {
     id: "technology",
     group: "technology" as const,
-    label: "How I Build",
-    radius: 6,
-    speed: 0.002,
-    tilt: 0.15,
-    objectIds: ["tech-react", "tech-typescript", "tech-threejs"],
+    label: "Code",
+    radius: 6.5,
+    speed: 0.1,
+    tilt: 0.12,
+    objectIds: ["tech-react", "tech-typescript", "tech-gsap", "tech-threejs"],
   },
   {
     id: "creative",
     group: "creative" as const,
-    label: "How I Think",
-    radius: 8.5,
-    speed: 0.001,
-    tilt: -0.1,
-    objectIds: ["creative-motion", "creative-interactions"],
+    label: "Creative",
+    radius: 9,
+    speed: 0.07,
+    tilt: -0.08,
+    objectIds: ["creative-motion", "creative-design", "creative-experiments"],
   },
   {
     id: "future",
     group: "future" as const,
-    label: "Where I Go",
-    radius: 11,
-    speed: 0.0005,
-    tilt: 0.2,
-    objectIds: ["future-learning"],
+    label: "Future",
+    radius: 11.5,
+    speed: 0.04,
+    tilt: 0.15,
+    objectIds: ["future-learning", "future-roadmap", "future-ideas"],
   },
 ] as const;
 
 // ============================================================================
-// Objects — Interactive elements in the scene
+// Objects — Planets and moons in the solar system
 // ============================================================================
 
 export const OBJECTS: readonly SpaceObject[] = [
-  // ─── PROJECTS — What I Built ─────────────────────────────────────────────
+  // ─── PROJECTS — Innermost orbit ────────────────────────────────────────────
   {
     id: "project-over-benefits",
     type: "project",
     orbitGroup: "projects",
-    position: [3.5, 0, 0],
+    position: [4, 0, 0],
     metadata: {
       title: "Over Benefits",
       subtitle: "Digital Benefits Platform",
@@ -98,14 +97,14 @@ export const OBJECTS: readonly SpaceObject[] = [
       accentRgb: "59, 130, 246",
     },
     interaction: { hover: true, select: true, focus: true, cursor: "pointer" },
-    connections: ["tech-react", "tech-typescript", "tech-performance"],
+    connections: ["tech-react", "tech-typescript"],
     visible: true,
   },
   {
     id: "project-window-corner",
     type: "project",
     orbitGroup: "projects",
-    position: [-2.5, 2, -1.5],
+    position: [-2, 3.4, -1.5],
     metadata: {
       title: "Window Corner",
       subtitle: "Corporate Website",
@@ -126,7 +125,7 @@ export const OBJECTS: readonly SpaceObject[] = [
     id: "project-mts-med",
     type: "project",
     orbitGroup: "projects",
-    position: [-1.5, -2.5, 1],
+    position: [-1.5, -3.5, 1],
     metadata: {
       title: "MTS MED",
       subtitle: "Healthcare Platform",
@@ -144,12 +143,12 @@ export const OBJECTS: readonly SpaceObject[] = [
     visible: true,
   },
 
-  // ─── TECHNOLOGY — How I Build ────────────────────────────────────────────
+  // ─── TECHNOLOGY — Code orbit ──────────────────────────────────────────────
   {
     id: "tech-react",
     type: "technology",
     orbitGroup: "technology",
-    position: [5, 2.5, 1],
+    position: [5.5, 2, 1.5],
     metadata: {
       title: "React",
       subtitle: "UI Framework",
@@ -168,12 +167,12 @@ export const OBJECTS: readonly SpaceObject[] = [
     id: "tech-typescript",
     type: "technology",
     orbitGroup: "technology",
-    position: [-4.5, -1, 0.5],
+    position: [-5, -1.5, 0.5],
     metadata: {
       title: "TypeScript",
       subtitle: "Type Safety",
       description:
-        "Type-safe code that catches errors at compile time. Makes refactoring safe and refactoring confidence high.",
+        "Type-safe code that catches errors at compile time. Makes refactoring safe and confidence high.",
       purpose: "Write reliable, self-documenting code",
       tags: ["Strict Mode", "Generics", "Utility Types"],
       accentColor: "#3178c6",
@@ -184,10 +183,29 @@ export const OBJECTS: readonly SpaceObject[] = [
     visible: true,
   },
   {
+    id: "tech-gsap",
+    type: "technology",
+    orbitGroup: "technology",
+    position: [2, -5.5, -1],
+    metadata: {
+      title: "GSAP",
+      subtitle: "Animation Engine",
+      description:
+        "Professional-grade animation for the web. From timelines to scroll-driven animations.",
+      purpose: "Create fluid, performant animations",
+      tags: ["Timeline", "ScrollTrigger", "MorphSVG"],
+      accentColor: "#88ce02",
+      accentRgb: "136, 206, 2",
+    },
+    interaction: { hover: true, select: true, focus: true, cursor: "pointer" },
+    connections: [],
+    visible: true,
+  },
+  {
     id: "tech-threejs",
     type: "technology",
     orbitGroup: "technology",
-    position: [-3, 3, -0.5],
+    position: [-3.5, 3.5, -0.5],
     metadata: {
       title: "Three.js",
       subtitle: "3D Graphics",
@@ -203,12 +221,12 @@ export const OBJECTS: readonly SpaceObject[] = [
     visible: true,
   },
 
-  // ─── CREATIVE — How I Think ──────────────────────────────────────────────
+  // ─── CREATIVE — Creative orbit ────────────────────────────────────────────
   {
     id: "creative-motion",
     type: "creative",
     orbitGroup: "creative",
-    position: [6, 2, 1.5],
+    position: [6.5, 3, 1.5],
     metadata: {
       title: "Motion",
       subtitle: "Purposeful Animation",
@@ -224,13 +242,32 @@ export const OBJECTS: readonly SpaceObject[] = [
     visible: true,
   },
   {
-    id: "creative-interactions",
+    id: "creative-design",
     type: "creative",
     orbitGroup: "creative",
-    position: [2, -5, -1],
+    position: [-2, -7, -1],
     metadata: {
-      title: "Interactions",
-      subtitle: "Spatial Experiences",
+      title: "Design",
+      subtitle: "Visual Systems",
+      description:
+        "Systematic design thinking. From typography scales to color systems — every decision is intentional.",
+      purpose: "Create cohesive, scalable visual languages",
+      tags: ["Typography", "Color Theory", "Layout"],
+      accentColor: "#ec4899",
+      accentRgb: "236, 72, 153",
+    },
+    interaction: { hover: true, select: true, focus: true, cursor: "pointer" },
+    connections: [],
+    visible: true,
+  },
+  {
+    id: "creative-experiments",
+    type: "creative",
+    orbitGroup: "creative",
+    position: [4, -5.5, 2],
+    metadata: {
+      title: "Experiments",
+      subtitle: "Pushing Boundaries",
       description:
         "Pushing what browsers can do — 3D scenes, shader programming, canvas rendering, spatial computing.",
       purpose: "Create experiences that feel physical",
@@ -243,12 +280,12 @@ export const OBJECTS: readonly SpaceObject[] = [
     visible: true,
   },
 
-  // ─── FUTURE — Where I Go ────────────────────────────────────────────────
+  // ─── FUTURE — Outermost orbit ─────────────────────────────────────────────
   {
     id: "future-learning",
     type: "future",
     orbitGroup: "future",
-    position: [8, 2, -1],
+    position: [8, 3, -1],
     metadata: {
       title: "Learning",
       subtitle: "Growing Forward",
@@ -258,6 +295,44 @@ export const OBJECTS: readonly SpaceObject[] = [
       tags: ["Rust", "WASM", "AI/ML"],
       accentColor: "#8b5cf6",
       accentRgb: "139, 92, 246",
+    },
+    interaction: { hover: true, select: true, focus: true, cursor: "pointer" },
+    connections: [],
+    visible: true,
+  },
+  {
+    id: "future-roadmap",
+    type: "future",
+    orbitGroup: "future",
+    position: [-6, -5, 3],
+    metadata: {
+      title: "Roadmap",
+      subtitle: "Strategic Vision",
+      description:
+        "Building toward spatial computing, AI-native interfaces, and the next generation of web experiences.",
+      purpose: "Shape the future of digital interaction",
+      tags: ["Spatial Computing", "AI-Native", "WebGPU"],
+      accentColor: "#f59e0b",
+      accentRgb: "245, 158, 11",
+    },
+    interaction: { hover: true, select: true, focus: true, cursor: "pointer" },
+    connections: [],
+    visible: true,
+  },
+  {
+    id: "future-ideas",
+    type: "future",
+    orbitGroup: "future",
+    position: [2, -8, -2],
+    metadata: {
+      title: "Ideas",
+      subtitle: "Uncharted Territory",
+      description:
+        "Half-formed ideas waiting for the right moment. Experimental projects, creative prototypes, wild concepts.",
+      purpose: "Explore the unknown",
+      tags: ["Prototyping", "Research", "Play"],
+      accentColor: "#10b981",
+      accentRgb: "16, 185, 129",
     },
     interaction: { hover: true, select: true, focus: true, cursor: "pointer" },
     connections: [],
@@ -281,7 +356,7 @@ export const CONNECTIONS: readonly Connection[] = [
   { from: "project-mts-med", to: "tech-react" },
   { from: "project-mts-med", to: "tech-typescript" },
   // Creative connections
-  { from: "creative-interactions", to: "tech-threejs" },
+  { from: "creative-experiments", to: "tech-threejs" },
 ] as const;
 
 // ============================================================================
@@ -290,12 +365,12 @@ export const CONNECTIONS: readonly Connection[] = [
 
 export const CAMERA_PRESETS: Record<CameraMode, CameraPreset> = {
   intro: {
-    position: [0, 0.5, 12],
+    position: [0, 4, 14],
     target: [0, 0, 0],
     fov: 50,
   },
   overview: {
-    position: [0, 1.5, 9],
+    position: [0, 3, 12],
     target: [0, 0, 0],
     fov: 50,
   },
@@ -317,8 +392,8 @@ export const NAVIGATION = {
   keyboardEnabled: true,
   scrollSpeed: 0.15,
   focusOffset: [0, 0.5, 3] as [number, number, number],
-  introPosition: [0, 0.5, 12] as [number, number, number],
-  overviewPosition: [0, 1.5, 9] as [number, number, number],
+  introPosition: [0, 4, 14] as [number, number, number],
+  overviewPosition: [0, 3, 12] as [number, number, number],
   scrollRange: [-3, 3] as [number, number],
   inertiaDecay: 0.92,
   focusApproachDistance: 3.5,

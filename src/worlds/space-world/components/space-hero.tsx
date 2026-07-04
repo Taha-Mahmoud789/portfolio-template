@@ -1,17 +1,12 @@
 /**
- * SpaceHero — The First Moment
+ * SpaceHero — Solar System Introduction
  *
- * A single point of light in the void.
- * It pulses. It waits. It is the beginning.
- * The 3D scene is rendered behind this component.
+ * The first moment of the developer solar system.
+ * A point of light grows into the core identity.
  */
 
 import { useEffect, useState } from "react";
 import type { SpaceHeroProps } from "../types";
-
-// ============================================================================
-// Component
-// ============================================================================
 
 export function SpaceHero({ className }: SpaceHeroProps) {
   const [visible, setVisible] = useState(false);
@@ -24,9 +19,8 @@ export function SpaceHero({ className }: SpaceHeroProps) {
   return (
     <section
       className={`relative flex h-screen w-full flex-col items-center justify-center overflow-hidden ${className ?? ""}`}
-      aria-label="Space World introduction"
+      aria-label="Developer Solar System introduction"
     >
-      {/* The Singularity — single pulsing point of light */}
       <div
         className={`relative z-10 flex flex-col items-center transition-all duration-[2000ms] ease-out ${
           visible ? "scale-100 opacity-100" : "scale-50 opacity-0"
@@ -35,29 +29,27 @@ export function SpaceHero({ className }: SpaceHeroProps) {
         {/* Core point */}
         <div className="relative mb-12">
           <div
-            className="h-2 w-2 rounded-full bg-[#e2e8f0]"
+            className="h-2 w-2 rounded-full bg-[#C9A96E]"
             style={{
               boxShadow:
-                "0 0 20px rgba(99, 102, 241, 0.6), 0 0 60px rgba(99, 102, 241, 0.3), 0 0 100px rgba(99, 102, 241, 0.1)",
-              animation: "space-pulse 4s ease-in-out infinite",
+                "0 0 20px rgba(201, 169, 110, 0.6), 0 0 60px rgba(201, 169, 110, 0.3), 0 0 100px rgba(201, 169, 110, 0.1)",
+              animation: "solar-pulse 4s ease-in-out infinite",
             }}
           />
         </div>
 
-        {/* World title — emerges from blur */}
+        {/* Title */}
         <h1
-          className="font-['Space_Grotesk',_sans-serif] text-3xl font-extralight tracking-[0.2em] text-[#e2e8f0] sm:text-4xl md:text-5xl"
-          style={{
-            animation: "space-emerge 1.5s ease-out 0.8s both",
-          }}
+          className="font-['Space_Grotesk',_sans-serif] text-3xl font-extralight tracking-[0.2em] text-[#f5f0e8] sm:text-4xl md:text-5xl"
+          style={{ animation: "solar-emerge 1.5s ease-out 0.8s both" }}
         >
-          {"Space".split("").map((letter, i) => (
+          {"Solar System".split("").map((letter, i) => (
             <span
-              key={`space-${String(i)}`}
+              key={`solar-${String(i)}`}
               className="inline-block"
               style={{
-                animationDelay: `${String(0.8 + i * 0.05)}s`,
-                animation: "space-letter 0.6s ease-out both",
+                animationDelay: `${String(0.8 + i * 0.04)}s`,
+                animation: "solar-letter 0.6s ease-out both",
               }}
             >
               {letter}
@@ -65,50 +57,43 @@ export function SpaceHero({ className }: SpaceHeroProps) {
           ))}
         </h1>
 
-        {/* Subtitle — transmission from mission control */}
+        {/* Subtitle */}
         <p
-          className="mt-6 font-['Inter',_sans-serif] text-sm font-light tracking-[0.15em] text-[#64748b] sm:text-base"
-          style={{
-            animation: "space-emerge 1.5s ease-out 1.5s both",
-          }}
+          className="mt-6 font-['Inter',_sans-serif] text-sm font-light tracking-[0.15em] text-[rgba(201,169,110,0.5)] sm:text-base"
+          style={{ animation: "solar-emerge 1.5s ease-out 1.5s both" }}
         >
-          The cosmos is indifferent
+          Developer Solar System
         </p>
 
-        {/* Scroll indicator — gravitational pull */}
+        {/* Scroll indicator */}
         <div
           className="absolute -bottom-20 flex flex-col items-center gap-2"
-          style={{
-            animation: "space-emerge 1.5s ease-out 2.5s both",
-          }}
+          style={{ animation: "solar-emerge 1.5s ease-out 2.5s both" }}
         >
-          <span className="font-['JetBrains_Mono',_monospace] text-[10px] tracking-[0.3em] text-[#475569]">
-            SCROLL TO EXPLORE
+          <span className="font-['JetBrains_Mono',_monospace] text-[10px] tracking-[0.3em] text-[rgba(201,169,110,0.3)]">
+            CLICK TO EXPLORE
           </span>
           <div
-            className="h-8 w-px bg-gradient-to-b from-[#6366f1] to-transparent"
-            style={{
-              animation: "space-drift 3s ease-in-out infinite",
-            }}
+            className="h-8 w-px bg-gradient-to-b from-[#C9A96E] to-transparent"
+            style={{ animation: "solar-drift 3s ease-in-out infinite" }}
           />
         </div>
       </div>
 
-      {/* Keyframes */}
       <style>{`
-        @keyframes space-pulse {
+        @keyframes solar-pulse {
           0%, 100% { opacity: 0.8; transform: scale(1); }
           50% { opacity: 1; transform: scale(1.2); }
         }
-        @keyframes space-emerge {
+        @keyframes solar-emerge {
           from { opacity: 0; filter: blur(8px); transform: translateY(10px); }
           to { opacity: 1; filter: blur(0); transform: translateY(0); }
         }
-        @keyframes space-letter {
+        @keyframes solar-letter {
           from { opacity: 0; filter: blur(4px); }
           to { opacity: 1; filter: blur(0); }
         }
-        @keyframes space-drift {
+        @keyframes solar-drift {
           0%, 100% { transform: translateY(0); opacity: 0.6; }
           50% { transform: translateY(8px); opacity: 1; }
         }
