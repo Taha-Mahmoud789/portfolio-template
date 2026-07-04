@@ -20,9 +20,7 @@ let initialized = false;
  * Initialize the Theme Engine.
  * Registers all built-in themes and configures the registry.
  */
-export function initializeThemeEngine(
-  config?: Partial<ThemeRegistryConfig>
-): void {
+export function initializeThemeEngine(config?: Partial<ThemeRegistryConfig>): void {
   if (initialized) {
     console.warn("Theme Engine already initialized");
     return;
@@ -41,10 +39,6 @@ export function initializeThemeEngine(
   ThemeRegistry.markLoaded(defaultTheme.id);
 
   initialized = true;
-
-  console.log(
-    `Theme Engine initialized with ${allThemes.length} themes`
-  );
 }
 
 /**

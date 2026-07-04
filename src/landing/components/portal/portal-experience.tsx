@@ -42,11 +42,15 @@ export function usePortal(): PortalContextValue {
 
 function useSavedFocus() {
   const ref = useRef<Element | null>(null);
-  const save = useCallback(() => { ref.current = document.activeElement; }, []);
+  const save = useCallback(() => {
+    ref.current = document.activeElement;
+  }, []);
   const restore = useCallback(() => {
     const el = ref.current;
     if (el && "focus" in el) {
-      requestAnimationFrame(() => { (el as HTMLElement).focus(); });
+      requestAnimationFrame(() => {
+        (el as HTMLElement).focus();
+      });
     }
   }, []);
   return { save, restore };
@@ -69,12 +73,12 @@ function useSavedFocus() {
 
 const TIMINGS = {
   darkening: 0.0,
-  glowing: 0.10,
+  glowing: 0.1,
   ringForming: 0.35,
   particles: 0.85,
-  cameraPush: 1.30,
-  portalExpand: 2.30,
-  worldSelection: 3.10,
+  cameraPush: 1.3,
+  portalExpand: 2.3,
+  worldSelection: 3.1,
 } as const;
 
 const CAMERA_DURATION = 1.1;
@@ -107,7 +111,9 @@ export function PortalExperience({ children }: PortalExperienceProps) {
 
     const tl = gsap.timeline({
       paused: true,
-      onComplete: () => { state.setPhase("world-selection"); },
+      onComplete: () => {
+        state.setPhase("world-selection");
+      },
     });
 
     // Phase markers
@@ -121,28 +127,37 @@ export function PortalExperience({ children }: PortalExperienceProps) {
 
     // Anticipation: brief pull-back before the push
     if (landingRef.current) {
-      tl.to(landingRef.current, {
-        scale: 0.97,
-        duration: 0.12,
-        ease: ANIMATION_EASINGS.expoIn,
-      }, TIMINGS.cameraPush);
+      tl.to(
+        landingRef.current,
+        {
+          scale: 0.97,
+          duration: 0.12,
+          ease: ANIMATION_EASINGS.expoIn,
+        },
+        TIMINGS.cameraPush,
+      );
 
       // Main camera push with stronger depth
-      tl.to(landingRef.current, {
-        scale: 1.4,
-        rotateX: -8,
-        rotateY: 2,
-        translateZ: 400,
-        filter: "blur(14px)",
-        opacity: 0,
-        duration: CAMERA_DURATION,
-        ease: "power3.in",
-      }, TIMINGS.cameraPush + 0.12);
+      tl.to(
+        landingRef.current,
+        {
+          scale: 1.4,
+          rotateX: -8,
+          rotateY: 2,
+          translateZ: 400,
+          filter: "blur(14px)",
+          opacity: 0,
+          duration: CAMERA_DURATION,
+          ease: "power3.in",
+        },
+        TIMINGS.cameraPush + 0.12,
+      );
     }
 
     // Camera shake during push
     if (shakeRef.current) {
-      tl.fromTo(shakeRef.current,
+      tl.fromTo(
+        shakeRef.current,
         { x: 0, y: 0 },
         {
           x: "random(-3, 3, 1)",
@@ -159,20 +174,26 @@ export function PortalExperience({ children }: PortalExperienceProps) {
 
     // Portal expansion
     tl.call(() => state.setPhase("portal-expand"), undefined, TIMINGS.portalExpand);
-    tl.to(landingRef.current ?? {}, {
-      opacity: 0,
-      duration: 0.15,
-      ease: "power4.in",
-    }, TIMINGS.portalExpand);
+    tl.to(
+      landingRef.current ?? {},
+      {
+        opacity: 0,
+        duration: 0.15,
+        ease: "power4.in",
+      },
+      TIMINGS.portalExpand,
+    );
 
     // Iris flash: circular white-out bridging expand → world-selection
     if (flashRef.current) {
-      tl.fromTo(flashRef.current,
+      tl.fromTo(
+        flashRef.current,
         { opacity: 0, scale: 0.15 },
         { opacity: 1, scale: 3.5, duration: 0.45, ease: ANIMATION_EASINGS.expoIn },
         TIMINGS.portalExpand + 0.25,
       );
-      tl.to(flashRef.current,
+      tl.to(
+        flashRef.current,
         { opacity: 0, duration: 0.7, ease: ANIMATION_EASINGS.expoOut },
         TIMINGS.portalExpand + 0.65,
       );
@@ -208,7 +229,13 @@ export function PortalExperience({ children }: PortalExperienceProps) {
   // ── Cancel mid-transition ─────────────────────────────────────────
 
   const cancel = useCallback(() => {
-    if (state.phase === "idle" || state.phase === "world-selection" || state.phase === "cancelled" || state.phase === "exiting") return;
+    if (
+      state.phase === "idle" ||
+      state.phase === "world-selection" ||
+      state.phase === "cancelled" ||
+      state.phase === "exiting"
+    )
+      return;
 
     if (timelineRef.current) {
       timelineRef.current.kill();
@@ -287,7 +314,11 @@ export function PortalExperience({ children }: PortalExperienceProps) {
       if (e.key === "Escape") {
         if (state.phase === "world-selection") {
           exitWorldSelection();
-        } else if (state.phase !== "idle" && state.phase !== "cancelled" && state.phase !== "exiting") {
+        } else if (
+          state.phase !== "idle" &&
+          state.phase !== "cancelled" &&
+          state.phase !== "exiting"
+        ) {
           cancel();
         }
       }
@@ -353,19 +384,30 @@ export function PortalExperience({ children }: PortalExperienceProps) {
       />
 
       {/* Transition live region for screen readers */}
-      <div role="status" aria-live="polite" aria-roledescription="portal transition" className="sr-only">
+      <div
+        role="status"
+        aria-live="polite"
+        aria-roledescription="portal transition"
+        className="sr-only"
+      >
         {portalPhase === "darkening" && "Portal opening. Transition in progress."}
         {portalPhase === "glowing" && "Portal energy building."}
         {portalPhase === "ring-forming" && "Portal ring forming."}
         {portalPhase === "particles" && "Portal stabilizing."}
         {portalPhase === "camera-push" && "Entering portal."}
         {portalPhase === "portal-expand" && "Portal expanding. World selection approaching."}
-        {portalPhase === "world-selection" && "Portal transition complete. World selection available with 3 worlds. Use arrow keys to navigate, Enter to select, Escape to return."}
+        {portalPhase === "world-selection" &&
+          "Portal transition complete. World selection available with 3 worlds. Use arrow keys to navigate, Enter to select, Escape to return."}
       </div>
 
       {/* Portal layers */}
       <PortalOverlay
-        active={portalPhase !== "idle" && portalPhase !== "cancelled" && portalPhase !== "world-selection" && portalPhase !== "exiting"}
+        active={
+          portalPhase !== "idle" &&
+          portalPhase !== "cancelled" &&
+          portalPhase !== "world-selection" &&
+          portalPhase !== "exiting"
+        }
       />
       <PortalGlow phase={portalPhase} />
       <PortalRing phase={portalPhase} />
@@ -384,7 +426,8 @@ export function PortalExperience({ children }: PortalExperienceProps) {
           inset: 0,
           zIndex: 105,
           borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(199, 210, 254, 0.95) 0%, rgba(129, 140, 248, 0.6) 25%, rgba(99, 102, 241, 0.25) 55%, transparent 75%)",
+          background:
+            "radial-gradient(circle, rgba(220, 200, 160, 0.95) 0%, rgba(212, 184, 122, 0.6) 25%, rgba(201, 169, 110, 0.25) 55%, transparent 75%)",
           opacity: 0,
           pointerEvents: "none",
           willChange: "transform, opacity",

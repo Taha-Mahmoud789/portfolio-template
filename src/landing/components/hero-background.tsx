@@ -18,7 +18,7 @@ const AMBIENT_GLOW = {
   x: 50,
   y: 35,
   size: 700,
-  color: "rgba(255, 255, 255, 0.025)",
+  color: "rgba(245, 240, 232, 0.025)",
   breathDur: 20,
 } as const;
 
@@ -85,7 +85,7 @@ function NoiseLayer() {
         pointerEvents: "none",
         mixBlendMode: "overlay",
         backgroundImage:
-          "repeating-conic-gradient(rgba(255,255,255,0.06) 0% 25%, transparent 0% 50%)",
+          "repeating-conic-gradient(rgba(245,240,232,0.06) 0% 25%, transparent 0% 50%)",
         backgroundSize: "4px 4px",
         animation: "hero-noise-shift 8s steps(4) infinite",
       }}
@@ -109,8 +109,7 @@ function BottomFade() {
         height: "20%",
         zIndex: 4,
         pointerEvents: "none",
-        background:
-          "linear-gradient(to top, #040508 0%, rgba(4, 5, 8, 0.5) 40%, transparent 100%)",
+        background: "linear-gradient(to top, #080706 0%, rgba(8, 7, 6, 0.5) 40%, transparent 100%)",
       }}
     />
   );
@@ -131,7 +130,7 @@ export function HeroBackground() {
         inset: 0,
         zIndex: 0,
         overflow: "hidden",
-        background: "#040508",
+        background: "#080706",
       }}
     >
       <AmbientGlow reducedMotion={reducedMotion} />

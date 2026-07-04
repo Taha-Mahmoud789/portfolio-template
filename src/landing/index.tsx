@@ -21,21 +21,23 @@ import { BackToTop } from "./components/back-to-top";
 import { Preloader } from "./components/preloader";
 import { CustomCursor } from "./components/custom-cursor";
 import { useReducedMotion } from "./hooks";
-import { PortalExperience, usePortal } from "./components/portal";
+import { PortalExperience } from "./components/portal";
+import { CommandPalette, useCommandPalette } from "./components/navigation/command-palette";
 
 // ============================================================================
 // Inner landing — children of PortalExperience, so usePortal is in scope
 // ============================================================================
 
-function LandingContent() {
+function LandingContent({ onPreloaderDone }: { onPreloaderDone: () => void }) {
   const reducedMotion = useReducedMotion();
   const [loaderDone, setLoaderDone] = useState(reducedMotion);
   const [isReady, setIsReady] = useState(reducedMotion);
-  const { activate: activatePortal } = usePortal();
+  const { isOpen: isCmdOpen, close: closeCmd } = useCommandPalette();
 
   const handleLoaderComplete = useCallback(() => {
     setLoaderDone(true);
-  }, []);
+    onPreloaderDone();
+  }, [onPreloaderDone]);
 
   // Scroll restoration — save position on unmount, restore on mount
   useEffect(() => {
@@ -70,8 +72,8 @@ function LandingContent() {
     <div
       style={{
         minHeight: "100vh",
-        background: "#040508",
-        color: "#fff",
+        background: "#080706",
+        color: "#f5f0e8",
         position: "relative",
         overflow: "hidden",
       }}
@@ -79,9 +81,6 @@ function LandingContent() {
     >
       {/* Preloader */}
       {!loaderDone && <Preloader onComplete={handleLoaderComplete} />}
-
-      {/* Navigation */}
-      {isReady && <Navigation onExploreWorlds={activatePortal} />}
 
       {/* Hero section */}
       {isReady && <Hero isVisible={isReady} />}
@@ -105,6 +104,20 @@ function LandingContent() {
       {/* Custom cursor */}
       <CustomCursor />
 
+      {/* Command palette */}
+      <CommandPalette
+        isOpen={isCmdOpen}
+        onClose={closeCmd}
+        onNavigate={(href) => {
+          if (href.startsWith("/#")) {
+            const section = document.getElementById(href.slice(2));
+            section?.scrollIntoView({ behavior: "smooth" });
+          } else {
+            window.location.href = href;
+          }
+        }}
+      />
+
       {/* Floating back to top */}
       <BackToTop />
 
@@ -117,13 +130,32 @@ function LandingContent() {
 }
 
 // ============================================================================
-// Root — wraps everything in PortalExperience
+// Root — wraps content in PortalExperience, nav rendered outside for fixed positioning
 // ============================================================================
 
 export function LandingExperience() {
+  const reducedMotion = useReducedMotion();
+  const [navReady, setNavReady] = useState(false);
+
+  const handlePreloaderDone = useCallback(() => {
+    // Navbar appears after preloader curtain exit completes
+    setTimeout(() => setNavReady(true), 400);
+  }, []);
+
+  useEffect(() => {
+    if (reducedMotion) {
+      setNavReady(true);
+    }
+  }, [reducedMotion]);
+
   return (
-    <PortalExperience>
-      <LandingContent />
-    </PortalExperience>
+    <>
+      {/* Navigation — outside PortalExperience so position:fixed works */}
+      {navReady && <Navigation />}
+
+      <PortalExperience>
+        <LandingContent onPreloaderDone={handlePreloaderDone} />
+      </PortalExperience>
+    </>
   );
 }

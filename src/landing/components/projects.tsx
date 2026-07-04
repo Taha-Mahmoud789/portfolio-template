@@ -17,6 +17,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useReducedMotion } from "../hooks";
 import { ROUTES } from "@/constants/routes";
 import { useTransitionStore } from "./project-transition-store";
+import { ImageComponent } from "@/components/image-component";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -34,49 +35,81 @@ interface Project {
   category: string;
   technologies: readonly string[];
   accentRgb: string;
+  coverImage: string;
+  heroImage: string;
+  galleryImages: readonly string[];
+  logo: string;
+  liveUrl: string;
 }
 
 const PROJECTS: readonly Project[] = [
   {
     id: 1,
-    slug: "frontend-multiverse",
+    slug: "over-benefits",
     number: "01",
-    title: "Frontend Multiverse",
+    title: "Over Benefits",
     description:
-      "A creative developer portfolio built with React 19, Three.js, and GSAP. Cinematic scroll experiences, spatial computing worlds, and a premium dark editorial design.",
-    year: "2025",
-    category: "Portfolio",
-    technologies: ["React 19", "Three.js", "GSAP", "TypeScript", "Vite"],
-    accentRgb: "216, 216, 216",
+      "A modern digital platform designed to simplify employee benefits, business solutions and consumer experiences through a clean responsive interface.",
+    year: "2026",
+    category: "Digital Benefits Platform",
+    technologies: ["React", "TypeScript", "Tailwind CSS", "REST API"],
+    accentRgb: "59, 130, 246",
+    coverImage: "/projects/over-benefits/cover.webp",
+    heroImage: "/projects/over-benefits/cover.webp",
+    galleryImages: [
+      "/projects/over-benefits/gallery-01.webp",
+      "/projects/over-benefits/gallery-02.webp",
+      "/projects/over-benefits/gallery-03.webp",
+    ],
+    logo: "/projects/over-benefits/logo.webp",
+    liveUrl: "overbenefits.net",
   },
   {
     id: 2,
-    slug: "ai-architecture-studio",
+    slug: "window-corner",
     number: "02",
-    title: "AI Architecture Studio",
+    title: "Window Corner",
     description:
-      "An intelligent SaaS platform for architectural visualization. AI-powered design suggestions, real-time rendering, and collaborative workspace for modern studios.",
-    year: "2024",
-    category: "SaaS Platform",
-    technologies: ["Next.js", "Python", "TensorFlow", "Tailwind", "Framer Motion"],
-    accentRgb: "168, 85, 247",
+      "A premium web experience for an architectural aluminum and glass solutions company. Presenting products, projects and brand identity through a modern interface.",
+    year: "2026",
+    category: "Corporate Website",
+    technologies: ["React", "TypeScript", "Tailwind CSS", "Framer Motion"],
+    accentRgb: "20, 184, 166",
+    coverImage: "/projects/window-corner/cover.webp",
+    heroImage: "/projects/window-corner/cover.webp",
+    galleryImages: [
+      "/projects/window-corner/gallery-01.webp",
+      "/projects/window-corner/gallery-02.webp",
+      "/projects/window-corner/gallery-03.webp",
+    ],
+    logo: "/projects/window-corner/logo.webp",
+    liveUrl: "window-corner.com",
   },
   {
     id: 3,
-    slug: "window-corner",
+    slug: "mts-med",
     number: "03",
-    title: "Window Corner",
+    title: "MTS MED",
     description:
-      "A creative desktop customization tool. Canvas-based rendering, Web Audio integration, and real-time physics simulations for an immersive user experience.",
-    year: "2024",
-    category: "Creative Tool",
-    technologies: ["TypeScript", "Canvas API", "Web Audio", "GSAP", "Zustand"],
-    accentRgb: "6, 182, 212",
+      "A healthcare product platform focused on presenting medical solutions with clear navigation and accessible product information.",
+    year: "2026",
+    category: "Healthcare Platform",
+    technologies: ["React", "TypeScript", "Tailwind CSS", "Responsive Design"],
+    accentRgb: "239, 68, 68",
+    coverImage: "/projects/mts-med/cover.png",
+    heroImage: "/projects/mts-med/hero.webp",
+    galleryImages: [
+      "/projects/mts-med/gallery-01.jpeg",
+      "/projects/mts-med/gallery-02.jpeg",
+      "/projects/mts-med/gallery-03.jpeg",
+    ],
+    logo: "/projects/mts-med/logo.png",
+    liveUrl: "mtsmed-eg.com",
   },
 ] as const;
 
 // ============================================================================
-// Preview Area — Full-bleed editorial imagery
+// Preview Area — Premium full-bleed visual
 // ============================================================================
 
 function PreviewArea({
@@ -97,11 +130,11 @@ function PreviewArea({
       style={{
         position: "relative",
         width: "100%",
-        aspectRatio: "16 / 9",
+        aspectRatio: "16 / 10",
         overflow: "hidden",
-        background: `linear-gradient(180deg, rgba(${project.accentRgb}, 0.04) 0%, rgba(0, 0, 0, 0.6) 100%)`,
-        willChange: "clip-path, transform",
         cursor: "pointer",
+        borderRadius: "24px",
+        border: "1px solid rgba(245, 240, 232, 0.06)",
       }}
     >
       <div
@@ -112,82 +145,257 @@ function PreviewArea({
           willChange: "transform",
         }}
       >
-        {/* Large ambient glow — the "image" */}
+        {/* Full background — screenshot fills entire area */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            borderRadius: "24px",
+            overflow: "hidden",
+          }}
+        >
+          <ImageComponent
+            src={project.heroImage}
+            alt={`${project.title} — ${project.category}`}
+            width={1920}
+            height={1080}
+            accentRgb={project.accentRgb}
+            style={{
+              borderRadius: "24px",
+            }}
+          />
+        </div>
+
+        {/* Top gradient */}
         <div
           aria-hidden="true"
           style={{
             position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: "80%",
-            height: "80%",
-            borderRadius: "50%",
-            background: `radial-gradient(circle, rgba(${project.accentRgb}, 0.15) 0%, rgba(${project.accentRgb}, 0.04) 40%, transparent 70%)`,
-            filter: "blur(80px)",
+            top: 0,
+            left: 0,
+            right: 0,
+            height: "35%",
+            background: "linear-gradient(180deg, rgba(0,0,0,0.6) 0%, transparent 100%)",
+            borderRadius: "24px 24px 0 0",
+            pointerEvents: "none",
           }}
         />
 
-        {/* Secondary orb */}
+        {/* Bottom gradient */}
         <div
           aria-hidden="true"
           style={{
             position: "absolute",
-            top: "30%",
-            right: "15%",
-            width: "35%",
-            height: "50%",
-            borderRadius: "50%",
-            background: `radial-gradient(circle, rgba(${project.accentRgb}, 0.08) 0%, transparent 60%)`,
-            filter: "blur(60px)",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: "55%",
+            background: "linear-gradient(0deg, rgba(0,0,0,0.8) 0%, transparent 100%)",
+            borderRadius: "0 0 24px 24px",
+            pointerEvents: "none",
           }}
         />
 
-        {/* Subtle grid texture */}
+        {/* Vignette */}
         <div
           aria-hidden="true"
           style={{
             position: "absolute",
             inset: 0,
-            opacity: 0.015,
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)",
-            backgroundSize: "80px 80px",
-          }}
-        />
-
-        {/* Large number watermark */}
-        <div
-          aria-hidden="true"
-          style={{
-            position: "absolute",
-            bottom: "-5%",
-            right: "-2%",
-            fontFamily: "'Space Grotesk', sans-serif",
-            fontSize: "clamp(10rem, 25vw, 20rem)",
-            fontWeight: 700,
-            letterSpacing: "-0.05em",
-            lineHeight: 0.8,
-            color: `rgba(${project.accentRgb}, 0.03)`,
-            userSelect: "none",
+            background: "radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.5) 100%)",
+            borderRadius: "24px",
             pointerEvents: "none",
           }}
+        />
+      </div>
+
+      {/* Top bar — Title + Year */}
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          padding: "24px 28px",
+          display: "flex",
+          alignItems: "flex-start",
+          justifyContent: "space-between",
+          zIndex: 10,
+        }}
+      >
+        {/* Title */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+          <span
+            style={{
+              fontFamily: "'Space Grotesk', sans-serif",
+              fontSize: "18px",
+              fontWeight: 600,
+              color: "rgba(245, 240, 232, 0.98)",
+              letterSpacing: "-0.01em",
+              textShadow: "0 2px 8px rgba(0, 0, 0, 0.6)",
+            }}
+          >
+            {project.title}
+          </span>
+          <span
+            style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: "11px",
+              fontWeight: 500,
+              color: `rgba(${project.accentRgb}, 0.95)`,
+              letterSpacing: "0.1em",
+              textTransform: "uppercase" as const,
+              textShadow: "0 1px 4px rgba(0, 0, 0, 0.5)",
+            }}
+          >
+            {project.category}
+          </span>
+        </div>
+
+        {/* Year badge */}
+        <div
+          style={{
+            padding: "8px 16px",
+            borderRadius: "24px",
+            background: "rgba(0, 0, 0, 0.4)",
+            backdropFilter: "blur(16px)",
+            border: "1px solid rgba(245, 240, 232, 0.1)",
+            boxShadow: "0 4px 16px rgba(0, 0, 0, 0.2)",
+          }}
         >
-          {project.number}
+          <span
+            style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: "12px",
+              fontWeight: 500,
+              color: "rgba(245, 240, 232, 0.8)",
+              letterSpacing: "0.08em",
+            }}
+          >
+            {project.year}
+          </span>
         </div>
       </div>
 
-      {/* Hover overlay — subtle vignette */}
+      {/* Center — View Project */}
+      <div
+        className="project-view-btn"
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          zIndex: 10,
+          opacity: 0,
+          transition: "all 0.5s cubic-bezier(0.16, 1, 0.3, 1)",
+          pointerEvents: "none",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+            padding: "16px 32px",
+            borderRadius: "60px",
+            background: "rgba(245, 240, 232, 0.95)",
+            boxShadow: "0 24px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(245, 240, 232, 0.2)",
+          }}
+        >
+          <span
+            style={{
+              fontFamily: "'Space Grotesk', sans-serif",
+              fontSize: "14px",
+              fontWeight: 600,
+              color: "#080706",
+              letterSpacing: "0.02em",
+            }}
+          >
+            View Project
+          </span>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#080706"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <line x1="7" y1="17" x2="17" y2="7" />
+            <polyline points="7 7 17 7 17 17" />
+          </svg>
+        </div>
+      </div>
+
+      {/* Bottom bar — Tech tags + Number */}
+      <div
+        style={{
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          padding: "24px 28px",
+          display: "flex",
+          alignItems: "flex-end",
+          justifyContent: "space-between",
+          zIndex: 10,
+        }}
+      >
+        {/* Tech tags */}
+        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          {project.technologies.slice(0, 3).map((tech) => (
+            <span
+              key={tech}
+              style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: "11px",
+                fontWeight: 500,
+                color: "rgba(245, 240, 232, 0.8)",
+                letterSpacing: "0.03em",
+                padding: "7px 14px",
+                borderRadius: "20px",
+                background: "rgba(0, 0, 0, 0.4)",
+                backdropFilter: "blur(12px)",
+                border: "1px solid rgba(245, 240, 232, 0.1)",
+                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
+              }}
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
+
+        {/* Project number */}
+        <span
+          style={{
+            fontFamily: "'Space Grotesk', sans-serif",
+            fontSize: "56px",
+            fontWeight: 700,
+            color: `rgba(${project.accentRgb}, 0.2)`,
+            letterSpacing: "-0.04em",
+            lineHeight: 0.8,
+            textShadow: `0 0 40px rgba(${project.accentRgb}, 0.1)`,
+          }}
+        >
+          {project.number}
+        </span>
+      </div>
+
+      {/* Hover overlay */}
       <div
         aria-hidden="true"
         className="project-preview-overlay"
         style={{
           position: "absolute",
           inset: 0,
-          background: `radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.3) 100%)`,
+          background: `radial-gradient(ellipse at center, transparent 20%, rgba(0, 0, 0, 0.25) 100%)`,
           opacity: 0,
           transition: "opacity 0.6s ease",
           pointerEvents: "none",
+          borderRadius: "24px",
         }}
       />
     </div>
@@ -291,7 +499,7 @@ function ProjectSection({
       if (preview) {
         tl.fromTo(
           preview,
-          { clipPath: "inset(15% 0% 15% 0)", opacity: 0, scale: 0.92 },
+          { clipPath: "inset(12% 0% 12% 0)", opacity: 0, scale: 0.94 },
           {
             clipPath: "inset(0% 0% 0% 0)",
             opacity: 1,
@@ -360,7 +568,7 @@ function ProjectSection({
 
       cancelAnimationFrame(rafRef.current);
       rafRef.current = requestAnimationFrame(() => {
-        // Magnetic pull on preview inner — stronger factor for living feel
+        // Magnetic pull on preview inner
         if (previewInnerRef.current) {
           const offsetX = (x - 50) * 0.08;
           const offsetY = (y - 50) * 0.08;
@@ -388,7 +596,7 @@ function ProjectSection({
           });
         }
 
-        // Magnetic pull on title — more responsive
+        // Magnetic pull on title
         if (titleRef.current) {
           const titleOffsetX = (x - 50) * 0.012;
           gsap.to(titleRef.current, {
@@ -399,9 +607,9 @@ function ProjectSection({
           });
         }
 
-        // Glow follows cursor — larger radius, more visible
+        // Glow follows cursor
         if (glowRef.current) {
-          glowRef.current.style.background = `radial-gradient(1600px circle at ${String(x)}% ${String(y)}%, rgba(${project.accentRgb}, 0.08), transparent 50%)`;
+          glowRef.current.style.background = `radial-gradient(1600px circle at ${String(x)}% ${String(y)}%, rgba(${project.accentRgb}, 0.06), transparent 50%)`;
         }
       });
     },
@@ -412,7 +620,6 @@ function ProjectSection({
     if (reducedMotion) return;
 
     if (sectionRef.current) {
-      // Lift the entire card — depth illusion
       gsap.to(sectionRef.current, {
         y: -4,
         duration: 0.8,
@@ -423,8 +630,8 @@ function ProjectSection({
 
     if (previewRef.current) {
       gsap.to(previewRef.current, {
-        scale: 1.04,
-        y: -6,
+        scale: 1.03,
+        y: -8,
         duration: 1.2,
         ease: "expo.out",
         overwrite: "auto",
@@ -432,6 +639,10 @@ function ProjectSection({
       const overlay = previewRef.current.querySelector<HTMLElement>(".project-preview-overlay");
       if (overlay) {
         gsap.to(overlay, { opacity: 1, duration: 0.6 });
+      }
+      const viewBtn = previewRef.current.querySelector<HTMLElement>(".project-view-btn");
+      if (viewBtn) {
+        gsap.to(viewBtn, { opacity: 1, duration: 0.5, ease: "back.out(1.7)" });
       }
     }
     if (numberRef.current) {
@@ -474,6 +685,10 @@ function ProjectSection({
       if (overlay) {
         gsap.to(overlay, { opacity: 0, duration: 0.5 });
       }
+      const viewBtn = previewRef.current.querySelector<HTMLElement>(".project-view-btn");
+      if (viewBtn) {
+        gsap.to(viewBtn, { opacity: 0, duration: 0.3, ease: "power2.in" });
+      }
     }
     if (previewInnerRef.current) {
       gsap.to(previewInnerRef.current, {
@@ -511,15 +726,12 @@ function ProjectSection({
     const target = ROUTES.PROJECT.replace(":projectId", project.slug);
 
     if (reducedMotion || !previewRef.current) {
-      // No animation: direct navigation
       void navigate(target);
       return;
     }
 
-    // Lock body scroll during transition
     document.body.style.overflow = "hidden";
 
-    // Dim the source card — creates depth during clone expansion
     if (sectionRef.current) {
       gsap.to(sectionRef.current, {
         opacity: 0.3,
@@ -529,7 +741,6 @@ function ProjectSection({
       });
     }
 
-    // Capture preview bounding rect for shared-element transition
     const rect = previewRef.current.getBoundingClientRect();
     startTransition({
       fromRect: rect,
@@ -538,7 +749,6 @@ function ProjectSection({
       projectNumber: project.number,
     });
 
-    // Navigate immediately — overlay handles the visual transition
     void navigate(target);
   }, [reducedMotion, project.slug, project.accentRgb, project.number, navigate, startTransition]);
 
@@ -551,6 +761,8 @@ function ProjectSection({
     },
     [handleClick],
   );
+
+  const isReversed = index % 2 === 1;
 
   return (
     <article
@@ -572,30 +784,29 @@ function ProjectSection({
         flexDirection: "column",
         justifyContent: "center",
         padding: "clamp(6rem, 15vh, 12rem) clamp(2rem, 6vw, 8rem)",
-        gap: "clamp(1.5rem, 3vw, 2.5rem)",
         cursor: "pointer",
         outline: "none",
       }}
       onFocus={(e) => {
-        e.currentTarget.style.outline = "2px solid rgba(255, 255, 255, 0.15)";
+        e.currentTarget.style.outline = "2px solid rgba(245, 240, 232, 0.15)";
         e.currentTarget.style.outlineOffset = "-4px";
       }}
       onBlur={(e) => {
         e.currentTarget.style.outline = "none";
       }}
     >
-      {/* Top divider — full width, no margin */}
+      {/* Top divider */}
       {index > 0 && (
         <div
           aria-hidden="true"
           style={{
             position: "absolute",
             top: 0,
-            left: 0,
-            right: 0,
+            left: "clamp(2rem, 6vw, 8rem)",
+            right: "clamp(2rem, 6vw, 8rem)",
             height: 1,
             background:
-              "linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.06) 20%, rgba(255, 255, 255, 0.06) 80%, transparent 100%)",
+              "linear-gradient(90deg, transparent 0%, rgba(245, 240, 232, 0.06) 50%, transparent 100%)",
           }}
         />
       )}
@@ -613,158 +824,160 @@ function ProjectSection({
         }}
       />
 
-      {/* Content wrapper — full width */}
+      {/* Main layout — alternating grid */}
       <div
         style={{
+          display: "grid",
+          gridTemplateColumns: isReversed ? "1fr 1.2fr" : "1.2fr 1fr",
+          gap: "clamp(2rem, 4vw, 4rem)",
+          alignItems: "center",
           width: "100%",
-          display: "flex",
-          flexDirection: "column",
-          gap: "clamp(1rem, 2vw, 1.5rem)",
         }}
       >
-        {/* Meta row — Category · Year · Number */}
+        {/* Text column */}
         <div
-          ref={metaRef}
           style={{
             display: "flex",
-            alignItems: "center",
-            gap: "clamp(1.5rem, 3vw, 3rem)",
-            flexWrap: "wrap",
+            flexDirection: "column",
+            gap: "clamp(1.5rem, 2.5vw, 2rem)",
+            order: isReversed ? 2 : 1,
           }}
         >
-          <span
-            data-project-meta
+          {/* Meta row */}
+          <div
+            ref={metaRef}
             style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: "clamp(0.6875rem, 0.75vw, 0.75rem)",
-              fontWeight: 500,
-              letterSpacing: "0.15em",
-              textTransform: "uppercase" as const,
-              color: "rgba(216, 216, 216, 0.45)",
+              display: "flex",
+              alignItems: "center",
+              gap: "1rem",
+              flexWrap: "wrap",
             }}
           >
-            {project.category}
-          </span>
-          <span
-            data-project-meta
-            aria-hidden="true"
+            <span
+              data-project-meta
+              style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: "11px",
+                fontWeight: 500,
+                letterSpacing: "0.15em",
+                textTransform: "uppercase" as const,
+                color: `rgba(${project.accentRgb}, 0.7)`,
+              }}
+            >
+              {project.category}
+            </span>
+            <span
+              data-project-meta
+              aria-hidden="true"
+              style={{
+                width: 20,
+                height: 1,
+                background: "rgba(245, 240, 232, 0.12)",
+              }}
+            />
+            <span
+              data-project-meta
+              style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: "11px",
+                fontWeight: 400,
+                letterSpacing: "0.1em",
+                color: "rgba(214, 204, 190, 0.35)",
+              }}
+            >
+              {project.year}
+            </span>
+          </div>
+
+          {/* Title */}
+          <h3
+            ref={titleRef}
             style={{
-              width: 24,
-              height: 1,
-              background: "rgba(255, 255, 255, 0.1)",
+              fontFamily: "'Space Grotesk', sans-serif",
+              fontSize: "clamp(2.5rem, 6vw, 5rem)",
+              fontWeight: 600,
+              letterSpacing: "-0.04em",
+              lineHeight: 0.95,
+              color: "rgba(245, 240, 232, 0.95)",
+              margin: 0,
+              willChange: "clip-path, transform",
             }}
-          />
-          <span
-            data-project-meta
+          >
+            {project.title}
+          </h3>
+
+          {/* Description */}
+          <p
+            ref={descRef}
             style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: "clamp(0.6875rem, 0.75vw, 0.75rem)",
+              fontFamily: "'Inter', sans-serif",
+              fontSize: "clamp(1rem, 1.2vw, 1.125rem)",
               fontWeight: 400,
-              letterSpacing: "0.1em",
-              color: "rgba(216, 216, 216, 0.35)",
+              lineHeight: 1.75,
+              color: "rgba(214, 204, 190, 0.45)",
+              margin: 0,
+              maxWidth: 480,
             }}
           >
-            {project.year}
-          </span>
-          <span
-            data-project-meta
-            aria-hidden="true"
+            {project.description}
+          </p>
+
+          {/* Tech tags */}
+          <div
+            ref={techRef}
             style={{
-              width: 24,
-              height: 1,
-              background: "rgba(255, 255, 255, 0.1)",
+              display: "flex",
+              flexWrap: "wrap",
+              alignItems: "center",
+              gap: "8px",
+              marginTop: "0.5rem",
             }}
-          />
-          <span
-            data-project-meta
+          >
+            {project.technologies.map((tech, i) => (
+              <span
+                key={tech}
+                data-tech-tag
+                style={{
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: "11px",
+                  fontWeight: 400,
+                  letterSpacing: "0.02em",
+                  color: i === 0 ? `rgba(${project.accentRgb}, 0.7)` : "rgba(214, 204, 190, 0.35)",
+                  padding: "5px 12px",
+                  borderRadius: "16px",
+                  border: "1px solid rgba(245, 240, 232, 0.06)",
+                  background:
+                    i === 0 ? `rgba(${project.accentRgb}, 0.08)` : "rgba(245, 240, 232, 0.03)",
+                }}
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+
+          {/* Project number */}
+          <div
             ref={numberRef}
             style={{
               fontFamily: "'Space Grotesk', sans-serif",
-              fontSize: "clamp(0.8125rem, 1vw, 1rem)",
-              fontWeight: 600,
-              letterSpacing: "0.05em",
-              color: "rgba(255, 255, 255, 0.6)",
+              fontSize: "clamp(5rem, 10vw, 10rem)",
+              fontWeight: 700,
+              letterSpacing: "-0.05em",
+              lineHeight: 0.8,
+              color: `rgba(${project.accentRgb}, 0.08)`,
+              marginTop: "0.5rem",
               willChange: "transform",
+              userSelect: "none",
             }}
           >
             {project.number}
-          </span>
+          </div>
         </div>
 
-        {/* Title — oversized editorial */}
-        <h3
-          ref={titleRef}
-          style={{
-            fontFamily: "'Space Grotesk', sans-serif",
-            fontSize: "clamp(3rem, 8vw, 7.5rem)",
-            fontWeight: 600,
-            letterSpacing: "-0.04em",
-            lineHeight: 0.95,
-            color: "rgba(255, 255, 255, 0.95)",
-            margin: 0,
-            willChange: "clip-path, transform",
-          }}
-        >
-          {project.title}
-        </h3>
-
-        {/* Description — editorial subtitle */}
-        <p
-          ref={descRef}
-          style={{
-            fontFamily: "'Inter', sans-serif",
-            fontSize: "clamp(1rem, 1.2vw, 1.125rem)",
-            fontWeight: 400,
-            lineHeight: 1.7,
-            color: "rgba(216, 216, 216, 0.4)",
-            margin: 0,
-            maxWidth: 520,
-          }}
-        >
-          {project.description}
-        </p>
-      </div>
-
-      {/* Preview — full width, edge-to-edge */}
-      <PreviewArea project={project} previewRef={previewRef} innerRef={previewInnerRef} />
-
-      {/* Bottom row — Tech flowing text */}
-      <div
-        ref={techRef}
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          alignItems: "center",
-          gap: "6px",
-          maxWidth: 600,
-        }}
-      >
-        {project.technologies.map((tech, i) => (
-          <span
-            key={tech}
-            data-tech-tag
-            style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: "0.6875rem",
-              fontWeight: 400,
-              letterSpacing: "0.02em",
-              color: i === 0 ? `rgba(${project.accentRgb}, 0.7)` : "rgba(216, 216, 216, 0.3)",
-            }}
-          >
-            {tech}
-            {i < project.technologies.length - 1 && (
-              <span
-                aria-hidden="true"
-                style={{
-                  margin: "0 8px",
-                  color: "rgba(255, 255, 255, 0.08)",
-                }}
-              >
-                /
-              </span>
-            )}
-          </span>
-        ))}
+        {/* Preview column */}
+        <div style={{ order: isReversed ? 1 : 2 }}>
+          <PreviewArea project={project} previewRef={previewRef} innerRef={previewInnerRef} />
+        </div>
       </div>
     </article>
   );
@@ -821,7 +1034,7 @@ export function Projects() {
       aria-labelledby="projects-heading"
       style={{
         position: "relative",
-        background: "#040508",
+        background: "#080706",
       }}
     >
       {/* Section header */}
@@ -835,7 +1048,7 @@ export function Projects() {
             id="projects-heading"
             style={{
               fontFamily: "'Space Grotesk', sans-serif",
-              fontSize: "clamp(3rem, 7vw, 6rem)",
+              fontSize: "clamp(2.5rem, 6vw, 5rem)",
               fontWeight: 600,
               letterSpacing: "-0.04em",
               lineHeight: 0.95,
@@ -845,7 +1058,7 @@ export function Projects() {
             <span
               data-header-line
               style={{
-                color: "rgba(255, 255, 255, 0.95)",
+                color: "rgba(245, 240, 232, 0.95)",
                 display: "block",
                 willChange: "clip-path",
               }}
@@ -858,7 +1071,7 @@ export function Projects() {
                 display: "block",
                 willChange: "clip-path",
                 background:
-                  "linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(216,216,216,0.6) 100%)",
+                  "linear-gradient(135deg, rgba(245,240,232,1) 0%, rgba(201,169,110,0.6) 100%)",
                 backgroundClip: "text",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
@@ -872,16 +1085,16 @@ export function Projects() {
             data-header-line
             style={{
               fontFamily: "'Inter', sans-serif",
-              fontSize: "clamp(1rem, 1.2vw, 1.125rem)",
+              fontSize: "clamp(0.9375rem, 1.1vw, 1.0625rem)",
               fontWeight: 400,
               lineHeight: 1.7,
-              color: "rgba(216, 216, 216, 0.4)",
+              color: "rgba(214, 204, 190, 0.4)",
               margin: 0,
-              maxWidth: 480,
+              maxWidth: 440,
               willChange: "clip-path",
             }}
           >
-            Digital products crafted with code, motion and interaction.
+            Projects that solved real problems. Built with modern tools, designed for performance.
           </p>
         </div>
       </div>

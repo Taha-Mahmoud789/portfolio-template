@@ -112,7 +112,7 @@ export function Intro() {
       style={{
         position: "relative",
         padding: "clamp(6rem, 16vh, 14rem) clamp(1.5rem, 8vw, 8rem)",
-        background: "#040508",
+        background: "#080706",
         overflow: "hidden",
       }}
     >
@@ -127,7 +127,7 @@ export function Intro() {
           bottom: "10%",
           width: 1,
           background:
-            "linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.06) 50%, transparent 100%)",
+            "linear-gradient(180deg, transparent 0%, rgba(245, 240, 232, 0.06) 50%, transparent 100%)",
           transformOrigin: "top",
         }}
       />
@@ -137,34 +137,37 @@ export function Intro() {
           style={{
             fontFamily: "'Space Grotesk', sans-serif",
             fontWeight: 500,
-            lineHeight: 1.15,
             letterSpacing: "-0.03em",
           }}
         >
-          {/* Line 1 */}
+          {/* Line 1 — dominant */}
           <div
             ref={line1Ref}
             style={{
-              fontSize: "clamp(1.75rem, 4.5vw, 3.75rem)",
-              color: "rgba(216, 216, 216, 0.4)",
+              fontSize: "clamp(2.25rem, 6vw, 5rem)",
+              lineHeight: 1.05,
+              color: "rgba(214, 204, 190, 0.35)",
               willChange: "clip-path",
+              marginBottom: "clamp(0.25rem, 0.5vw, 0.5rem)",
             }}
           >
             Clarity first.
           </div>
 
-          {/* Line 2 */}
+          {/* Line 2 — supporting */}
           <div
             ref={line2Ref}
             style={{
-              fontSize: "clamp(1.75rem, 4.5vw, 3.75rem)",
-              color: "rgba(216, 216, 216, 0.4)",
+              fontSize: "clamp(2.25rem, 6vw, 5rem)",
+              lineHeight: 1.05,
+              color: "rgba(214, 204, 190, 0.35)",
               willChange: "clip-path",
+              marginBottom: "clamp(0.25rem, 0.5vw, 0.5rem)",
             }}
           >
             <span
               style={{
-                color: "rgba(255, 255, 255, 0.95)",
+                color: "rgba(245, 240, 232, 0.95)",
               }}
             >
               Motion
@@ -172,12 +175,13 @@ export function Intro() {
             with purpose.
           </div>
 
-          {/* Line 3 */}
+          {/* Line 3 — dominant accent */}
           <div
             ref={line3Ref}
             style={{
-              fontSize: "clamp(1.75rem, 4.5vw, 3.75rem)",
-              color: "rgba(216, 216, 216, 0.4)",
+              fontSize: "clamp(2.25rem, 6vw, 5rem)",
+              lineHeight: 1.05,
+              color: "rgba(214, 204, 190, 0.35)",
               willChange: "clip-path",
             }}
           >
@@ -185,7 +189,7 @@ export function Intro() {
             <span
               style={{
                 background:
-                  "linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(216,216,216,0.7) 100%)",
+                  "linear-gradient(135deg, rgba(245,240,232,1) 0%, rgba(201,169,110,0.7) 100%)",
                 backgroundClip: "text",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",

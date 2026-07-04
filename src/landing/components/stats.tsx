@@ -111,8 +111,8 @@ function StatCard({
         position: "relative",
         padding: "clamp(2rem, 4vw, 3rem) clamp(1.5rem, 3vw, 2.5rem)",
         borderRadius: 16,
-        background: "rgba(255, 255, 255, 0.02)",
-        border: "1px solid rgba(255, 255, 255, 0.04)",
+        background: "rgba(245, 240, 232, 0.02)",
+        border: "1px solid rgba(245, 240, 232, 0.03)",
         outline: "none",
         cursor: "default",
         overflow: "hidden",
@@ -120,11 +120,11 @@ function StatCard({
         textAlign: "center" as const,
       }}
       onFocus={(e) => {
-        e.currentTarget.style.borderColor = "rgba(99, 102, 241, 0.25)";
-        e.currentTarget.style.boxShadow = "0 8px 32px rgba(99, 102, 241, 0.08)";
+        e.currentTarget.style.borderColor = "rgba(201, 169, 110, 0.2)";
+        e.currentTarget.style.boxShadow = "0 8px 32px rgba(201, 169, 110, 0.06)";
       }}
       onBlur={(e) => {
-        e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.05)";
+        e.currentTarget.style.borderColor = "rgba(245, 240, 232, 0.05)";
         e.currentTarget.style.boxShadow = "none";
       }}
     >
@@ -139,7 +139,7 @@ function StatCard({
           width: "clamp(120px, 15vw, 200px)",
           height: "clamp(120px, 15vw, 200px)",
           borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(201, 169, 110, 0.06) 0%, transparent 70%)",
           pointerEvents: "none",
         }}
       />
@@ -158,23 +158,18 @@ function StatCard({
             width: "clamp(48px, 6vw, 64px)",
             height: "clamp(48px, 6vw, 64px)",
             borderRadius: 16,
-            background: "linear-gradient(135deg, rgba(99, 102, 241, 0.12) 0%, rgba(168, 85, 247, 0.06) 100%)",
-            border: "1px solid rgba(99, 102, 241, 0.15)",
+            background:
+              "linear-gradient(135deg, rgba(201, 169, 110, 0.12) 0%, rgba(180, 140, 80, 0.06) 100%)",
+            border: "1px solid rgba(201, 169, 110, 0.15)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
           }}
         >
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            aria-hidden="true"
-          >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path
               d={stat.icon}
-              stroke="rgba(165, 180, 252, 0.8)"
+              stroke="rgba(201, 169, 110, 0.8)"
               strokeWidth="1.5"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -190,8 +185,8 @@ function StatCard({
           fontSize: "clamp(2.5rem, 5vw, 3.75rem)",
           fontWeight: 700,
           letterSpacing: "-0.03em",
-          lineHeight: 1,
-          background: "linear-gradient(135deg, #c7d2fe 0%, #a5b4fc 35%, #818cf8 65%, #6366f1 100%)",
+          lineHeight: 0.95,
+          background: "linear-gradient(135deg, #d4b87a 0%, #c9a96e 35%, #b8944e 65%, #a07830 100%)",
           WebkitBackgroundClip: "text",
           WebkitTextFillColor: "transparent",
           backgroundClip: "text",
@@ -304,7 +299,7 @@ export function Stats() {
       style={{
         position: "relative",
         padding: "clamp(5rem, 12vh, 10rem) clamp(1.5rem, 5vw, 6rem)",
-        background: "linear-gradient(180deg, #000000 0%, #050510 50%, #0a0a1a 100%)",
+        background: "linear-gradient(180deg, #080706 0%, #0c0b09 50%, #121110 100%)",
       }}
     >
       {/* Top divider */}
@@ -316,7 +311,8 @@ export function Stats() {
           left: "10%",
           right: "10%",
           height: 1,
-          background: "linear-gradient(90deg, transparent 0%, rgba(99, 102, 241, 0.2) 50%, transparent 100%)",
+          background:
+            "linear-gradient(90deg, transparent 0%, rgba(201, 169, 110, 0.15) 50%, transparent 100%)",
         }}
       />
 
@@ -335,9 +331,9 @@ export function Stats() {
               fontFamily: "'JetBrains Mono', monospace",
               fontSize: "clamp(0.625rem, 0.8vw, 0.75rem)",
               fontWeight: 400,
-              letterSpacing: "0.3em",
+              letterSpacing: "0.25em",
               textTransform: "uppercase" as const,
-              color: "rgba(99, 102, 241, 0.7)",
+              color: "rgba(201, 169, 110, 0.7)",
               display: "block",
               marginBottom: "clamp(1rem, 2vw, 1.5rem)",
             }}
@@ -351,8 +347,8 @@ export function Stats() {
               fontSize: "clamp(2rem, 5vw, 3.5rem)",
               fontWeight: 700,
               letterSpacing: "-0.03em",
-              lineHeight: 1.1,
-              color: "#f0f0f5",
+              lineHeight: 1.05,
+              color: "#f5f0e8",
               margin: 0,
             }}
           >
@@ -360,7 +356,7 @@ export function Stats() {
             <br />
             <span
               style={{
-                background: "linear-gradient(135deg, #a5b4fc 0%, #818cf8 50%, #6366f1 100%)",
+                background: "linear-gradient(135deg, #d4b87a 0%, #c9a96e 50%, #b8944e 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",

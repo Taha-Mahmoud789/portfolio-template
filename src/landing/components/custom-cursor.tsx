@@ -1,11 +1,9 @@
 /**
- * CustomCursor — Cinematic cursor system
+ * CustomCursor — Minimal dot cursor with contextual labels
  *
- * Minimal dot + smooth follower circle.
- * States: default, link, project (with "VIEW" text), text.
- * Magnetic feel on buttons.
- * Disabled on touch/mobile. Respects prefers-reduced-motion.
- * GSAP quickTo for 60fps transforms only.
+ * Single dot that grows on hover. Shows contextual text labels:
+ * VIEW (projects), CONNECT (contact), EXPLORE (case studies), GO (nav).
+ * Clean, minimal, modern. Disabled on touch. Respects reduced motion.
  */
 
 import { useRef, useEffect, useCallback } from "react";
@@ -14,12 +12,7 @@ import { gsap } from "gsap";
 import { useReducedMotion } from "../hooks";
 import { ANIMATION_EASINGS } from "@/animation/constants";
 
-type CursorVariant = "default" | "link" | "project" | "text";
-
-const DOT_SIZE = 6;
-const FOLLOWER_SIZE = 36;
-const LINK_SIZE = 48;
-const PROJECT_SIZE = 72;
+type CursorVariant = "default" | "link" | "project" | "contact" | "case-study" | "nav" | "text";
 
 function isTouchDevice(): boolean {
   if (typeof window === "undefined") return true;
@@ -34,15 +27,29 @@ function getVariant(el: HTMLElement | null): CursorVariant {
   let node: HTMLElement | null = el;
   while (node && node !== document.body) {
     if (
+      node.id === "contact" ||
+      node.classList.contains("contact-method-link") ||
+      node.classList.contains("copy-email-btn")
+    ) {
+      return "contact";
+    }
+    if (node.classList.contains("cs-project-nav-card") || node.dataset.cursor === "case-study") {
+      return "case-study";
+    }
+    if (
+      node.classList.contains("cm-link") ||
+      node.classList.contains("cmd-item") ||
+      node.classList.contains("nav-link")
+    ) {
+      return "nav";
+    }
+    if (
       node.tagName === "BUTTON" ||
       node.tagName === "A" ||
       node.role === "button" ||
       node.classList.contains("cta-primary-btn") ||
       node.classList.contains("nav-cta-btn") ||
-      node.classList.contains("back-to-top-btn") ||
-      node.classList.contains("copy-email-btn") ||
-      node.classList.contains("contact-submit-btn") ||
-      node.classList.contains("contact-method-link")
+      node.classList.contains("back-to-top-btn")
     ) {
       return "link";
     }
@@ -70,15 +77,33 @@ function getVariant(el: HTMLElement | null): CursorVariant {
   return "default";
 }
 
+const SIZES: Record<CursorVariant, number> = {
+  default: 14,
+  link: 44,
+  nav: 38,
+  project: 56,
+  contact: 44,
+  "case-study": 50,
+  text: 10,
+};
+
+const VARIANT_LABELS: Partial<Record<CursorVariant, string>> = {
+  project: "VIEW",
+  contact: "CONNECT",
+  "case-study": "EXPLORE",
+  nav: "GO",
+};
+
 export function CustomCursor() {
   const reducedMotion = useReducedMotion();
   const dotRef = useRef<HTMLDivElement>(null);
-  const followerRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLDivElement>(null);
   const variantRef = useRef<CursorVariant>("default");
   const mouseRef = useRef({ x: -999, y: -999 });
   const rafRef = useRef<number>(0);
   const visibleRef = useRef(false);
+  const labelOpacityRef = useRef(0);
+  const labelTargetRef = useRef(0);
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
     mouseRef.current.x = e.clientX;
@@ -90,139 +115,95 @@ export function CustomCursor() {
     const variant = getVariant(target);
     variantRef.current = variant;
 
-    const follower = followerRef.current;
-    const label = labelRef.current;
-    if (!follower) return;
+    const dot = dotRef.current;
+    if (!dot) return;
 
-    switch (variant) {
-      case "link":
-        gsap.to(follower, {
-          width: LINK_SIZE,
-          height: LINK_SIZE,
-          borderColor: "rgba(255, 255, 255, 0.3)",
-          duration: 0.3,
-          ease: "power2.out",
-        });
-        if (dotRef.current) {
-          gsap.to(dotRef.current, { scale: 0, duration: 0.2 });
-        }
-        if (label) {
-          gsap.to(label, { opacity: 0, scale: 0.8, duration: 0.2 });
-        }
-        break;
-      case "project":
-        gsap.to(follower, {
-          width: PROJECT_SIZE,
-          height: PROJECT_SIZE,
-          borderColor: "rgba(255, 255, 255, 0.25)",
-          background: "rgba(255, 255, 255, 0.04)",
-          duration: 0.4,
-          ease: ANIMATION_EASINGS.expoOut,
-        });
-        if (dotRef.current) {
-          gsap.to(dotRef.current, { scale: 0, duration: 0.2 });
-        }
-        if (label) {
-          gsap.to(label, { opacity: 1, scale: 1, duration: 0.3, ease: "power2.out" });
-        }
-        break;
-      case "text":
-        gsap.to(follower, {
-          width: 28,
-          height: 28,
-          borderColor: "rgba(255, 255, 255, 0.1)",
-          duration: 0.3,
-          ease: "power2.out",
-        });
-        if (label) {
-          gsap.to(label, { opacity: 0, scale: 0.8, duration: 0.2 });
-        }
-        break;
-      default:
-        gsap.to(follower, {
-          width: FOLLOWER_SIZE,
-          height: FOLLOWER_SIZE,
-          borderColor: "rgba(255, 255, 255, 0.1)",
-          background: "transparent",
-          duration: 0.3,
-          ease: "power2.out",
-        });
-        if (dotRef.current) {
-          gsap.to(dotRef.current, { scale: 1, duration: 0.2 });
-        }
-        if (label) {
-          gsap.to(label, { opacity: 0, scale: 0.8, duration: 0.2 });
-        }
+    const size = SIZES[variant];
+    const hasLabel = variant in VARIANT_LABELS;
+
+    gsap.to(dot, {
+      width: size,
+      height: size,
+      background:
+        variant === "default" || variant === "text"
+          ? "rgba(245, 240, 232, 0.8)"
+          : "rgba(245, 240, 232, 0.12)",
+      border:
+        variant === "default" || variant === "text"
+          ? "none"
+          : "1px solid rgba(245, 240, 232, 0.25)",
+      duration: 0.4,
+      ease: ANIMATION_EASINGS.expoOut,
+    });
+
+    // Set label target — RAF loop handles position + opacity
+    if (hasLabel) {
+      const label = labelRef.current;
+      if (label) label.textContent = VARIANT_LABELS[variant] ?? "";
+      labelTargetRef.current = 1;
+    } else {
+      labelTargetRef.current = 0;
     }
   }, []);
 
   const handleMouseOut = useCallback(() => {
     variantRef.current = "default";
+    labelTargetRef.current = 0;
 
-    const follower = followerRef.current;
-    if (!follower) return;
+    const dot = dotRef.current;
+    if (!dot) return;
 
-    gsap.to(follower, {
-      width: FOLLOWER_SIZE,
-      height: FOLLOWER_SIZE,
-      borderColor: "rgba(255, 255, 255, 0.1)",
-      background: "transparent",
-      duration: 0.3,
+    gsap.to(dot, {
+      width: SIZES.default,
+      height: SIZES.default,
+      background: "rgba(245, 240, 232, 0.8)",
+      border: "none",
+      duration: 0.35,
       ease: "power2.out",
     });
-    if (dotRef.current) {
-      gsap.to(dotRef.current, { scale: 1, duration: 0.2 });
-    }
-    if (labelRef.current) {
-      gsap.to(labelRef.current, { opacity: 0, scale: 0.8, duration: 0.2 });
-    }
   }, []);
 
   useEffect(() => {
     if (reducedMotion || isTouchDevice()) return;
 
     const dot = dotRef.current;
-    const follower = followerRef.current;
     const label = labelRef.current;
-    if (!dot || !follower) return;
+    if (!dot) return;
 
-    const quickX = gsap.quickTo(follower, "left", {
-      duration: 0.15,
-      ease: "power3",
-    });
-    const quickY = gsap.quickTo(follower, "top", {
-      duration: 0.15,
-      ease: "power3",
-    });
+    const quickX = gsap.quickTo(dot, "left", { duration: 0.08, ease: "power3" });
+    const quickY = gsap.quickTo(dot, "top", { duration: 0.08, ease: "power3" });
 
     const tick = () => {
       const { x, y } = mouseRef.current;
+      const size = SIZES[variantRef.current];
 
-      dot.style.left = "0";
-      dot.style.top = "0";
-      dot.style.transform = `translate(${String(x - DOT_SIZE / 2)}px, ${String(y - DOT_SIZE / 2)}px)`;
+      quickX(x - size / 2);
+      quickY(y - size / 2);
 
-      quickX(x - FOLLOWER_SIZE / 2);
-      quickY(y - FOLLOWER_SIZE / 2);
+      // Label — single system, no GSAP conflicts
+      if (label) {
+        const target = labelTargetRef.current;
+        const current = labelOpacityRef.current;
+        const next = current + (target - current) * 0.15;
+        labelOpacityRef.current = next;
 
-      // Label follows cursor (for "VIEW" text)
-      if (label && variantRef.current === "project") {
-        label.style.left = "0";
-        label.style.top = "0";
-        label.style.transform = `translate(${String(x - 16)}px, ${String(y + PROJECT_SIZE / 2 + 8)}px)`;
+        if (next > 0.01) {
+          label.style.opacity = String(next);
+          label.style.transform = `translate(${String(x - 16)}px, ${String(y + size / 2 + 10)}px)`;
+        } else {
+          label.style.opacity = "0";
+        }
       }
 
       if (!visibleRef.current) {
         visibleRef.current = true;
         dot.style.opacity = "1";
-        follower.style.opacity = "1";
       }
 
       rafRef.current = requestAnimationFrame(tick);
     };
 
     document.documentElement.classList.add("custom-cursor-active");
-
     rafRef.current = requestAnimationFrame(tick);
 
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
@@ -246,64 +227,40 @@ export function CustomCursor() {
       <div
         ref={dotRef}
         aria-hidden="true"
-        data-cursor-dot
         style={{
           position: "fixed",
-          width: DOT_SIZE,
-          height: DOT_SIZE,
+          width: SIZES.default,
+          height: SIZES.default,
           borderRadius: "50%",
-          background: "#fff",
+          background: "rgba(245, 240, 232, 0.8)",
           pointerEvents: "none",
           zIndex: 99999,
           opacity: 0,
-          willChange: "transform",
-          transform: "translate(-999px, -999px)",
-        }}
-      />
-
-      <div
-        ref={followerRef}
-        aria-hidden="true"
-        data-cursor-follower
-        style={{
-          position: "fixed",
-          width: FOLLOWER_SIZE,
-          height: FOLLOWER_SIZE,
-          borderRadius: "50%",
-          border: "1px solid rgba(255, 255, 255, 0.1)",
-          background: "transparent",
-          pointerEvents: "none",
-          zIndex: 99998,
-          opacity: 0,
-          willChange: "left, top",
+          willChange: "left, top, width, height",
           left: -999,
           top: -999,
+          mixBlendMode: "difference",
         }}
       />
-
       <div
         ref={labelRef}
         aria-hidden="true"
-        data-cursor-label
         style={{
           position: "fixed",
           pointerEvents: "none",
-          zIndex: 99997,
+          zIndex: 99998,
           opacity: 0,
           fontFamily: "'JetBrains Mono', monospace",
-          fontSize: "0.5625rem",
+          fontSize: "0.625rem",
           fontWeight: 500,
           letterSpacing: "0.2em",
           textTransform: "uppercase" as const,
-          color: "rgba(255, 255, 255, 0.8)",
+          color: "rgba(245, 240, 232, 0.8)",
           left: -999,
           top: -999,
           willChange: "transform",
-          transform: "scale(0.8)",
         }}
-      >
-        VIEW
-      </div>
+      />
     </>,
     document.body,
   );

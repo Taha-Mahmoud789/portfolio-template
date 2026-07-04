@@ -59,8 +59,8 @@ function ScrollIndicator({
         style={{
           fontFamily: "'JetBrains Mono', monospace",
           fontSize: 9,
-          color: "rgba(216, 216, 216, 0.45)",
-          letterSpacing: "0.3em",
+          color: "rgba(180, 170, 155, 0.4)",
+          letterSpacing: "0.25em",
           textTransform: "uppercase" as const,
         }}
       >
@@ -76,7 +76,7 @@ function ScrollIndicator({
           animation: reducedMotion ? "none" : "hero-breathe-mouse 2.5s ease-in-out infinite",
         }}
       >
-        <line x1="0.5" y1="0" x2="0.5" y2="32" stroke="rgba(216, 216, 216, 0.2)" strokeWidth="1" />
+        <line x1="0.5" y1="0" x2="0.5" y2="32" stroke="rgba(180, 170, 155, 0.15)" strokeWidth="1" />
       </svg>
     </button>
   );
@@ -251,7 +251,7 @@ export function Hero({ isVisible }: HeroProps) {
     <section
       ref={sectionRef}
       id="hero"
-      aria-label="Creative Developer — Hero"
+      aria-label="Frontend Developer — Hero"
       style={{
         position: "relative",
         width: "100%",
@@ -260,7 +260,7 @@ export function Hero({ isVisible }: HeroProps) {
         flexDirection: "column",
         justifyContent: "center",
         overflow: "hidden",
-        background: "#040508",
+        background: "#080706",
       }}
     >
       {/* Subtle ambient glow — scroll-reactive */}
@@ -275,7 +275,7 @@ export function Hero({ isVisible }: HeroProps) {
           width: "clamp(600px, 80vw, 1200px)",
           height: "clamp(400px, 50vw, 800px)",
           borderRadius: "50%",
-          background: "radial-gradient(ellipse, rgba(255, 255, 255, 0.02) 0%, transparent 70%)",
+          background: "radial-gradient(ellipse, rgba(245, 240, 232, 0.02) 0%, transparent 70%)",
           filter: "blur(80px)",
           pointerEvents: "none",
           willChange: "transform, opacity",
@@ -297,30 +297,20 @@ export function Hero({ isVisible }: HeroProps) {
           alignItems: "flex-start",
         }}
       >
-        {/* Eyebrow */}
+        {/* Name */}
         <div
           ref={eyebrowRef}
           style={{
             fontFamily: "'JetBrains Mono', monospace",
-            fontSize: "clamp(0.625rem, 0.75vw, 0.75rem)",
+            fontSize: "clamp(0.625rem, 0.8vw, 0.75rem)",
             fontWeight: 500,
-            letterSpacing: "0.18em",
+            letterSpacing: "0.25em",
             textTransform: "uppercase" as const,
-            color: "rgba(216, 216, 216, 0.45)",
-            marginBottom: "clamp(2rem, 4vw, 3.5rem)",
-            display: "flex",
-            alignItems: "center",
-            gap: 16,
+            color: "rgba(180, 170, 155, 0.5)",
+            marginBottom: "clamp(1.5rem, 3vw, 2.5rem)",
           }}
         >
-          <span
-            style={{
-              width: 32,
-              height: 1,
-              background: "rgba(216, 216, 216, 0.15)",
-            }}
-          />
-          Creative Developer &amp; Frontend Engineer
+          Your Name
         </div>
 
         {/* Headline */}
@@ -329,13 +319,13 @@ export function Hero({ isVisible }: HeroProps) {
             margin: 0,
             padding: 0,
             fontWeight: 600,
-            lineHeight: 0.88,
+            lineHeight: 0.85,
             letterSpacing: "-0.04em",
             textAlign: "left",
             perspective: 800,
           }}
         >
-          {/* Line 1 — DESIGNED TO MEAN */}
+          {/* Line 1 — INTERFACES THAT */}
           <div
             ref={line1Ref}
             style={{
@@ -343,50 +333,60 @@ export function Hero({ isVisible }: HeroProps) {
               fontSize: "clamp(3.5rem, 11vw, 10rem)",
               display: "flex",
               flexWrap: "wrap",
-              lineHeight: 0.88,
+              gap: "0 0.3em",
+              lineHeight: 0.85,
               transformOrigin: "bottom center",
               background:
-                "linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(216,216,216,0.7) 100%)",
+                "linear-gradient(135deg, rgba(245,240,232,1) 0%, rgba(201,169,110,0.7) 100%)",
               backgroundClip: "text",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               willChange: "clip-path",
             }}
-            aria-label="DESIGNED TO MEAN"
+            aria-label="INTERFACES THAT"
           >
-            {"DESIGNED TO MEAN".split("").map((char, i) => (
+            {"INTERFACES THAT".split(" ").map((word, wi) => (
               <span
-                key={`l1-${String(i)}`}
-                data-char
-                style={{
-                  display: "inline-block",
-                  transformOrigin: "bottom center",
-                  backfaceVisibility: "hidden",
-                }}
-                aria-hidden="true"
+                key={`w1-${String(wi)}`}
+                data-word
+                style={{ display: "inline-flex", whiteSpace: "nowrap" }}
               >
-                {char}
+                {word.split("").map((char, ci) => (
+                  <span
+                    key={`l1-${String(wi)}-${String(ci)}`}
+                    data-char
+                    style={{
+                      display: "inline-block",
+                      transformOrigin: "bottom center",
+                      backfaceVisibility: "hidden",
+                    }}
+                    aria-hidden="true"
+                  >
+                    {char}
+                  </span>
+                ))}
               </span>
             ))}
           </div>
 
-          {/* Line 2 — SOMETHING */}
+          {/* Line 2 — MOVE */}
           <div
             ref={line2Ref}
             style={{
               fontFamily: "'Space Grotesk', sans-serif",
               fontSize: "clamp(3.5rem, 11vw, 10rem)",
-              color: "rgba(255, 255, 255, 0.95)",
+              color: "rgba(245, 240, 232, 0.95)",
               display: "flex",
               flexWrap: "wrap",
-              marginTop: "clamp(-0.25rem, -0.5vw, -0.5rem)",
-              lineHeight: 0.88,
+              gap: "0 0.3em",
+              marginTop: "clamp(-0.5rem, -1vw, -1rem)",
+              lineHeight: 0.85,
               transformOrigin: "top center",
               willChange: "clip-path",
             }}
-            aria-label="SOMETHING"
+            aria-label="MOVE"
           >
-            {"SOMETHING".split("").map((char, i) => (
+            {"MOVE".split("").map((char, i) => (
               <span
                 key={`l2-${String(i)}`}
                 data-char
@@ -420,12 +420,13 @@ export function Hero({ isVisible }: HeroProps) {
               fontFamily: "'Inter', sans-serif",
               fontSize: "clamp(0.9375rem, 1.1vw, 1.0625rem)",
               fontWeight: 400,
-              lineHeight: 1.7,
-              color: "rgba(216, 216, 216, 0.4)",
+              lineHeight: 1.75,
+              color: "rgba(214, 204, 190, 0.45)",
               letterSpacing: "0.01em",
             }}
           >
-            Interfaces built with intention. Motion with purpose. Every pixel earned its place.
+            I build fast, accessible web applications with React and TypeScript. Motion systems,
+            performance optimization, clean architecture.
           </p>
         </div>
       </div>

@@ -166,10 +166,10 @@ function MagneticButton({
         fontWeight: 600,
         letterSpacing: "0.06em",
         textTransform: "uppercase" as const,
-        color: "#ffffff",
+        color: "#f5f0e8",
         background:
-          "linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(216, 216, 216, 0.06) 100%)",
-        border: "1.5px solid rgba(255, 255, 255, 0.2)",
+          "linear-gradient(135deg, rgba(245, 240, 232, 0.08) 0%, rgba(245, 240, 232, 0.05) 100%)",
+        border: "1.5px solid rgba(245, 240, 232, 0.12)",
         borderRadius: 100,
         padding: "clamp(1rem, 2.5vw, 1.25rem) clamp(2.5rem, 6vw, 4rem)",
         cursor: "pointer",
@@ -187,7 +187,7 @@ function MagneticButton({
           inset: -2,
           borderRadius: 100,
           background:
-            "linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(216, 216, 216, 0.08) 100%)",
+            "linear-gradient(135deg, rgba(201, 169, 110, 0.15) 0%, rgba(201, 169, 110, 0.1) 100%)",
           opacity: 0,
           filter: "blur(16px)",
           pointerEvents: "none",
@@ -349,7 +349,7 @@ export function CTA() {
       style={{
         position: "relative",
         padding: "clamp(5rem, 12vh, 10rem) clamp(1.5rem, 5vw, 6rem)",
-        background: "linear-gradient(180deg, #000000 0%, #050510 50%, #0a0a1a 100%)",
+        background: "linear-gradient(180deg, #080706 0%, #0c0b09 50%, #121110 100%)",
         textAlign: "center",
         overflow: "hidden",
       }}
@@ -363,7 +363,7 @@ export function CTA() {
           left: "10%",
           right: "10%",
           height: 1,
-          background: "linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent)",
+          background: "linear-gradient(90deg, transparent, rgba(245, 240, 232, 0.08), transparent)",
         }}
       />
 
@@ -379,7 +379,7 @@ export function CTA() {
           width: "clamp(400px, 50vw, 700px)",
           height: "clamp(400px, 50vw, 700px)",
           borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 60%)",
+          background: "radial-gradient(circle, rgba(245, 240, 232, 0.03) 0%, transparent 60%)",
           filter: "blur(80px)",
           pointerEvents: "none",
           willChange: "transform",
@@ -398,7 +398,7 @@ export function CTA() {
           width: "clamp(300px, 40vw, 500px)",
           height: "clamp(300px, 40vw, 500px)",
           borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(168, 85, 247, 0.06) 0%, transparent 60%)",
+          background: "radial-gradient(circle, rgba(201, 169, 110, 0.06) 0%, transparent 60%)",
           filter: "blur(60px)",
           pointerEvents: "none",
           willChange: "transform",
@@ -412,7 +412,7 @@ export function CTA() {
           position: "absolute",
           inset: 0,
           backgroundImage:
-            "radial-gradient(circle, rgba(255, 255, 255, 0.015) 1px, transparent 1px)",
+            "radial-gradient(circle, rgba(245, 240, 232, 0.015) 1px, transparent 1px)",
           backgroundSize: "16px 16px",
           pointerEvents: "none",
         }}
@@ -427,9 +427,9 @@ export function CTA() {
             fontFamily: "'JetBrains Mono', monospace",
             fontSize: "clamp(0.625rem, 0.8vw, 0.75rem)",
             fontWeight: 400,
-            letterSpacing: "0.3em",
+            letterSpacing: "0.25em",
             textTransform: "uppercase" as const,
-            color: "rgba(216, 216, 216, 0.5)",
+            color: "rgba(214, 204, 190, 0.5)",
             display: "block",
             marginBottom: "clamp(1rem, 2vw, 1.5rem)",
             opacity: reducedMotion ? 1 : 0,
@@ -444,15 +444,15 @@ export function CTA() {
           ref={headingRef}
           style={{
             fontFamily: "'Space Grotesk', sans-serif",
-            fontSize: "clamp(2rem, 5vw, 3.5rem)",
+            fontSize: "clamp(2.5rem, 6vw, 4.5rem)",
             fontWeight: 700,
             letterSpacing: "-0.03em",
-            lineHeight: 1.08,
+            lineHeight: 1.0,
             margin: "0 0 clamp(1.25rem, 3vw, 2rem) 0",
             opacity: reducedMotion ? 1 : 0,
           }}
         >
-          <span style={{ color: "#f0f0f5" }}>Have a Project</span>
+          <span style={{ color: "#f5f0e8" }}>Have a Project</span>
           <br />
           <span className="gradient-text">in Mind?</span>
         </h2>
@@ -464,7 +464,7 @@ export function CTA() {
             fontFamily: "'Inter', sans-serif",
             fontSize: "clamp(0.9375rem, 1.2vw, 1.0625rem)",
             fontWeight: 400,
-            lineHeight: 1.65,
+            lineHeight: 1.7,
             color: "rgba(226, 232, 240, 0.55)",
             margin: "0 0 clamp(2.5rem, 5vw, 3.5rem) 0",
             maxWidth: 520,

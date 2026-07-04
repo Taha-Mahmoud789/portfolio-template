@@ -34,17 +34,17 @@ export default function ProjectCaseStudyPage() {
 
     let metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute("content", project.shortDescription);
+      metaDescription.setAttribute("content", project.hero.description);
     } else {
       metaDescription = document.createElement("meta");
       metaDescription.setAttribute("name", "description");
-      metaDescription.setAttribute("content", project.shortDescription);
+      metaDescription.setAttribute("content", project.hero.description);
       document.head.appendChild(metaDescription);
     }
 
     const ogTags = [
       { property: "og:title", content: `${project.title} — Case Study` },
-      { property: "og:description", content: project.shortDescription },
+      { property: "og:description", content: project.hero.description },
       { property: "og:type", content: "article" },
     ];
 

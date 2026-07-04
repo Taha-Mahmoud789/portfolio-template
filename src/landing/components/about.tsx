@@ -18,9 +18,9 @@ import { CountUp } from "./count-up";
 // ============================================================================
 
 const EXPERIENCE = [
-  { value: 6, suffix: "+", label: "Years of Craft" },
-  { value: 50, suffix: "+", label: "Projects Shipped" },
-  { value: 30, suffix: "+", label: "Clients Worldwide" },
+  { value: 4, suffix: "+", label: "Years Building" },
+  { value: 15, suffix: "+", label: "Projects Shipped" },
+  { value: 8, suffix: "+", label: "Clients Served" },
 ] as const;
 
 // ============================================================================
@@ -135,7 +135,7 @@ export function About() {
       style={{
         position: "relative",
         padding: "clamp(5rem, 12vh, 10rem) clamp(1.5rem, 5vw, 6rem)",
-        background: "#040508",
+        background: "#080706",
       }}
     >
       {/* Top divider */}
@@ -148,7 +148,7 @@ export function About() {
           right: "10%",
           height: 1,
           background:
-            "linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.06) 50%, transparent 100%)",
+            "linear-gradient(90deg, transparent 0%, rgba(245, 240, 232, 0.06) 50%, transparent 100%)",
         }}
       />
 
@@ -166,18 +166,18 @@ export function About() {
             style={{
               fontFamily: "'Space Grotesk', sans-serif",
               fontSize: "clamp(2rem, 5vw, 4rem)",
-              fontWeight: 500,
+              fontWeight: 600,
               letterSpacing: "-0.03em",
-              lineHeight: 1.2,
-              color: "rgba(216, 216, 216, 0.5)",
+              lineHeight: 1.15,
+              color: "rgba(245, 240, 232, 0.95)",
               margin: 0,
               maxWidth: 900,
             }}
           >
-            Independent creative developer building interfaces where{" "}
-            <span style={{ color: "rgba(255, 255, 255, 0.95)" }}>strategy</span>,{" "}
-            <span style={{ color: "rgba(255, 255, 255, 0.95)" }}>design</span>, and{" "}
-            <span style={{ color: "rgba(255, 255, 255, 0.95)" }}>technology</span> converge.
+            Frontend developer who writes{" "}
+            <span style={{ color: "rgba(245, 240, 232, 0.95)" }}>clean architecture</span>,{" "}
+            <span style={{ color: "rgba(245, 240, 232, 0.95)" }}>builds fast interfaces</span>, and{" "}
+            <span style={{ color: "rgba(245, 240, 232, 0.95)" }}>ships with confidence</span>.
           </h2>
         </div>
 
@@ -197,15 +197,16 @@ export function About() {
                 fontFamily: "'Inter', sans-serif",
                 fontSize: "clamp(0.9375rem, 1.1vw, 1.0625rem)",
                 fontWeight: 400,
-                lineHeight: 1.8,
-                color: "rgba(216, 216, 216, 0.4)",
+                lineHeight: 1.75,
+                color: "rgba(214, 204, 190, 0.4)",
                 margin: 0,
                 maxWidth: 480,
               }}
             >
-              I think about interfaces the way architects think about buildings — structure, flow,
-              and the experience of moving through space. Every component has a reason. Every
-              animation earns its frame.
+              I specialize in React, TypeScript, and frontend architecture. I care about
+              performance, accessibility, and writing code that other developers can actually
+              maintain. Most of my work involves building interactive interfaces, motion systems,
+              and high-performance web applications.
             </p>
           </div>
 
@@ -243,7 +244,7 @@ export function About() {
                       letterSpacing: "-0.03em",
                       lineHeight: 1,
                       background:
-                        "linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(216,216,216,0.7) 100%)",
+                        "linear-gradient(135deg, rgba(245,240,232,1) 0%, rgba(201,169,110,0.7) 100%)",
                       backgroundClip: "text",
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
@@ -267,9 +268,9 @@ export function About() {
                       fontFamily: "'JetBrains Mono', monospace",
                       fontSize: "clamp(0.625rem, 0.7vw, 0.6875rem)",
                       fontWeight: 400,
-                      letterSpacing: "0.1em",
+                      letterSpacing: "0.12em",
                       textTransform: "uppercase" as const,
-                      color: "rgba(216, 216, 216, 0.45)",
+                      color: "rgba(214, 204, 190, 0.45)",
                     }}
                   >
                     {item.label}
@@ -285,40 +286,40 @@ export function About() {
               style={{
                 height: 1,
                 background:
-                  "linear-gradient(90deg, rgba(255, 255, 255, 0.06) 0%, transparent 100%)",
+                  "linear-gradient(90deg, rgba(245, 240, 232, 0.06) 0%, transparent 100%)",
                 marginBottom: "clamp(2rem, 4vw, 3rem)",
                 transformOrigin: "left",
               }}
             />
 
-            {/* Philosophy */}
+            {/* Specialization */}
             <div ref={philosophyRef} style={{}}>
               <h3
                 style={{
                   fontFamily: "'JetBrains Mono', monospace",
                   fontSize: "clamp(0.625rem, 0.75vw, 0.75rem)",
                   fontWeight: 400,
-                  letterSpacing: "0.3em",
+                  letterSpacing: "0.25em",
                   textTransform: "uppercase" as const,
-                  color: "rgba(216, 216, 216, 0.3)",
+                  color: "rgba(214, 204, 190, 0.3)",
                   margin: "0 0 clamp(1rem, 2vw, 1.5rem) 0",
                 }}
               >
-                Philosophy
+                Focus
               </h3>
               <p
                 style={{
                   fontFamily: "'Space Grotesk', sans-serif",
                   fontSize: "clamp(1.125rem, 1.8vw, 1.5rem)",
                   fontWeight: 500,
-                  lineHeight: 1.5,
+                  lineHeight: 1.4,
                   letterSpacing: "-0.02em",
-                  color: "rgba(255, 255, 255, 0.8)",
+                  color: "rgba(245, 240, 232, 0.8)",
                   margin: 0,
                   maxWidth: 400,
                 }}
               >
-                Design for clarity. Code for performance. Ship with confidence.
+                React, TypeScript, and motion-driven interfaces.
               </p>
             </div>
           </div>

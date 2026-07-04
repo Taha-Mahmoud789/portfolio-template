@@ -145,7 +145,7 @@ export function Process() {
       style={{
         position: "relative",
         padding: "clamp(5rem, 12vh, 10rem) clamp(1.5rem, 5vw, 6rem)",
-        background: "#040508",
+        background: "#080706",
       }}
     >
       {/* Top divider */}
@@ -158,7 +158,7 @@ export function Process() {
           right: "10%",
           height: 1,
           background:
-            "linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.06) 50%, transparent 100%)",
+            "linear-gradient(90deg, transparent 0%, rgba(245, 240, 232, 0.06) 50%, transparent 100%)",
         }}
       />
 
@@ -177,14 +177,14 @@ export function Process() {
               fontSize: "clamp(2.5rem, 6vw, 5rem)",
               fontWeight: 600,
               letterSpacing: "-0.04em",
-              lineHeight: 1,
+              lineHeight: 0.95,
               margin: 0,
             }}
           >
             <span
               data-header-line
               style={{
-                color: "rgba(255, 255, 255, 0.95)",
+                color: "rgba(245, 240, 232, 0.95)",
                 display: "block",
                 willChange: "clip-path",
               }}
@@ -198,7 +198,7 @@ export function Process() {
                 display: "block",
                 willChange: "clip-path",
                 background:
-                  "linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(216,216,216,0.7) 100%)",
+                  "linear-gradient(135deg, rgba(245,240,232,1) 0%, rgba(201,169,110,0.7) 100%)",
                 backgroundClip: "text",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
@@ -228,7 +228,7 @@ export function Process() {
                 alignItems: "start",
                 padding: "clamp(2rem, 4vw, 3.5rem) 0",
                 borderBottom:
-                  index < STEPS.length - 1 ? "1px solid rgba(255, 255, 255, 0.04)" : "none",
+                  index < STEPS.length - 1 ? "1px solid rgba(245, 240, 232, 0.04)" : "none",
               }}
             >
               {/* Number */}
@@ -241,7 +241,7 @@ export function Process() {
                   letterSpacing: "-0.04em",
                   lineHeight: 1,
                   background:
-                    "linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(216,216,216,0.7) 100%)",
+                    "linear-gradient(135deg, rgba(245,240,232,1) 0%, rgba(201,169,110,0.7) 100%)",
                   backgroundClip: "text",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
@@ -256,11 +256,11 @@ export function Process() {
                 <h3
                   style={{
                     fontFamily: "'Space Grotesk', sans-serif",
-                    fontSize: "clamp(1.5rem, 3vw, 2.5rem)",
-                    fontWeight: 500,
+                    fontSize: "clamp(1.5rem, 3.5vw, 2.75rem)",
+                    fontWeight: 600,
                     letterSpacing: "-0.03em",
                     lineHeight: 1.1,
-                    color: "rgba(255, 255, 255, 0.95)",
+                    color: "rgba(245, 240, 232, 0.95)",
                     margin: "0 0 clamp(0.75rem, 1.5vw, 1.25rem) 0",
                   }}
                 >
@@ -271,8 +271,8 @@ export function Process() {
                     fontFamily: "'Inter', sans-serif",
                     fontSize: "clamp(0.9375rem, 1.1vw, 1.0625rem)",
                     fontWeight: 400,
-                    lineHeight: 1.7,
-                    color: "rgba(216, 216, 216, 0.4)",
+                    lineHeight: 1.75,
+                    color: "rgba(214, 204, 190, 0.4)",
                     margin: 0,
                     maxWidth: 600,
                   }}

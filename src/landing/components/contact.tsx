@@ -14,12 +14,12 @@ import { ANIMATION_EASINGS } from "@/animation/constants";
 // Data
 // ============================================================================
 
-const EMAIL = "hello@frontendmultiverse.com";
+const EMAIL = "your.email@example.com";
 
 const LINKS = [
   {
     label: "GitHub",
-    href: "https://github.com",
+    href: "https://github.com/yourusername",
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path
@@ -34,7 +34,7 @@ const LINKS = [
   },
   {
     label: "LinkedIn",
-    href: "https://linkedin.com",
+    href: "https://linkedin.com/in/yourusername",
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path
@@ -68,7 +68,7 @@ const LINKS = [
   },
   {
     label: "Email",
-    href: `mailto:${EMAIL}`,
+    href: "mailto:your.email@example.com",
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <rect x="2" y="4" width="20" height="16" rx="2" stroke="currentColor" strokeWidth="1.5" />
@@ -91,11 +91,22 @@ const LINKS = [
 function CopyEmailButton() {
   const [copied, setCopied] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const btnRef = useRef<HTMLButtonElement>(null);
 
   const handleCopy = useCallback(async () => {
     try {
       await navigator.clipboard.writeText(EMAIL);
       setCopied(true);
+
+      // Brief scale pulse feedback
+      if (btnRef.current) {
+        gsap.fromTo(
+          btnRef.current,
+          { scale: 0.95 },
+          { scale: 1, duration: 0.4, ease: ANIMATION_EASINGS.backOut },
+        );
+      }
+
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
       timeoutRef.current = setTimeout(() => setCopied(false), 2000);
     } catch {
@@ -111,6 +122,7 @@ function CopyEmailButton() {
 
   return (
     <button
+      ref={btnRef}
       onClick={handleCopy}
       className="copy-email-btn focus-ring"
       aria-label={copied ? "Email copied to clipboard" : `Copy ${EMAIL} to clipboard`}
@@ -121,9 +133,9 @@ function CopyEmailButton() {
         fontFamily: "'JetBrains Mono', monospace",
         fontSize: "clamp(0.75rem, 0.85vw, 0.8125rem)",
         fontWeight: 400,
-        color: copied ? "rgba(52, 211, 153, 0.9)" : "rgba(216, 216, 216, 0.4)",
-        background: copied ? "rgba(52, 211, 153, 0.06)" : "transparent",
-        border: `1px solid ${copied ? "rgba(52, 211, 153, 0.15)" : "rgba(255, 255, 255, 0.06)"}`,
+        color: copied ? "rgba(201, 169, 110, 0.85)" : "rgba(214, 204, 190, 0.4)",
+        background: copied ? "rgba(201, 169, 110, 0.06)" : "transparent",
+        border: `1px solid ${copied ? "rgba(201, 169, 110, 0.15)" : "rgba(245, 240, 232, 0.06)"}`,
         borderRadius: 100,
         padding: "0.625rem 1.25rem",
         cursor: "pointer",
@@ -241,7 +253,7 @@ export function Contact() {
       style={{
         position: "relative",
         padding: "clamp(6rem, 16vh, 14rem) clamp(1.5rem, 5vw, 6rem)",
-        background: "#040508",
+        background: "#080706",
         overflow: "hidden",
         minHeight: "80dvh",
         display: "flex",
@@ -259,7 +271,7 @@ export function Contact() {
           right: "10%",
           height: 1,
           background:
-            "linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.06) 50%, transparent 100%)",
+            "linear-gradient(90deg, transparent 0%, rgba(245, 240, 232, 0.06) 50%, transparent 100%)",
         }}
       />
 
@@ -274,7 +286,7 @@ export function Contact() {
           width: "clamp(400px, 50vw, 700px)",
           height: "clamp(400px, 50vw, 700px)",
           borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(255, 255, 255, 0.01) 0%, transparent 60%)",
+          background: "radial-gradient(circle, rgba(245, 240, 232, 0.01) 0%, transparent 60%)",
           filter: "blur(60px)",
           pointerEvents: "none",
         }}
@@ -290,19 +302,19 @@ export function Contact() {
               fontSize: "clamp(3rem, 8vw, 7.5rem)",
               fontWeight: 600,
               letterSpacing: "-0.04em",
-              lineHeight: 0.95,
+              lineHeight: 0.9,
               margin: "0 0 clamp(2.5rem, 5vw, 4rem) 0",
             }}
           >
             <span
               data-heading-line
               style={{
-                color: "rgba(255, 255, 255, 0.95)",
+                color: "rgba(245, 240, 232, 0.95)",
                 display: "block",
                 willChange: "clip-path",
               }}
             >
-              Have a project
+              Let&apos;s work
             </span>
             <br />
             <span
@@ -311,17 +323,17 @@ export function Contact() {
                 display: "block",
                 willChange: "clip-path",
                 background:
-                  "linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(216,216,216,0.7) 100%)",
+                  "linear-gradient(135deg, rgba(245,240,232,1) 0%, rgba(201,169,110,0.7) 100%)",
                 backgroundClip: "text",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
               }}
             >
-              in mind?
+              together.
             </span>
           </h2>
 
-          {/* Availability */}
+          {/* Contact instruction */}
           <div
             data-availability
             style={{
@@ -333,23 +345,13 @@ export function Contact() {
           >
             <span
               style={{
-                width: 8,
-                height: 8,
-                borderRadius: "50%",
-                background: "#34d399",
-                boxShadow: "0 0 8px rgba(52, 211, 153, 0.5)",
-                flexShrink: 0,
-              }}
-            />
-            <span
-              style={{
                 fontFamily: "'Inter', sans-serif",
                 fontSize: "clamp(0.8125rem, 0.9vw, 0.9375rem)",
-                fontWeight: 500,
-                color: "rgba(52, 211, 153, 0.8)",
+                fontWeight: 400,
+                color: "rgba(214, 204, 190, 0.35)",
               }}
             >
-              Available for opportunities
+              Available for freelance and full-time opportunities
             </span>
           </div>
         </div>
@@ -371,7 +373,7 @@ export function Contact() {
               target="_blank"
               rel="noopener noreferrer"
               data-contact-link
-              className="contact-method-link focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/30"
+              className="contact-method-link focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/20"
               aria-label={link.label}
               style={{
                 display: "inline-flex",
@@ -379,22 +381,14 @@ export function Contact() {
                 gap: 10,
                 padding: "0.75rem 1.5rem",
                 borderRadius: 100,
-                background: "rgba(255, 255, 255, 0.03)",
-                border: "1px solid rgba(255, 255, 255, 0.06)",
+                background: "rgba(245, 240, 232, 0.03)",
+                border: "1px solid rgba(245, 240, 232, 0.06)",
                 textDecoration: "none",
                 fontFamily: "'Space Grotesk', sans-serif",
                 fontSize: "clamp(0.8125rem, 0.9vw, 0.9375rem)",
                 fontWeight: 500,
-                color: "rgba(216, 216, 216, 0.5)",
+                color: "rgba(214, 204, 190, 0.5)",
                 transition: "background 0.3s ease, border-color 0.3s ease, color 0.3s ease",
-                outline: "2px solid transparent",
-                outlineOffset: 2,
-              }}
-              onFocus={(e) => {
-                e.currentTarget.style.outline = "2px solid rgba(255, 255, 255, 0.2)";
-              }}
-              onBlur={(e) => {
-                e.currentTarget.style.outline = "2px solid transparent";
               }}
             >
               {link.icon}

@@ -25,7 +25,9 @@ export function PortalOverlay({ active }: { active: boolean }) {
 
   useEffect(() => {
     const el = ref.current;
-    return () => { if (el) gsap.killTweensOf(el); };
+    return () => {
+      if (el) gsap.killTweensOf(el);
+    };
   }, []);
 
   return (
@@ -34,8 +36,11 @@ export function PortalOverlay({ active }: { active: boolean }) {
       role="presentation"
       aria-hidden="true"
       style={{
-        position: "fixed", inset: 0, zIndex: 100,
-        background: "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(5, 5, 18, 0.94) 0%, rgba(0, 0, 0, 0.98) 100%)",
+        position: "fixed",
+        inset: 0,
+        zIndex: 100,
+        background:
+          "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(8, 7, 6, 0.94) 0%, rgba(8, 7, 6, 0.98) 100%)",
         opacity: 0,
         pointerEvents: active ? "all" : "none",
         willChange: "opacity",

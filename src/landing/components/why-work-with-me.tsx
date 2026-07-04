@@ -236,8 +236,8 @@ function ValueCard({
         flexDirection: "column",
         padding: "clamp(1.75rem, 3vw, 2.25rem)",
         borderRadius: 16,
-        background: "rgba(255, 255, 255, 0.025)",
-        border: "1px solid rgba(255, 255, 255, 0.05)",
+        background: "rgba(245, 240, 232, 0.025)",
+        border: "1px solid rgba(245, 240, 232, 0.05)",
         backdropFilter: "blur(12px)",
         WebkitBackdropFilter: "blur(12px)",
         boxShadow: "0 4px 24px rgba(0, 0, 0, 0.2)",
@@ -257,7 +257,7 @@ function ValueCard({
           right: "15%",
           height: 2,
           borderRadius: 1,
-          background: "linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent)",
+          background: "linear-gradient(90deg, transparent, rgba(245, 240, 232, 0.2), transparent)",
           transformOrigin: "left center",
           transform: "scaleX(0)",
         }}
@@ -271,7 +271,7 @@ function ValueCard({
           inset: 0,
           borderRadius: 16,
           background:
-            "radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.05) 0%, transparent 60%)",
+            "radial-gradient(ellipse at 50% 0%, rgba(245, 240, 232, 0.05) 0%, transparent 60%)",
           opacity: 0,
           pointerEvents: "none",
           transition: "opacity 0.4s ease",
@@ -289,9 +289,9 @@ function ValueCard({
           height: 52,
           borderRadius: 14,
           background:
-            "linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(216, 216, 216, 0.03) 100%)",
-          border: "1px solid rgba(255, 255, 255, 0.08)",
-          color: "#a5b4fc",
+            "linear-gradient(135deg, rgba(245, 240, 232, 0.04) 0%, rgba(245, 240, 232, 0.025) 100%)",
+          border: "1px solid rgba(245, 240, 232, 0.06)",
+          color: "#c9a96e",
           marginBottom: "1.25rem",
           willChange: "transform",
           transition: "background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease",
@@ -306,7 +306,7 @@ function ValueCard({
           fontFamily: "'JetBrains Mono', monospace",
           fontSize: "0.6875rem",
           fontWeight: 500,
-          color: "rgba(255, 255, 255, 0.4)",
+          color: "rgba(180, 170, 155, 0.35)",
           letterSpacing: "0.15em",
           marginBottom: "0.75rem",
           transition: "color 0.3s ease",
@@ -321,7 +321,7 @@ function ValueCard({
           fontFamily: "'Space Grotesk', sans-serif",
           fontSize: "clamp(1.0625rem, 1.2vw, 1.25rem)",
           fontWeight: 600,
-          color: "#f0f0f5",
+          color: "#f5f0e8",
           margin: "0 0 0.75rem 0",
           letterSpacing: "-0.02em",
           willChange: "transform",
@@ -335,7 +335,7 @@ function ValueCard({
           fontFamily: "'Inter', sans-serif",
           fontSize: "clamp(0.875rem, 1vw, 0.9375rem)",
           fontWeight: 400,
-          lineHeight: 1.6,
+          lineHeight: 1.65,
           color: "rgba(226, 232, 240, 0.5)",
           margin: 0,
         }}
@@ -413,7 +413,7 @@ export function WhyWorkWithMe() {
       style={{
         position: "relative",
         padding: "clamp(5rem, 12vh, 10rem) clamp(1.5rem, 5vw, 6rem)",
-        background: "linear-gradient(180deg, #000000 0%, #050510 50%, #0a0a1a 100%)",
+        background: "linear-gradient(180deg, #080706 0%, #0c0b09 50%, #121110 100%)",
         overflow: "hidden",
       }}
     >
@@ -426,7 +426,7 @@ export function WhyWorkWithMe() {
           right: "10%",
           height: 1,
           background:
-            "linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.08) 50%, transparent 100%)",
+            "linear-gradient(90deg, transparent 0%, rgba(245, 240, 232, 0.08) 50%, transparent 100%)",
         }}
       />
 
@@ -440,7 +440,7 @@ export function WhyWorkWithMe() {
           width: 600,
           height: 500,
           borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(255, 255, 255, 0.025) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(245, 240, 232, 0.025) 0%, transparent 70%)",
           filter: "blur(100px)",
           pointerEvents: "none",
         }}
@@ -460,9 +460,9 @@ export function WhyWorkWithMe() {
               fontFamily: "'JetBrains Mono', monospace",
               fontSize: "clamp(0.625rem, 0.8vw, 0.75rem)",
               fontWeight: 400,
-              letterSpacing: "0.3em",
+              letterSpacing: "0.25em",
               textTransform: "uppercase" as const,
-              color: "rgba(216, 216, 216, 0.5)",
+              color: "rgba(214, 204, 190, 0.5)",
               display: "block",
               marginBottom: "clamp(0.75rem, 1.5vw, 1.25rem)",
             }}
@@ -477,7 +477,7 @@ export function WhyWorkWithMe() {
               fontSize: "clamp(2rem, 5vw, 3.5rem)",
               fontWeight: 700,
               letterSpacing: "-0.03em",
-              lineHeight: 1.1,
+              lineHeight: 1.05,
               margin: "0 0 clamp(1rem, 2vw, 1.5rem) 0",
             }}
           >
@@ -488,8 +488,8 @@ export function WhyWorkWithMe() {
               fontFamily: "'Inter', sans-serif",
               fontSize: "clamp(0.9375rem, 1.1vw, 1.0625rem)",
               fontWeight: 400,
-              lineHeight: 1.6,
-              color: "rgba(226, 232, 240, 0.5)",
+              lineHeight: 1.65,
+              color: "rgba(214, 204, 190, 0.45)",
               margin: "0 auto",
               maxWidth: 520,
             }}

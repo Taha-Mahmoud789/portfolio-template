@@ -1,9 +1,16 @@
 {
   "name": "Frontend Multiverse",
   "short_name": "Multiverse",
-  "description": "An immersive interactive web experience where every world represents a different frontend design philosophy",
+  "description": "Frontend developer specializing in React, TypeScript, and interactive experiences.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#000000",
-  "theme_color": "#000000"
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
 }

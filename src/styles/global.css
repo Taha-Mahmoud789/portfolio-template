@@ -8,7 +8,7 @@
     outline: none;
   }
   .focus-ring:focus-visible {
-    outline: 2px solid rgba(255, 255, 255, 0.3);
+    outline: 2px solid rgba(180, 170, 155, 0.3);
     outline-offset: 4px;
   }
 }
@@ -16,11 +16,11 @@
 @layer base {
   :root {
     /* Color tokens */
-    --color-primary: rgba(216, 216, 216, 1);
-    --color-primary-hover: rgba(255, 255, 255, 1);
+    --color-primary: rgba(201, 169, 110, 1);
+    --color-primary-hover: rgba(245, 240, 232, 1);
     --color-primary-active: rgba(180, 180, 180, 1);
-    --color-primary-subtle: rgba(255, 255, 255, 0.08);
-    --color-primary-muted: rgba(255, 255, 255, 0.04);
+    --color-primary-subtle: rgba(245, 240, 232, 0.08);
+    --color-primary-muted: rgba(245, 240, 232, 0.04);
 
     --color-secondary: rgba(115, 115, 115, 1);
     --color-secondary-hover: rgba(82, 82, 82, 1);
@@ -33,11 +33,11 @@
     --color-accent-active: rgba(37, 99, 235, 1);
     --color-accent-subtle: rgba(239, 246, 255, 1);
 
-    --color-background: rgba(255, 255, 255, 1);
+    --color-background: rgba(245, 240, 232, 1);
     --color-background-alt: rgba(250, 250, 250, 1);
-    --color-surface: rgba(255, 255, 255, 1);
-    --color-surface-raised: rgba(255, 255, 255, 1);
-    --color-surface-overlay: rgba(255, 255, 255, 1);
+    --color-surface: rgba(245, 240, 232, 1);
+    --color-surface-raised: rgba(245, 240, 232, 1);
+    --color-surface-overlay: rgba(245, 240, 232, 1);
     --color-surface-sunken: rgba(250, 250, 250, 1);
     --color-surface-inset: rgba(245, 245, 245, 1);
 
@@ -45,12 +45,12 @@
     --color-foreground-secondary: rgba(82, 82, 82, 1);
     --color-foreground-muted: rgba(163, 163, 163, 1);
     --color-foreground-subtle: rgba(212, 212, 212, 1);
-    --color-foreground-inverse: rgba(255, 255, 255, 1);
+    --color-foreground-inverse: rgba(245, 240, 232, 1);
 
     --color-border: rgba(229, 229, 229, 1);
     --color-border-strong: rgba(212, 212, 212, 1);
     --color-border-subtle: rgba(245, 245, 245, 1);
-    --color-border-focus: rgba(216, 216, 216, 0.5);
+    --color-border-focus: rgba(201, 169, 110, 0.5);
 
     --color-success: rgba(34, 197, 94, 1);
     --color-success-hover: rgba(22, 163, 74, 1);
@@ -72,7 +72,7 @@
     --color-info-subtle: rgba(236, 254, 255, 1);
     --color-info-foreground: rgba(14, 116, 144, 1);
 
-    --color-focus-ring: rgba(216, 216, 216, 0.5);
+    --color-focus-ring: rgba(201, 169, 110, 0.5);
     --color-disabled-bg: rgba(245, 245, 245, 1);
     --color-disabled-fg: rgba(163, 163, 163, 1);
     --color-disabled-border: rgba(229, 229, 229, 1);
@@ -147,10 +147,10 @@
     --radius-tooltip: 4px;
 
     /* Glass tokens */
-    --glass-bg: rgba(255, 255, 255, 0.7);
-    --glass-bg-heavy: rgba(255, 255, 255, 0.85);
-    --glass-bg-light: rgba(255, 255, 255, 0.5);
-    --glass-border: rgba(255, 255, 255, 0.2);
+    --glass-bg: rgba(245, 240, 232, 0.7);
+    --glass-bg-heavy: rgba(245, 240, 232, 0.85);
+    --glass-bg-light: rgba(245, 240, 232, 0.5);
+    --glass-border: rgba(245, 240, 232, 0.2);
     --glass-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
 
     /* Border tokens */
@@ -195,7 +195,7 @@
       --color-surface-sunken: rgba(0, 0, 0, 1);
       --color-surface-inset: rgba(17, 17, 17, 1);
 
-      --color-foreground: rgba(255, 255, 255, 1);
+      --color-foreground: rgba(245, 240, 232, 1);
       --color-foreground-secondary: rgba(163, 163, 163, 1);
       --color-foreground-muted: rgba(115, 115, 115, 1);
       --color-foreground-subtle: rgba(82, 82, 82, 1);
@@ -211,7 +211,7 @@
       --glass-bg: rgba(23, 23, 23, 0.7);
       --glass-bg-heavy: rgba(23, 23, 23, 0.85);
       --glass-bg-light: rgba(23, 23, 23, 0.5);
-      --glass-border: rgba(255, 255, 255, 0.1);
+      --glass-border: rgba(245, 240, 232, 0.1);
     }
   }
 
@@ -238,7 +238,7 @@
     overflow-x: hidden;
     overflow-y: scroll;
     scrollbar-width: thin;
-    scrollbar-color: rgba(216, 216, 216, 0.15) transparent;
+    scrollbar-color: rgba(201, 169, 110, 0.15) transparent;
   }
 
   body {
@@ -259,14 +259,14 @@
   }
 }
 
-/* Landing Design System Tokens — TRIONN-inspired dark premium */
+/* Landing Design System Tokens â€” TRIONN-inspired dark premium */
 :root {
   /* Section spacing */
   --section-py: clamp(5rem, 12vh, 10rem);
   --section-px: clamp(1.5rem, 5vw, 6rem);
   --section-max-w: 1100px;
 
-  /* Typography — Headings */
+  /* Typography â€” Headings */
   --heading-font:
     "Space Grotesk", "Familjen Grotesk", -apple-system, BlinkMacSystemFont, sans-serif;
   --heading-size: clamp(2rem, 5vw, 3.5rem);
@@ -274,47 +274,47 @@
   --heading-tracking: -0.03em;
   --heading-leading: 1.1;
 
-  /* Typography — Body */
+  /* Typography â€” Body */
   --body-font: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
   --body-size: clamp(0.9375rem, 1.1vw, 1.0625rem);
   --body-weight: 400;
-  --body-color: rgba(216, 216, 216, 0.5);
+  --body-color: rgba(214, 204, 190, 0.45);
   --body-leading: 1.65;
 
-  /* Typography — Labels/Eyebrows */
+  /* Typography â€” Labels/Eyebrows */
   --label-font: "JetBrains Mono", "Martian Mono", monospace;
   --label-size: clamp(0.625rem, 0.8vw, 0.75rem);
   --label-tracking: 0.3em;
-  --label-color: rgba(216, 216, 216, 0.4);
+  --label-color: rgba(180, 170, 155, 0.35);
 
-  /* Typography — Card titles */
+  /* Typography â€” Card titles */
   --card-title-size: clamp(1.0625rem, 1.2vw, 1.25rem);
   --card-title-weight: 600;
 
   /* Card styling */
   --card-radius: 16px;
-  --card-bg: rgba(255, 255, 255, 0.02);
-  --card-border: rgba(255, 255, 255, 0.04);
+  --card-bg: rgba(245, 240, 232, 0.015);
+  --card-border: rgba(245, 240, 232, 0.03);
 
   /* Glass */
   --glass-blur: 12px;
 
-  /* Accent — muted white/gray instead of indigo */
-  --accent-primary: rgba(216, 216, 216, 1);
-  --accent-glow: rgba(216, 216, 216, 0.08);
+  /* Accent â€” muted white/gray instead of indigo */
+  --accent-primary: rgba(201, 169, 110, 1);
+  --accent-glow: rgba(201, 169, 110, 0.08);
 
   /* Divider */
-  --divider-color: rgba(255, 255, 255, 0.04);
+  --divider-color: rgba(245, 240, 232, 0.03);
 
   /* Animation timing */
   --reveal-duration: 0.8s;
   --reveal-ease: cubic-bezier(0.19, 1, 0.22, 1);
   --micro-duration: 0.3s;
 
-  /* Backgrounds — TRIONN dark */
-  --bg-a: #040508;
-  --bg-mid: #040508;
-  --bg-b: #040508;
+  /* Backgrounds â€” TRIONN dark */
+  --bg-a: #080706;
+  --bg-mid: #080706;
+  --bg-b: #080706;
 }
 
 /* Lenis smooth scroll */
@@ -355,12 +355,12 @@ html.lenis body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(216, 216, 216, 0.15);
+  background: rgba(201, 169, 110, 0.15);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(216, 216, 216, 0.25);
+  background: rgba(180, 170, 155, 0.2);
 }
 
 @keyframes app-spinner {
@@ -407,14 +407,14 @@ html.lenis body {
 @keyframes landing-breathe {
   0%,
   100% {
-    box-shadow: 0 0 0 rgba(255, 255, 255, 0);
-    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 0 0 rgba(245, 240, 232, 0);
+    border-color: rgba(245, 240, 232, 0.08);
   }
   50% {
     box-shadow:
-      0 0 24px rgba(255, 255, 255, 0.04),
-      inset 0 0 12px rgba(255, 255, 255, 0.01);
-    border-color: rgba(255, 255, 255, 0.2);
+      0 0 24px rgba(245, 240, 232, 0.03),
+      inset 0 0 12px rgba(245, 240, 232, 0.008);
+    border-color: rgba(180, 170, 155, 0.18);
   }
 }
 
@@ -476,9 +476,9 @@ html.lenis body {
   }
 }
 
-/* Gradient text — reusable */
+/* Gradient text â€” reusable */
 .gradient-text {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(216, 216, 216, 0.8) 100%);
+  background: linear-gradient(135deg, rgba(245, 240, 232, 1) 0%, rgba(201, 169, 110, 0.8) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -555,12 +555,12 @@ html.lenis body {
 }
 
 /* ============================================================================
-   Footer — Dark premium design (TRIONN)
+   Footer â€” Dark premium design (TRIONN)
    ============================================================================ */
 
 .footer-root {
   position: relative;
-  background: #040508;
+  background: #080706;
   overflow: hidden;
 }
 
@@ -573,9 +573,9 @@ html.lenis body {
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(255, 255, 255, 0.06) 20%,
-    rgba(216, 216, 216, 0.1) 50%,
-    rgba(255, 255, 255, 0.06) 80%,
+    rgba(245, 240, 232, 0.04) 20%,
+    rgba(201, 169, 110, 0.1) 50%,
+    rgba(245, 240, 232, 0.04) 80%,
     transparent 100%
   );
 }
@@ -590,8 +590,8 @@ html.lenis body {
   border-radius: 50%;
   background: radial-gradient(
     ellipse,
-    rgba(255, 255, 255, 0.03) 0%,
-    rgba(216, 216, 216, 0.01) 40%,
+    rgba(245, 240, 232, 0.02) 0%,
+    rgba(201, 169, 110, 0.01) 40%,
     transparent 70%
   );
   pointer-events: none;
@@ -620,11 +620,11 @@ html.lenis body {
 }
 
 .footer-headline-dim {
-  color: rgba(226, 232, 240, 0.45);
+  color: rgba(180, 170, 155, 0.45);
 }
 
 .footer-headline-gradient {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(216, 216, 216, 0.8) 100%);
+  background: linear-gradient(135deg, rgba(245, 240, 232, 1) 0%, rgba(201, 169, 110, 0.8) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -634,7 +634,7 @@ html.lenis body {
   font-family: "Inter", sans-serif;
   font-size: clamp(0.875rem, 1.1vw, 1rem);
   font-weight: 400;
-  color: rgba(226, 232, 240, 0.5);
+  color: rgba(180, 170, 155, 0.5);
   margin: 0;
 }
 
@@ -673,7 +673,7 @@ html.lenis body {
   font-size: clamp(0.8125rem, 1vw, 0.9375rem);
   font-weight: 400;
   line-height: 1.65;
-  color: rgba(226, 232, 240, 0.45);
+  color: rgba(180, 170, 155, 0.45);
   margin: 0;
   max-width: 280px;
 }
@@ -690,19 +690,19 @@ html.lenis body {
   width: 36px;
   height: 36px;
   border-radius: 10px;
-  color: rgba(226, 232, 240, 0.4);
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: rgba(180, 170, 155, 0.4);
+  background: rgba(245, 240, 232, 0.02);
+  border: 1px solid rgba(245, 240, 232, 0.04);
   text-decoration: none;
   transition: all 0.3s ease;
 }
 
 .footer-social-icon:hover {
-  color: rgba(255, 255, 255, 0.9);
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.15);
+  color: rgba(245, 240, 232, 0.9);
+  background: rgba(245, 240, 232, 0.04);
+  border-color: rgba(180, 170, 155, 0.12);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 12px rgba(245, 240, 232, 0.03);
 }
 
 /* Column labels */
@@ -712,7 +712,7 @@ html.lenis body {
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(226, 232, 240, 0.5);
+  color: rgba(180, 170, 155, 0.5);
   margin: 0 0 clamp(1rem, 2vw, 1.25rem) 0;
 }
 
@@ -730,7 +730,7 @@ html.lenis body {
   font-family: "Inter", sans-serif;
   font-size: clamp(0.8125rem, 1vw, 0.9375rem);
   font-weight: 400;
-  color: rgba(226, 232, 240, 0.4);
+  color: rgba(180, 170, 155, 0.4);
   text-decoration: none;
   display: inline-block;
   transition:
@@ -739,7 +739,7 @@ html.lenis body {
 }
 
 .footer-nav-link:hover {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(245, 240, 232, 0.75);
   transform: translateX(3px);
 }
 
@@ -757,7 +757,7 @@ html.lenis body {
   font-family: "Inter", sans-serif;
   font-size: clamp(0.8125rem, 1vw, 0.9375rem);
   font-weight: 400;
-  color: rgba(226, 232, 240, 0.4);
+  color: rgba(180, 170, 155, 0.4);
   text-decoration: none;
   display: inline-flex;
   align-items: center;
@@ -768,7 +768,7 @@ html.lenis body {
 }
 
 .footer-connect-link:hover {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(245, 240, 232, 0.75);
   transform: translateX(2px);
 }
 
@@ -789,7 +789,7 @@ html.lenis body {
   flex-wrap: wrap;
   gap: clamp(0.75rem, 1.5vw, 1rem);
   padding: clamp(1.5rem, 3vw, 2rem) 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  border-top: 1px solid rgba(245, 240, 232, 0.03);
 }
 
 .footer-copyright {
@@ -797,7 +797,7 @@ html.lenis body {
   font-size: clamp(0.625rem, 0.75vw, 0.6875rem);
   font-weight: 400;
   letter-spacing: 0.1em;
-  color: rgba(226, 232, 240, 0.4);
+  color: rgba(180, 170, 155, 0.4);
   margin: 0;
 }
 
@@ -806,7 +806,7 @@ html.lenis body {
   font-size: clamp(0.625rem, 0.75vw, 0.6875rem);
   font-weight: 400;
   letter-spacing: 0.1em;
-  color: rgba(226, 232, 240, 0.3);
+  color: rgba(180, 170, 155, 0.3);
   margin: 0;
 }
 
@@ -829,7 +829,7 @@ html.lenis body {
   }
 }
 
-/* Navigation — floating pill */
+/* Navigation â€” floating pill */
 .nav-pill {
   transition:
     padding 0.5s cubic-bezier(0.19, 1, 0.22, 1),
@@ -848,7 +848,7 @@ html.lenis body {
 
 .nav-pill:hover .nav-logo {
   transform: scale(1.05);
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(180, 170, 155, 0.18);
 }
 
 .nav-cta-btn::before {
@@ -858,7 +858,7 @@ html.lenis body {
   border-radius: inherit;
   opacity: 0;
   transition: opacity 0.3s ease;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(216, 216, 216, 0.02) 100%);
+  background: linear-gradient(135deg, rgba(245, 240, 232, 0.03) 0%, rgba(201, 169, 110, 0.02) 100%);
 }
 
 .nav-cta-btn:hover::before {
@@ -870,16 +870,16 @@ html.lenis body {
 }
 
 .nav-hamburger:hover {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(245, 240, 232, 0.04);
 }
 
 /* Back to top button hover */
 .back-to-top-btn:hover {
-  border-color: rgba(255, 255, 255, 0.25) !important;
-  background: rgba(4, 5, 8, 0.85) !important;
+  border-color: rgba(180, 170, 155, 0.25) !important;
+  background: rgba(8, 7, 6, 0.85) !important;
   box-shadow:
-    0 4px 32px rgba(255, 255, 255, 0.05),
-    0 0 0 1px rgba(255, 255, 255, 0.08) !important;
+    0 4px 32px rgba(245, 240, 232, 0.03),
+    0 0 0 1px rgba(245, 240, 232, 0.06) !important;
 }
 
 .back-to-top-btn:hover .back-to-top-glow {
@@ -888,7 +888,7 @@ html.lenis body {
 
 .back-to-top-btn:hover .back-to-top-arrow {
   transform: translateY(-2px) !important;
-  color: rgba(255, 255, 255, 0.8) !important;
+  color: rgba(245, 240, 232, 0.75) !important;
 }
 
 .back-to-top-btn:active {
@@ -912,15 +912,15 @@ html.lenis body {
   }
 }
 
-/* About metric gradient text — background-clip: text needs CSS class */
+/* About metric gradient text â€” background-clip: text needs CSS class */
 .about-metric-value {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(216, 216, 216, 0.8) 100%);
+  background: linear-gradient(135deg, rgba(245, 240, 232, 1) 0%, rgba(201, 169, 110, 0.8) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* About responsive — stable data-attribute selectors */
+/* About responsive â€” stable data-attribute selectors */
 @media (max-width: 1024px) {
   [data-about="grid"] {
     grid-template-columns: 1fr !important;
@@ -992,9 +992,9 @@ html.lenis body {
 
 /* Portal back button hover */
 .portal-back-btn:hover {
-  color: rgba(226, 232, 240, 0.95);
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.15);
+  color: rgba(180, 170, 155, 0.95);
+  background: rgba(245, 240, 232, 0.06);
+  border-color: rgba(180, 170, 155, 0.12);
   transform: translateX(2px);
 }
 
@@ -1002,12 +1002,12 @@ html.lenis body {
 @keyframes world-card-border-glow {
   0%,
   100% {
-    box-shadow: 0 0 0 rgba(255, 255, 255, 0);
-    border-color: rgba(255, 255, 255, 0.06);
+    box-shadow: 0 0 0 rgba(245, 240, 232, 0);
+    border-color: rgba(245, 240, 232, 0.04);
   }
   50% {
-    box-shadow: 0 0 40px rgba(255, 255, 255, 0.06);
-    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 0 40px rgba(245, 240, 232, 0.04);
+    border-color: rgba(245, 240, 232, 0.08);
   }
 }
 
@@ -1015,11 +1015,11 @@ html.lenis body {
 @keyframes world-focus-ring {
   0%,
   100% {
-    outline-color: rgba(255, 255, 255, 0.3);
+    outline-color: rgba(180, 170, 155, 0.3);
     outline-offset: 4px;
   }
   50% {
-    outline-color: rgba(255, 255, 255, 0.5);
+    outline-color: rgba(214, 204, 190, 0.45);
     outline-offset: 6px;
   }
 }
@@ -1078,19 +1078,19 @@ html.lenis body {
 }
 
 /* ==========================================================================
-   How I Work — hover, focus, responsive
+   How I Work â€” hover, focus, responsive
    ========================================================================== */
 .step-card:focus-visible {
-  border-color: rgba(255, 255, 255, 0.3) !important;
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(180, 170, 155, 0.3) !important;
+  box-shadow: 0 0 0 2px rgba(245, 240, 232, 0.08) !important;
 }
 .step-card:hover,
 .step-card:focus-visible {
-  border-color: rgba(255, 255, 255, 0.12) !important;
-  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(245, 240, 232, 0.08) !important;
+  background: rgba(245, 240, 232, 0.03) !important;
   box-shadow:
-    0 8px 40px rgba(255, 255, 255, 0.04),
-    0 0 0 1px rgba(255, 255, 255, 0.06) !important;
+    0 8px 40px rgba(245, 240, 232, 0.03),
+    0 0 0 1px rgba(245, 240, 232, 0.04) !important;
 }
 .step-card:hover .step-glow,
 .step-card:focus-visible .step-glow {
@@ -1102,21 +1102,21 @@ html.lenis body {
 }
 .step-card:hover .step-number,
 .step-card:focus-visible .step-number {
-  color: rgba(255, 255, 255, 0.8) !important;
+  color: rgba(245, 240, 232, 0.75) !important;
 }
 .step-card:hover .step-icon,
 .step-card:focus-visible .step-icon {
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.08) 0%,
-    rgba(216, 216, 216, 0.04) 100%
+    rgba(245, 240, 232, 0.06) 0%,
+    rgba(201, 169, 110, 0.04) 100%
   ) !important;
-  border-color: rgba(255, 255, 255, 0.12) !important;
-  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(245, 240, 232, 0.08) !important;
+  box-shadow: 0 4px 20px rgba(245, 240, 232, 0.03) !important;
 }
 .step-card:hover .step-arrow,
 .step-card:focus-visible .step-arrow {
-  color: rgba(255, 255, 255, 0.4) !important;
+  color: rgba(180, 170, 155, 0.4) !important;
 }
 
 @media (max-width: 1024px) {
@@ -1142,21 +1142,21 @@ html.lenis body {
 }
 
 /* ==========================================================================
-   Why Work With Me — hover, focus, responsive
+   Why Work With Me â€” hover, focus, responsive
    ========================================================================== */
 .value-card:focus-visible {
-  border-color: rgba(255, 255, 255, 0.3) !important;
+  border-color: rgba(180, 170, 155, 0.3) !important;
   box-shadow:
-    0 0 0 2px rgba(255, 255, 255, 0.1),
-    0 8px 40px rgba(255, 255, 255, 0.04) !important;
+    0 0 0 2px rgba(245, 240, 232, 0.08),
+    0 8px 40px rgba(245, 240, 232, 0.03) !important;
 }
 .value-card:hover,
 .value-card:focus-visible {
-  border-color: rgba(255, 255, 255, 0.1) !important;
-  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(245, 240, 232, 0.08) !important;
+  background: rgba(245, 240, 232, 0.03) !important;
   box-shadow:
-    0 8px 40px rgba(255, 255, 255, 0.04),
-    0 0 0 1px rgba(255, 255, 255, 0.06) !important;
+    0 8px 40px rgba(245, 240, 232, 0.03),
+    0 0 0 1px rgba(245, 240, 232, 0.04) !important;
 }
 .value-card:hover .value-glow,
 .value-card:focus-visible .value-glow {
@@ -1166,15 +1166,15 @@ html.lenis body {
 .value-card:focus-visible .value-icon {
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.08) 0%,
-    rgba(216, 216, 216, 0.04) 100%
+    rgba(245, 240, 232, 0.06) 0%,
+    rgba(201, 169, 110, 0.04) 100%
   ) !important;
-  border-color: rgba(255, 255, 255, 0.12) !important;
-  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(245, 240, 232, 0.08) !important;
+  box-shadow: 0 4px 20px rgba(245, 240, 232, 0.03) !important;
 }
 .value-card:hover .value-number,
 .value-card:focus-visible .value-number {
-  color: rgba(255, 255, 255, 0.8) !important;
+  color: rgba(245, 240, 232, 0.75) !important;
 }
 
 @media (max-width: 1024px) {
@@ -1194,24 +1194,24 @@ html.lenis body {
 }
 
 /* ==========================================================================
-   CTA — hover, focus, responsive
+   CTA â€” hover, focus, responsive
    ========================================================================== */
 .cta-primary-btn:focus-visible {
-  border-color: rgba(255, 255, 255, 0.5) !important;
+  border-color: rgba(214, 204, 190, 0.45) !important;
   box-shadow:
-    0 0 0 3px rgba(255, 255, 255, 0.1),
-    0 0 40px rgba(255, 255, 255, 0.05) !important;
+    0 0 0 3px rgba(245, 240, 232, 0.08),
+    0 0 40px rgba(245, 240, 232, 0.03) !important;
 }
 .cta-primary-btn:hover {
-  border-color: rgba(255, 255, 255, 0.5) !important;
+  border-color: rgba(214, 204, 190, 0.45) !important;
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.12) 0%,
-    rgba(216, 216, 216, 0.06) 100%
+    rgba(245, 240, 232, 0.08) 0%,
+    rgba(201, 169, 110, 0.06) 100%
   ) !important;
   box-shadow:
-    0 0 40px rgba(255, 255, 255, 0.06),
-    0 0 80px rgba(255, 255, 255, 0.02) !important;
+    0 0 40px rgba(245, 240, 232, 0.04),
+    0 0 80px rgba(245, 240, 232, 0.015) !important;
 }
 .cta-primary-btn:hover .cta-btn-glow {
   opacity: 1 !important;
@@ -1220,13 +1220,13 @@ html.lenis body {
   transform: translateX(3px) !important;
 }
 .cta-social-link:focus-visible {
-  color: rgba(255, 255, 255, 0.8) !important;
-  outline: 2px solid rgba(255, 255, 255, 0.3);
+  color: rgba(245, 240, 232, 0.75) !important;
+  outline: 2px solid rgba(180, 170, 155, 0.3);
   outline-offset: 4px;
   border-radius: 4px;
 }
 .cta-social-link:hover {
-  color: rgba(165, 180, 252, 0.8) !important;
+  color: rgba(201, 169, 110, 0.7) !important;
 }
 
 @media (max-width: 768px) {
@@ -1252,51 +1252,51 @@ html.lenis body {
 }
 
 /* ==========================================================================
-   Contact — hover, focus, responsive, animations
+   Contact â€” hover, focus, responsive, animations
    ========================================================================== */
 .contact-input::placeholder {
-  color: rgba(216, 216, 216, 0.25);
+  color: rgba(180, 170, 155, 0.2);
 }
 .contact-input:focus {
-  border-color: rgba(255, 255, 255, 0.25) !important;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.04) !important;
-  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(180, 170, 155, 0.25) !important;
+  box-shadow: 0 0 0 3px rgba(245, 240, 232, 0.03) !important;
+  background: rgba(245, 240, 232, 0.03) !important;
 }
 .contact-field:focus-within .contact-field-icon {
-  color: rgba(255, 255, 255, 0.6) !important;
+  color: rgba(245, 240, 232, 0.6) !important;
 }
 .copy-email-btn:focus-visible {
-  border-color: rgba(255, 255, 255, 0.3) !important;
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(180, 170, 155, 0.3) !important;
+  box-shadow: 0 0 0 2px rgba(245, 240, 232, 0.06) !important;
 }
 .copy-email-btn:hover {
-  background: rgba(255, 255, 255, 0.06) !important;
-  border-color: rgba(255, 255, 255, 0.15) !important;
+  background: rgba(245, 240, 232, 0.04) !important;
+  border-color: rgba(180, 170, 155, 0.12) !important;
 }
 .contact-method-link:focus-visible {
-  border-color: rgba(255, 255, 255, 0.25) !important;
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(180, 170, 155, 0.25) !important;
+  box-shadow: 0 0 0 2px rgba(245, 240, 232, 0.04) !important;
 }
 .contact-method-link:hover {
-  background: rgba(255, 255, 255, 0.04) !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
-  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.03) !important;
+  background: rgba(245, 240, 232, 0.03) !important;
+  border-color: rgba(245, 240, 232, 0.08) !important;
+  box-shadow: 0 4px 20px rgba(245, 240, 232, 0.02) !important;
 }
 .contact-method-link:hover .contact-method-icon {
   transform: scale(1.15) !important;
 }
 .contact-submit-btn:focus-visible {
-  border-color: rgba(255, 255, 255, 0.5) !important;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(214, 204, 190, 0.45) !important;
+  box-shadow: 0 0 0 3px rgba(245, 240, 232, 0.06) !important;
 }
 .contact-submit-btn:hover:not(:disabled) {
-  border-color: rgba(255, 255, 255, 0.4) !important;
+  border-color: rgba(180, 170, 155, 0.4) !important;
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.12) 0%,
-    rgba(216, 216, 216, 0.06) 100%
+    rgba(245, 240, 232, 0.08) 0%,
+    rgba(201, 169, 110, 0.06) 100%
   ) !important;
-  box-shadow: 0 0 32px rgba(255, 255, 255, 0.05) !important;
+  box-shadow: 0 0 32px rgba(245, 240, 232, 0.03) !important;
 }
 .contact-submit-btn:hover:not(:disabled) svg {
   transform: translateX(3px) !important;
@@ -1304,7 +1304,7 @@ html.lenis body {
 .contact-spinner {
   width: 16px;
   height: 16px;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(180, 170, 155, 0.18);
   border-top-color: #fff;
   border-radius: 50%;
   animation: contact-spin 0.6s linear infinite;
@@ -1317,10 +1317,10 @@ html.lenis body {
 @keyframes contact-pulse {
   0%,
   100% {
-    box-shadow: 0 0 4px rgba(52, 211, 153, 0.4);
+    box-shadow: 0 0 4px rgba(201, 169, 110, 0.4);
   }
   50% {
-    box-shadow: 0 0 12px rgba(52, 211, 153, 0.7);
+    box-shadow: 0 0 12px rgba(201, 169, 110, 0.6);
   }
 }
 .availability-dot {
@@ -1352,10 +1352,10 @@ html.lenis body {
 }
 
 /* ==========================================================================
-   MICRO INTERACTIONS — Global premium interaction system
+   MICRO INTERACTIONS â€” Global premium interaction system
    ========================================================================== */
 
-/* ── Button press states ─────────────────────────────────────────────── */
+/* â”€â”€ Button press states â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .nav-cta-btn:active,
 .cta-primary-btn:active:not(:disabled),
 .contact-submit-btn:active:not(:disabled),
@@ -1365,7 +1365,7 @@ html.lenis body {
   transition: transform 0.1s ease !important;
 }
 
-/* ── Disabled button state ───────────────────────────────────────────── */
+/* â”€â”€ Disabled button state â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 button:disabled,
 button[disabled] {
   opacity: 0.4 !important;
@@ -1373,26 +1373,26 @@ button[disabled] {
   transform: none !important;
 }
 
-/* ── Scrollbar premium ───────────────────────────────────────────────── */
+/* â”€â”€ Scrollbar premium â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 ::-webkit-scrollbar {
   width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(8, 7, 6, 0.2);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(216, 216, 216, 0.15);
+  background: rgba(201, 169, 110, 0.15);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(216, 216, 216, 0.25);
+  background: rgba(180, 170, 155, 0.2);
 }
 
 /* ==========================================================================
-   Global reduced-motion — all section interactive styles
+   Global reduced-motion â€” all section interactive styles
    ========================================================================== */
 @media (prefers-reduced-motion: reduce) {
   .step-card,
@@ -1422,7 +1422,7 @@ button[disabled] {
 }
 
 /* ==========================================================================
-   Custom Cursor — hide on touch, reduced motion
+   Custom Cursor â€” hide on touch, reduced motion
    ========================================================================== */
 @media (pointer: coarse), (prefers-reduced-motion: reduce) {
   [data-cursor-dot],
@@ -1447,16 +1447,16 @@ button[disabled] {
 }
 
 /* ==========================================================================
-   PROJECT CASE STUDY — Premium case study experience
+   PROJECT CASE STUDY â€” Premium case study experience
    ========================================================================== */
 
-/* ── Root ─────────────────────────────────────────────────────────────── */
+/* â”€â”€ Root â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .project-root {
   min-height: 100vh;
-  background: #040508;
+  background: #080706;
 }
 
-/* ── Hero ─────────────────────────────────────────────────────────────── */
+/* â”€â”€ Hero â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .project-hero {
   position: relative;
   min-height: 100vh;
@@ -1582,14 +1582,14 @@ button[disabled] {
 }
 
 .project-hero-btn--secondary {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(245, 240, 232, 0.03);
+  border: 1px solid rgba(245, 240, 232, 0.08);
   color: var(--color-foreground);
 }
 
 .project-hero-btn--secondary:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(245, 240, 232, 0.06);
+  border-color: rgba(180, 170, 155, 0.12);
 }
 
 .project-hero-btn:focus-visible {
@@ -1597,7 +1597,7 @@ button[disabled] {
   outline-offset: 2px;
 }
 
-/* Hero visual — gradient mesh */
+/* Hero visual â€” gradient mesh */
 .project-hero-visual {
   position: relative;
   width: 100%;
@@ -1605,8 +1605,8 @@ button[disabled] {
   border-radius: var(--radius-xl);
   overflow: hidden;
   margin-top: 3rem;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.04);
+  background: rgba(8, 7, 6, 0.3);
+  border: 1px solid rgba(245, 240, 232, 0.03);
 }
 
 .project-hero-visual-orb {
@@ -1641,8 +1641,8 @@ button[disabled] {
   inset: 0;
   opacity: 0.04;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    linear-gradient(rgba(245, 240, 232, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(245, 240, 232, 0.08) 1px, transparent 1px);
   background-size: 64px 64px;
 }
 
@@ -1651,7 +1651,7 @@ button[disabled] {
   inset: 0;
 }
 
-/* ── Key Decision ────────────────────────────────────────────────────── */
+/* â”€â”€ Key Decision â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .project-key-decision-quote {
   margin: 0 0 2rem 0;
   padding: 0;
@@ -1695,8 +1695,8 @@ button[disabled] {
 .project-key-decision-tradeoff {
   padding: 1.25rem 1.5rem;
   border-radius: var(--radius-card);
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(245, 240, 232, 0.015);
+  border: 1px solid rgba(245, 240, 232, 0.04);
   border-left-width: 2px;
 }
 
@@ -1708,7 +1708,7 @@ button[disabled] {
   margin: 0;
 }
 
-/* ── Sections — shared ────────────────────────────────────────────────── */
+/* â”€â”€ Sections â€” shared â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .project-section {
   padding: clamp(4rem, 8vh, 7rem) clamp(1.5rem, 5vw, 6rem);
   max-width: var(--section-max-w);
@@ -1731,7 +1731,7 @@ button[disabled] {
   margin-top: 4rem;
 }
 
-/* ── Overview ─────────────────────────────────────────────────────────── */
+/* â”€â”€ Overview â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .project-overview-statement {
   font-family: var(--heading-font);
   font-size: clamp(1.5rem, 3vw, 2.25rem);
@@ -1766,7 +1766,7 @@ button[disabled] {
   margin: 0;
 }
 
-/* ── Role ─────────────────────────────────────────────────────────────── */
+/* â”€â”€ Role â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .project-role-list {
   display: flex;
   flex-direction: column;
@@ -1823,7 +1823,7 @@ button[disabled] {
   margin: 0;
 }
 
-/* ── Tech Stack ───────────────────────────────────────────────────────── */
+/* â”€â”€ Tech Stack â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .project-tech-groups {
   display: flex;
   flex-direction: column;
@@ -1857,19 +1857,19 @@ button[disabled] {
   color: var(--color-foreground);
   padding: 0.4rem 0.85rem;
   border-radius: 100px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(245, 240, 232, 0.03);
+  border: 1px solid rgba(245, 240, 232, 0.06);
   transition:
     border-color 0.2s ease,
     background 0.2s ease;
 }
 
 .project-tech-tag:hover {
-  border-color: rgba(255, 255, 255, 0.18);
-  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(245, 240, 232, 0.18);
+  background: rgba(245, 240, 232, 0.04);
 }
 
-/* ── Process ──────────────────────────────────────────────────────────── */
+/* â”€â”€ Process â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .project-process-timeline {
   display: flex;
   flex-direction: column;
@@ -1946,7 +1946,7 @@ button[disabled] {
   margin: 0;
 }
 
-/* ── Results ──────────────────────────────────────────────────────────── */
+/* â”€â”€ Results â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .project-results-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -1959,15 +1959,15 @@ button[disabled] {
   align-items: flex-start;
   padding: 1.5rem;
   border-radius: var(--radius-card);
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(245, 240, 232, 0.015);
+  border: 1px solid rgba(245, 240, 232, 0.03);
   transition:
     border-color 0.3s ease,
     transform 0.3s ease;
 }
 
 .project-result-card:hover {
-  border-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(245, 240, 232, 0.08);
   transform: translateY(-2px);
 }
 
@@ -1996,7 +1996,7 @@ button[disabled] {
   margin: 0;
 }
 
-/* ── Next Project ─────────────────────────────────────────────────────── */
+/* â”€â”€ Next Project â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .project-next {
   padding-bottom: clamp(4rem, 8vh, 6rem);
 }
@@ -2012,16 +2012,16 @@ button[disabled] {
   width: 100%;
   padding: clamp(2rem, 4vw, 3rem);
   border-radius: var(--radius-xl);
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(245, 240, 232, 0.015);
+  border: 1px solid rgba(245, 240, 232, 0.04);
   cursor: pointer;
   transition: all 0.3s ease;
   text-align: left;
 }
 
 .project-next-card:hover {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(245, 240, 232, 0.03);
+  border-color: rgba(245, 240, 232, 0.08);
   transform: translateY(-2px);
 }
 
@@ -2061,7 +2061,7 @@ button[disabled] {
   transform: translate(4px, -4px);
 }
 
-/* ── Not Found ────────────────────────────────────────────────────────── */
+/* â”€â”€ Not Found â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .project-not-found {
   min-height: 100vh;
   display: flex;
@@ -2094,9 +2094,9 @@ button[disabled] {
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
   border-radius: var(--radius-button);
-  background: rgba(99, 102, 241, 0.15);
-  border: 1px solid rgba(99, 102, 241, 0.3);
-  color: #6366f1;
+  background: rgba(201, 169, 110, 0.12);
+  border: 1px solid rgba(201, 169, 110, 0.25);
+  color: #c9a96e;
   font-family: var(--body-font);
   font-size: 0.875rem;
   font-weight: 500;
@@ -2105,10 +2105,10 @@ button[disabled] {
 }
 
 .project-not-found-link:hover {
-  background: rgba(99, 102, 241, 0.2);
+  background: rgba(201, 169, 110, 0.18);
 }
 
-/* ── Responsive ───────────────────────────────────────────────────────── */
+/* â”€â”€ Responsive â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 @media (max-width: 1024px) {
   .project-overview-columns {
     grid-template-columns: 1fr;
@@ -2180,5 +2180,973 @@ button[disabled] {
 
   .project-next-card {
     padding: 1.5rem;
+  }
+}
+
+/* ==========================================================================
+   PROJECT CASE STUDY PAGE — Full CSS
+   ========================================================================== */
+
+/* Root */
+.cs-root {
+  min-height: 100vh;
+  background: #080706;
+  color: #f5f0e8;
+}
+
+/* Breadcrumb */
+.cs-breadcrumb-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  padding: 0.5rem clamp(1rem, 4vw, 3rem) 0.75rem;
+}
+
+/* Section base */
+.cs-section {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: clamp(4rem, 8vh, 7rem) clamp(1.5rem, 5vw, 4rem);
+}
+
+.cs-section--wide {
+  max-width: 1100px;
+}
+
+.cs-label {
+  display: block;
+  font-family: "JetBrains Mono", monospace;
+  font-size: clamp(0.625rem, 0.8vw, 0.75rem);
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(180, 170, 155, 0.5);
+  margin-bottom: clamp(1rem, 2vw, 1.5rem);
+}
+
+.cs-section-title {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: rgba(245, 240, 232, 0.95);
+  margin: 0 0 clamp(2rem, 4vw, 3rem) 0;
+}
+
+.cs-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(245, 240, 232, 0.06), transparent);
+}
+
+/* ── Hero ── */
+.cs-hero {
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: clamp(6rem, 12vh, 10rem) clamp(1.5rem, 5vw, 4rem) clamp(3rem, 6vh, 5rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.cs-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: rgba(180, 170, 155, 0.4);
+  padding: 0;
+  margin-bottom: clamp(2rem, 4vh, 3rem);
+  transition: color 0.3s ease;
+}
+
+.cs-back:hover {
+  color: rgba(245, 240, 232, 0.95);
+}
+
+.cs-hero-number {
+  display: block;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(4rem, 10vw, 8rem);
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  line-height: 0.85;
+  color: rgba(245, 240, 232, 0.04);
+  margin-bottom: clamp(1rem, 2vw, 1.5rem);
+}
+
+.cs-hero-title {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: rgba(245, 240, 232, 0.95);
+  margin: 0 0 clamp(1.5rem, 3vw, 2rem) 0;
+}
+
+.cs-hero-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: clamp(1.5rem, 3vw, 2rem);
+}
+
+.cs-hero-meta-item {
+  font-family: "JetBrains Mono", monospace;
+  font-size: clamp(0.6875rem, 0.8vw, 0.75rem);
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: rgba(180, 170, 155, 0.5);
+}
+
+.cs-hero-meta-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(201, 169, 110, 0.3);
+  flex-shrink: 0;
+}
+
+.cs-hero-desc {
+  font-family: "Inter", sans-serif;
+  font-size: clamp(0.9375rem, 1.1vw, 1.0625rem);
+  font-weight: 400;
+  line-height: 1.7;
+  color: rgba(214, 204, 190, 0.55);
+  max-width: 600px;
+  margin: 0 0 clamp(2rem, 4vw, 3rem) 0;
+}
+
+.cs-hero-preview {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  margin-top: clamp(2rem, 4vw, 3rem);
+  flex-shrink: 0;
+}
+
+.cs-hero-preview .cs-visual--image {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+}
+
+@media (min-width: 1024px) {
+  .cs-hero-preview {
+    position: absolute;
+    top: clamp(6rem, 12vh, 10rem);
+    right: clamp(1.5rem, 5vw, 4rem);
+    width: 45%;
+    max-width: 480px;
+    margin-top: 0;
+  }
+}
+
+.cs-hero-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: clamp(1.5rem, 3vw, 2rem);
+  flex-wrap: wrap;
+}
+
+.cs-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 100px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(245, 240, 232, 0.08);
+}
+
+.cs-btn--primary {
+  background: rgba(245, 240, 232, 0.06);
+  color: rgba(245, 240, 232, 0.85);
+}
+
+.cs-btn--primary:hover {
+  background: rgba(245, 240, 232, 0.12);
+}
+
+.cs-btn--secondary {
+  background: transparent;
+  color: rgba(180, 170, 155, 0.5);
+}
+
+.cs-btn--secondary:hover {
+  color: rgba(245, 240, 232, 0.85);
+  border-color: rgba(245, 240, 232, 0.15);
+}
+
+.cs-hero-tech {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.cs-hero-tech-tag {
+  display: inline-flex;
+  padding: 0.375rem 0.75rem;
+  border-radius: 100px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.6875rem;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  color: rgba(180, 170, 155, 0.5);
+  background: rgba(245, 240, 232, 0.03);
+  border: 1px solid rgba(245, 240, 232, 0.06);
+}
+
+/* ── Overview ── */
+.cs-overview-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(2rem, 4vw, 3rem);
+}
+
+.cs-overview-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.cs-overview-label {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(180, 170, 155, 0.4);
+}
+
+.cs-overview-text {
+  font-family: "Inter", sans-serif;
+  font-size: clamp(0.9375rem, 1.1vw, 1.0625rem);
+  line-height: 1.7;
+  color: rgba(214, 204, 190, 0.55);
+  margin: 0;
+}
+
+/* ── Meta ── */
+.cs-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(1.5rem, 3vw, 2rem);
+}
+
+.cs-meta-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cs-meta-block--wide {
+  grid-column: 1 / -1;
+}
+
+.cs-meta-key {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(180, 170, 155, 0.4);
+}
+
+.cs-meta-value {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(1rem, 1.3vw, 1.125rem);
+  font-weight: 500;
+  color: rgba(245, 240, 232, 0.85);
+}
+
+.cs-meta-tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.cs-meta-tag {
+  display: inline-flex;
+  padding: 0.375rem 0.75rem;
+  border-radius: 100px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.6875rem;
+  color: rgba(180, 170, 155, 0.5);
+  background: rgba(245, 240, 232, 0.03);
+  border: 1px solid rgba(245, 240, 232, 0.06);
+}
+
+.cs-meta-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cs-meta-list-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: "Inter", sans-serif;
+  font-size: clamp(0.8125rem, 0.95vw, 0.9375rem);
+  color: rgba(214, 204, 190, 0.5);
+  padding-left: 1rem;
+  border-left: 1px solid rgba(245, 240, 232, 0.06);
+}
+
+/* ── Showcase ── */
+.cs-showcase-layout {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(3rem, 6vw, 5rem);
+}
+
+.cs-showcase-item {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 2vw, 1.5rem);
+}
+
+.cs-showcase-item--hero .cs-showcase-frame-content {
+  aspect-ratio: 16 / 9;
+}
+
+.cs-showcase-frame {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(245, 240, 232, 0.06);
+  background: rgba(8, 7, 6, 0.5);
+}
+
+.cs-showcase-frame-bar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  background: rgba(245, 240, 232, 0.02);
+  border-bottom: 1px solid rgba(245, 240, 232, 0.04);
+}
+
+.cs-showcase-frame-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.cs-showcase-frame-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(245, 240, 232, 0.08);
+}
+
+.cs-showcase-frame-title {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.6875rem;
+  color: rgba(180, 170, 155, 0.35);
+  letter-spacing: 0.03em;
+}
+
+.cs-showcase-frame-content {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+
+.cs-showcase-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cs-showcase-label {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(1rem, 1.3vw, 1.125rem);
+  font-weight: 600;
+  color: rgba(245, 240, 232, 0.85);
+}
+
+.cs-showcase-desc {
+  font-family: "Inter", sans-serif;
+  font-size: clamp(0.8125rem, 0.95vw, 0.9375rem);
+  line-height: 1.6;
+  color: rgba(214, 204, 190, 0.45);
+  margin: 0;
+}
+
+/* ── Process ── */
+.cs-process-list {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2rem, 4vw, 3rem);
+}
+
+.cs-process-item {
+  display: flex;
+  gap: clamp(1rem, 2vw, 1.5rem);
+  align-items: flex-start;
+}
+
+.cs-process-number {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.cs-process-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cs-process-title {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(1rem, 1.3vw, 1.125rem);
+  font-weight: 600;
+  color: rgba(245, 240, 232, 0.9);
+  margin: 0;
+}
+
+.cs-process-desc {
+  font-family: "Inter", sans-serif;
+  font-size: clamp(0.8125rem, 0.95vw, 0.9375rem);
+  line-height: 1.6;
+  color: rgba(214, 204, 190, 0.45);
+  margin: 0;
+}
+
+/* ── Technical ── */
+.cs-technical-list {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.5rem, 3vw, 2rem);
+}
+
+.cs-technical-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-bottom: clamp(1.5rem, 3vw, 2rem);
+  border-bottom: 1px solid rgba(245, 240, 232, 0.04);
+}
+
+.cs-technical-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.cs-technical-label {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(180, 170, 155, 0.4);
+  padding-left: 1rem;
+  border-left: 2px solid rgba(245, 240, 232, 0.1);
+}
+
+.cs-technical-desc {
+  font-family: "Inter", sans-serif;
+  font-size: clamp(0.8125rem, 0.95vw, 0.9375rem);
+  line-height: 1.6;
+  color: rgba(214, 204, 190, 0.45);
+  margin: 0;
+}
+
+/* ── Results ── */
+.cs-results-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(1.5rem, 3vw, 2rem);
+}
+
+.cs-results-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: relative;
+  padding-bottom: clamp(1.5rem, 3vw, 2rem);
+}
+
+.cs-results-value {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.cs-results-metric {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(0.875rem, 1.1vw, 1rem);
+  font-weight: 600;
+  color: rgba(245, 240, 232, 0.85);
+}
+
+.cs-results-desc {
+  font-family: "Inter", sans-serif;
+  font-size: clamp(0.8125rem, 0.9vw, 0.875rem);
+  line-height: 1.5;
+  color: rgba(214, 204, 190, 0.4);
+  margin: 0;
+}
+
+.cs-results-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 40px;
+  height: 2px;
+  border-radius: 1px;
+}
+
+/* ── Project Navigation ── */
+.cs-project-nav {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: clamp(4rem, 8vh, 7rem) clamp(1.5rem, 5vw, 4rem);
+}
+
+.cs-project-nav-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.cs-project-nav-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: clamp(1.5rem, 3vw, 2rem);
+  background: rgba(245, 240, 232, 0.02);
+  border: 1px solid rgba(245, 240, 232, 0.04);
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: left;
+  overflow: hidden;
+  transition: all 0.4s ease;
+}
+
+.cs-project-nav-card:hover {
+  background: rgba(245, 240, 232, 0.04);
+  border-color: rgba(245, 240, 232, 0.08);
+}
+
+.cs-project-nav-card--next {
+  text-align: right;
+}
+
+.cs-project-nav-direction {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.6875rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  color: rgba(180, 170, 155, 0.4);
+}
+
+.cs-project-nav-title {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  font-weight: 600;
+  color: rgba(245, 240, 232, 0.85);
+}
+
+.cs-project-nav-category {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  color: rgba(180, 170, 155, 0.3);
+  text-transform: uppercase;
+}
+
+.cs-project-nav-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* ── Visual (SVG fallback) ── */
+.cs-visual {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(245, 240, 232, 0.06);
+}
+
+.cs-visual--image {
+  background: rgba(8, 7, 6, 0.5);
+}
+
+.cs-visual-browser {
+  width: 100%;
+}
+
+.cs-visual-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.cs-visual-label {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.cs-visual-label-text {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+}
+
+.cs-visual-label-sub {
+  font-family: "Inter", sans-serif;
+  font-size: 0.6875rem;
+  color: rgba(180, 170, 155, 0.35);
+}
+
+.cs-sv-visual {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ── Project page responsive ── */
+@media (max-width: 768px) {
+  .cs-hero-number {
+    font-size: clamp(3rem, 15vw, 5rem);
+  }
+
+  .cs-hero-title {
+    font-size: clamp(2rem, 10vw, 3rem);
+  }
+
+  .cs-meta-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cs-results-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cs-project-nav-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .cs-project-nav-card--next {
+    text-align: left;
+  }
+}
+
+/* ==========================================================================
+   CREATIVE MENU — Full-screen navigation overlay
+   ========================================================================== */
+
+.cm-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(8, 7, 6, 0.97);
+  backdrop-filter: blur(24px) saturate(120%);
+  -webkit-backdrop-filter: blur(24px) saturate(120%);
+}
+
+.cm-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.cm-bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(245, 240, 232, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(245, 240, 232, 0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.5;
+}
+
+.cm-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(2rem, 5vw, 4rem);
+  width: 100%;
+  max-width: 800px;
+  padding: 2rem;
+}
+
+.cm-nav {
+  width: 100%;
+}
+
+.cm-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.cm-item {
+  width: 100%;
+}
+
+.cm-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1rem, 3vw, 2rem);
+  width: 100%;
+  padding: clamp(0.75rem, 2vw, 1.25rem) 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  color: rgba(180, 170, 155, 0.4);
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+.cm-link:hover,
+.cm-link:focus-visible {
+  color: rgba(245, 240, 232, 0.95);
+}
+
+.cm-link--active {
+  color: rgba(245, 240, 232, 0.95);
+}
+
+.cm-link-number {
+  font-family: "JetBrains Mono", monospace;
+  font-size: clamp(0.625rem, 0.8vw, 0.75rem);
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  opacity: 0.5;
+}
+
+.cm-link-label {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(2rem, 6vw, 4.5rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  flex: 1;
+  text-align: center;
+  transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.cm-link:hover .cm-link-label {
+  color: rgba(245, 240, 232, 0.95);
+}
+
+.cm-link-underline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(201, 169, 110, 0.3), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.cm-link:hover .cm-link-underline {
+  opacity: 1;
+}
+
+.cm-link-arrow {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(245, 240, 232, 0.04);
+  border: 1px solid rgba(245, 240, 232, 0.06);
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+  flex-shrink: 0;
+}
+
+@media (min-width: 1024px) {
+  .cm-link-arrow {
+    display: flex;
+  }
+  .cm-link:hover .cm-link-label {
+    transform: translateX(8px);
+  }
+}
+
+.cm-link:hover .cm-link-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Extra section */
+.cm-extra {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.cm-extra-divider {
+  width: 40px;
+  height: 1px;
+  background: rgba(201, 169, 110, 0.2);
+}
+
+.cm-extra-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.cm-extra-link {
+  font-family: "JetBrains Mono", monospace;
+  font-size: clamp(0.6875rem, 0.8vw, 0.75rem);
+  color: rgba(180, 170, 155, 0.4);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  transition: color 0.3s ease;
+}
+
+.cm-extra-link:hover {
+  color: rgba(245, 240, 232, 0.8);
+}
+
+.cm-extra-sep {
+  color: rgba(201, 169, 110, 0.3);
+  font-size: 0.5rem;
+}
+
+/* Close button — hamburger lines */
+.cm-close-btn {
+  position: absolute;
+  top: clamp(1rem, 3vw, 1.5rem);
+  right: clamp(1rem, 3vw, 1.5rem);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(245, 240, 232, 0.04);
+  border: 1px solid rgba(245, 240, 232, 0.06);
+  cursor: pointer;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.cm-close-btn:hover {
+  background: rgba(245, 240, 232, 0.08);
+  border-color: rgba(245, 240, 232, 0.1);
+}
+
+.cm-close-line {
+  display: block;
+  width: 18px;
+  height: 1.5px;
+  background: rgba(180, 170, 155, 0.6);
+  border-radius: 1px;
+  transition: background 0.3s ease;
+}
+
+.cm-close-btn:hover .cm-close-line {
+  background: rgba(245, 240, 232, 0.9);
+}
+
+/* Close hint */
+.cm-close-hint {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cm-kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 24px;
+  padding: 0 6px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.625rem;
+  color: rgba(180, 170, 155, 0.4);
+  background: rgba(245, 240, 232, 0.03);
+  border: 1px solid rgba(245, 240, 232, 0.06);
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+}
+
+.cm-close-text {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.625rem;
+  color: rgba(180, 170, 155, 0.25);
+  letter-spacing: 0.05em;
+}
+
+/* Mobile creative menu adjustments */
+@media (max-width: 640px) {
+  .cm-content {
+    padding: 1.5rem;
+    gap: clamp(1.5rem, 4vw, 2.5rem);
+  }
+
+  .cm-link {
+    padding: 0.75rem 0;
+    gap: 0.75rem;
+  }
+
+  .cm-link-number {
+    display: none;
+  }
+
+  .cm-link-arrow {
+    width: 32px;
+    height: 32px;
   }
 }

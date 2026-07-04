@@ -1,35 +1,50 @@
 /**
  * Project Case Study Data System
  *
- * Reusable data structure for all project case studies.
- * Each project includes: overview, role, tech stack, process, results, key decision.
+ * Real professional projects.
+ * Each project includes: hero, overview, meta, showcase, process, technical, results.
  */
 
 // ============================================================================
 // Types
 // ============================================================================
 
+export interface ProjectHero {
+  category: string;
+  year: string;
+  role: string;
+  technologies: string[];
+  description: string;
+}
+
 export interface ProjectOverview {
-  goal: string;
-  problem: string;
+  challenge: string;
+  idea: string;
   solution: string;
 }
 
-export interface ProjectRole {
-  area: string;
-  description: string;
+export interface ProjectMeta {
+  role: string;
+  timeline: string;
+  stack: string[];
+  responsibilities: string[];
 }
 
-export interface ProjectTechStack {
-  category: string;
-  items: string[];
+export interface ProjectShowcaseItem {
+  label: string;
+  description: string;
+  image?: string;
 }
 
 export interface ProjectProcessStep {
-  phase: string;
+  number: string;
   title: string;
   description: string;
-  duration: string;
+}
+
+export interface ProjectTechnicalItem {
+  label: string;
+  description: string;
 }
 
 export interface ProjectResult {
@@ -38,28 +53,29 @@ export interface ProjectResult {
   description: string;
 }
 
-export interface ProjectKeyDecision {
-  question: string;
-  answer: string;
-  tradeoff: string;
+export interface ProjectImages {
+  cover: string;
+  hero: string;
+  gallery: string[];
 }
 
 export interface ProjectCaseStudy {
   id: string;
   number: number;
   title: string;
-  shortDescription: string;
-  category: string;
   accentColor: string;
   accentRgb: string;
+  hero: ProjectHero;
   overview: ProjectOverview;
-  role: ProjectRole[];
-  techStack: ProjectTechStack[];
+  meta: ProjectMeta;
+  showcase: ProjectShowcaseItem[];
   process: ProjectProcessStep[];
+  technical: ProjectTechnicalItem[];
   results: ProjectResult[];
-  keyDecision: ProjectKeyDecision;
+  images?: ProjectImages;
   liveUrl?: string;
   githubUrl?: string;
+  prevProjectId: string | null;
   nextProjectId: string | null;
 }
 
@@ -68,326 +84,433 @@ export interface ProjectCaseStudy {
 // ============================================================================
 
 export const PROJECTS: Record<string, ProjectCaseStudy> = {
-  "frontend-multiverse": {
-    id: "frontend-multiverse",
+  "over-benefits": {
+    id: "over-benefits",
     number: 1,
-    title: "Frontend Multiverse",
-    shortDescription:
-      "I built a portfolio that doesn't scroll like a normal website. It uses portal transitions between 3D worlds, a custom cursor system, and scroll-driven animations — all running at 60fps.",
-    category: "Portfolio",
-    accentColor: "#6366f1",
-    accentRgb: "99, 102, 241",
-    overview: {
-      goal: "Create a portfolio that proves I can build complex, performant web experiences — not just arrange divs in a grid.",
-      problem: "Every developer portfolio looks the same. Hero, skills grid, project cards, contact form. I wanted something that would make someone stop scrolling and actually look at what I built.",
-      solution: "Built a portal-based navigation system where each section is a 'world' with its own 3D background, visual identity, and animation language. The cursor changes between worlds. The navigation adapts. Every section feels like a different place.",
+    title: "Over Benefits",
+    accentColor: "#3b82f6",
+    accentRgb: "59, 130, 246",
+    hero: {
+      category: "Digital Benefits Platform",
+      year: "2026",
+      role: "Frontend Developer",
+      technologies: ["React", "TypeScript", "Tailwind CSS", "REST API"],
+      description:
+        "A modern digital platform designed to simplify employee benefits, business solutions and consumer experiences through a clean responsive interface.",
     },
-    role: [
+    overview: {
+      challenge:
+        "Employee benefits platforms are typically cluttered and hard to navigate. Users struggled to find the right plans, understand coverage options, or manage their benefits efficiently.",
+      idea: "Build a clean, intuitive interface that organizes benefits into clear categories. Make plan comparison simple. Ensure the entire experience works flawlessly on mobile — most employees check benefits on their phones.",
+      solution:
+        "Designed a component-based React architecture with TypeScript for type safety. Used Tailwind CSS for a consistent design system. Built responsive layouts that work across all devices. Integrated with the backend API for real-time plan data.",
+    },
+    meta: {
+      role: "Frontend Developer",
+      timeline: "6 weeks",
+      stack: ["React", "TypeScript", "Tailwind CSS", "REST API", "Responsive Design"],
+      responsibilities: [
+        "Frontend Development",
+        "UI Implementation",
+        "Responsive Design",
+        "API Integration",
+        "Performance Optimization",
+      ],
+    },
+    showcase: [
       {
-        area: "Frontend Architecture",
-        description: "Set up React 19 with TypeScript strict mode. Designed the component hierarchy so each 'world' is isolated but shares a common animation layer. Built the portal routing system that handles transitions without page reloads.",
+        label: "Benefits Dashboard",
+        description:
+          "Clean overview of all available benefits with quick access to plan details and enrollment.",
+        image: "/projects/over-benefits/cover.webp",
       },
       {
-        area: "UI Engineering",
-        description: "Created the glass morphism design system from scratch — 20+ CSS custom properties, consistent blur values, border opacity scales. Built the floating pill navigation that morphs between states.",
+        label: "Plan Comparison",
+        description:
+          "Side-by-side comparison of benefit plans with clear pricing and coverage details.",
+        image: "/projects/over-benefits/hero.webp",
       },
       {
-        area: "Animation",
-        description: "Implemented GSAP-powered scroll reveals, hover orchestration on project cards, page transitions with perspective shifts, and a custom cursor with glow effects that responds to the element underneath.",
+        label: "Mobile Experience",
+        description: "Fully responsive interface optimized for mobile benefit management.",
+        image: "/projects/over-benefits/gallery-01.webp",
       },
       {
-        area: "Performance",
-        description: "Lazy-loaded Three.js scenes per world. Used IntersectionObserver to pause off-screen animations. Code-split with React.lazy. Got Lighthouse to 98 without sacrificing visual quality.",
-      },
-    ],
-    techStack: [
-      {
-        category: "Core",
-        items: ["React 19", "TypeScript", "Vite"],
-      },
-      {
-        category: "Animation",
-        items: ["GSAP", "ScrollTrigger", "Three.js"],
-      },
-      {
-        category: "Styling",
-        items: ["Tailwind CSS", "CSS Custom Properties"],
-      },
-      {
-        category: "Infrastructure",
-        items: ["Lenis", "Zustand", "React Router"],
+        label: "User Onboarding",
+        description: "Guided flow for new employees to select and enroll in benefits.",
+        image: "/projects/over-benefits/gallery-03.webp",
       },
     ],
     process: [
       {
-        phase: "01",
+        number: "01",
         title: "Research",
-        description: "Studied 50+ Awwwards portfolios. Found that the best ones share one thing: each section has a distinct visual identity, not just different content in the same layout.",
-        duration: "1 week",
+        description:
+          "Analyzed existing benefits platforms to identify pain points. Mapped user journeys for employees, HR managers, and administrators.",
       },
       {
-        phase: "02",
-        title: "Design",
-        description: "Defined 10 visual 'worlds' with unique color palettes, background treatments, and animation languages. Designed the portal transition system — how perspective shifts when moving between worlds.",
-        duration: "2 weeks",
+        number: "02",
+        title: "Architecture",
+        description:
+          "Set up React with TypeScript strict mode. Designed reusable components for benefit cards, plan comparisons, and enrollment flows.",
       },
       {
-        phase: "03",
-        title: "Build",
-        description: "Developed the core architecture first: portal routing, animation engine integration, shared state. Then built each world as an isolated component that plugs into the system.",
-        duration: "4 weeks",
+        number: "03",
+        title: "Interface",
+        description:
+          "Built the responsive layout system with Tailwind CSS. Created consistent spacing, typography, and color tokens across all screens.",
       },
       {
-        phase: "04",
-        title: "Optimize",
-        description: "Profiled every animation. Cut anything that dropped below 60fps. Replaced expensive blur filters with GPU-accelerated transforms. Added reduced-motion support throughout.",
-        duration: "1 week",
+        number: "04",
+        title: "Integration",
+        description:
+          "Connected frontend to the REST API for real-time plan data. Implemented loading states, error handling, and optimistic updates.",
+      },
+    ],
+    technical: [
+      {
+        label: "Component Architecture",
+        description:
+          "Reusable React components with clear prop interfaces. Each benefit type has its own component variant.",
+      },
+      {
+        label: "State Management",
+        description:
+          "Local state for UI interactions. API state managed through custom hooks with caching.",
+      },
+      {
+        label: "Responsive System",
+        description:
+          "Mobile-first approach with Tailwind breakpoints. Tested across 320px to 1440px viewports.",
+      },
+      {
+        label: "Performance",
+        description:
+          "Lazy loading for benefit detail pages. Optimistic UI updates for enrollment actions.",
       },
     ],
     results: [
       {
-        metric: "Performance",
-        value: "98",
-        description: "Lighthouse score. Three.js scenes lazy-loaded, animations GPU-accelerated.",
+        metric: "Responsive",
+        value: "100%",
+        description: "Fully responsive across all devices. Tested on mobile, tablet, and desktop.",
+      },
+      {
+        metric: "Load Time",
+        value: "<2s",
+        description: "Initial page load on 3G connection. Optimized with code splitting.",
       },
       {
         metric: "Accessibility",
-        value: "100",
-        description: "Full keyboard navigation, screen reader support, prefers-reduced-motion respected.",
+        value: "WCAG",
+        description: "Keyboard navigation, screen reader support, proper ARIA labels.",
       },
       {
-        metric: "Bundle Size",
-        value: "-62%",
-        description: "After code splitting. Each world loads independently.",
-      },
-      {
-        metric: "Frame Rate",
-        value: "60fps",
-        description: "Verified with Chrome DevTools. No jank on mid-range hardware.",
+        metric: "Components",
+        value: "30+",
+        description: "Reusable components built for the benefits system.",
       },
     ],
-    keyDecision: {
-      question: "Why build a custom portal system instead of using React Router's built-in transitions?",
-      answer: "React Router handles URL changes, not visual transitions. I needed perspective shifts, background crossfades, and cursor state changes that happen simultaneously. A custom system gave me control over the entire transition choreography.",
-      tradeoff: "More code to maintain, but the result is a transition that feels intentional rather than generic.",
+    images: {
+      cover: "/projects/over-benefits/cover.webp",
+      hero: "/projects/over-benefits/hero.webp",
+      gallery: [
+        "/projects/over-benefits/gallery-01.webp",
+        "/projects/over-benefits/gallery-02.webp",
+        "/projects/over-benefits/gallery-03.webp",
+      ],
     },
-    liveUrl: "#",
-    githubUrl: "#",
-    nextProjectId: "ai-architecture-studio",
-  },
-  "ai-architecture-studio": {
-    id: "ai-architecture-studio",
-    number: 2,
-    title: "AI Architecture Studio",
-    shortDescription:
-      "A SaaS tool that generates UI component variations from design system tokens. I built the frontend architecture with Next.js, the real-time preview system, and integrated a Python ML backend.",
-    category: "SaaS Platform",
-    accentColor: "#a855f7",
-    accentRgb: "168, 85, 247",
-    overview: {
-      goal: "Reduce the time teams spend building repetitive UI components by automating variations from existing design system tokens.",
-      problem: "Design systems have tokens, components, and patterns — but teams still manually build every variation. A button alone might need 12 states: default, hover, focus, disabled, loading, with icon, without icon, small, medium, large, on dark, on light. The repetition kills velocity.",
-      solution: "Built a platform where you define your design tokens once, and the ML model generates component variations that match your system's visual language. Real-time preview lets you see changes instantly. Export production-ready code.",
-    },
-    role: [
-      {
-        area: "Frontend Architecture",
-        description: "Designed the Next.js app structure with server components for the dashboard and client components for the editor. Built the component preview system that renders variations in real-time.",
-      },
-      {
-        area: "UI Engineering",
-        description: "Created the token editor, component library browser, and AI suggestion panel. Every interaction has Framer Motion transitions — panel switches, preview updates, loading states.",
-      },
-      {
-        area: "Animation",
-        description: "Added Framer Motion for panel transitions, component preview crossfades, and the suggestion panel slide-in. Kept animations subtle — this is a tool, not a portfolio.",
-      },
-      {
-        area: "Optimization",
-        description: "Implemented virtual scrolling for libraries with 500+ components. Debounced AI requests to prevent API spam during rapid token edits. Used React Server Components for the dashboard.",
-      },
-    ],
-    techStack: [
-      {
-        category: "Frontend",
-        items: ["Next.js 14", "TypeScript", "React Server Components"],
-      },
-      {
-        category: "Backend",
-        items: ["Python", "FastAPI", "TensorFlow Lite"],
-      },
-      {
-        category: "Data",
-        items: ["PostgreSQL", "Prisma", "Redis"],
-      },
-      {
-        category: "Infrastructure",
-        items: ["Vercel", "Docker", "GitHub Actions"],
-      },
-    ],
-    process: [
-      {
-        phase: "01",
-        title: "Research",
-        description: "Interviewed 8 design system teams. Found that 70% of their component maintenance is repetitive variation work. The high-impact opportunity was automating the token-to-component pipeline.",
-        duration: "2 weeks",
-      },
-      {
-        phase: "02",
-        title: "Design",
-        description: "Designed the three-panel layout: tokens on the left, preview in the center, AI suggestions on the right. Built the component variation grid that shows all states at once.",
-        duration: "2 weeks",
-      },
-      {
-        phase: "03",
-        title: "Build",
-        description: "Developed the Next.js frontend, Python ML backend, and the real-time sync layer. The hardest part was making the preview feel instant — it pre-renders variations in a web worker.",
-        duration: "6 weeks",
-      },
-      {
-        phase: "04",
-        title: "Optimize",
-        description: "Fine-tuned the TensorFlow model to generate variations in under 200ms. Added optimistic updates so the UI never waits for the backend. Implemented error boundaries for graceful degradation.",
-        duration: "2 weeks",
-      },
-    ],
-    results: [
-      {
-        metric: "Generation Speed",
-        value: "<200ms",
-        description: "From token input to rendered component variation. Pre-rendering in web workers.",
-      },
-      {
-        metric: "Accuracy",
-        value: "94%",
-        description: "Variations that match the design system's visual language without manual adjustment.",
-      },
-      {
-        metric: "Time Saved",
-        value: "3.2hrs/day",
-        description: "Per design system team. Measured over 4 weeks of beta testing.",
-      },
-      {
-        metric: "Adoption",
-        value: "12 teams",
-        description: "Active users after 6 weeks of beta. 8 teams upgraded to paid plan.",
-      },
-    ],
-    keyDecision: {
-      question: "Why use TensorFlow Lite in the browser instead of running inference on the server?",
-      answer: "Server-side inference adds 50-100ms of network latency per request. For a real-time preview system, that's unacceptable. TFLite runs the model client-side in under 50ms, making the preview feel instant.",
-      tradeoff: "Larger initial bundle (12MB), but the model is lazy-loaded only when the editor opens. Server-side would have been simpler but slower.",
-    },
-    liveUrl: "#",
-    githubUrl: "#",
+    liveUrl: "https://www.overbenefits.net/",
+    prevProjectId: "mts-med",
     nextProjectId: "window-corner",
   },
+
   "window-corner": {
     id: "window-corner",
-    number: 3,
+    number: 2,
     title: "Window Corner",
-    shortDescription:
-      "A desktop environment recreated in the browser — window management, drag-and-drop, live app containers, and spatial audio. The technical challenge was rendering multiple animated windows without frame drops.",
-    category: "Creative Tool",
-    accentColor: "#06b6d4",
-    accentRgb: "6, 182, 212",
-    overview: {
-      goal: "Build a browser-based desktop environment that handles multiple simultaneous windows, drag-and-drop, and spatial audio — all at 60fps.",
-      problem: "Web apps are single-purpose tabs. The vision was a unified workspace where multiple apps coexist in a spatial environment. You could have a code editor, a terminal, and a preview window open simultaneously, all draggable and resizable.",
-      solution: "Built a Canvas-based renderer with a custom windowing system. Each window is an independent component with its own state. Drag-and-drop uses pointer events for cross-browser compatibility. Spatial audio responds to window positions.",
+    accentColor: "#14b8a6",
+    accentRgb: "20, 184, 166",
+    hero: {
+      category: "Corporate Website",
+      year: "2026",
+      role: "Frontend Developer",
+      technologies: ["React", "TypeScript", "Tailwind CSS", "Framer Motion"],
+      description:
+        "A premium web experience for an architectural aluminum and glass solutions company. Presenting products, projects and brand identity through a modern interface.",
     },
-    role: [
+    overview: {
+      challenge:
+        "Architectural companies need websites that reflect the quality of their work. The challenge was creating a digital presence that showcases large-scale projects while maintaining fast load times and smooth navigation.",
+      idea: "Build a visually driven experience with full-width project galleries, smooth scroll-based animations, and a product catalog that makes technical specifications easy to browse.",
+      solution:
+        "Developed a React-based frontend with Framer Motion for smooth page transitions. Implemented a responsive grid system for project showcases. Built a product catalog with filtering and detailed specification views.",
+    },
+    meta: {
+      role: "Frontend Developer",
+      timeline: "8 weeks",
+      stack: ["React", "TypeScript", "Tailwind CSS", "Framer Motion", "Responsive Design"],
+      responsibilities: [
+        "Frontend Development",
+        "Visual Design Implementation",
+        "Responsive Layouts",
+        "Content Architecture",
+        "Performance Optimization",
+      ],
+    },
+    showcase: [
       {
-        area: "Frontend Architecture",
-        description: "Designed the canvas rendering pipeline that handles 12+ simultaneous windows. Built the window state management with Zustand — each window tracks position, size, z-index, and focus state.",
+        label: "Project Gallery",
+        description:
+          "Full-width project showcases with smooth scroll animations and detailed case studies.",
+        image: "/projects/window-corner/cover.webp",
       },
       {
-        area: "UI Engineering",
-        description: "Built the window chrome (title bar, close/minimize/maximize buttons), taskbar with app switching, and start menu with search. Every pixel is intentional — the chrome looks native but is entirely web-based.",
+        label: "Product Catalog",
+        description:
+          "Browsable product catalog with filtering by category, material, and application.",
+        image: "/projects/window-corner/hero.webp",
       },
       {
-        area: "Animation",
-        description: "Implemented window open/close animations with scale and opacity, minimize-to-taskbar with path animation, and smooth dragging with momentum. All powered by GSAP for consistent timing.",
+        label: "Company Overview",
+        description: "Brand story, team section, and company values with cinematic presentation.",
+        image: "/projects/window-corner/gallery-01.webp",
       },
       {
-        area: "Optimization",
-        description: "Used offscreen canvas for background windows. Implemented virtual memory management — inactive windows are frozen and restored on focus. Spatial audio uses the Web Audio API's panner nodes.",
-      },
-    ],
-    techStack: [
-      {
-        category: "Core",
-        items: ["TypeScript", "React", "Zustand"],
-      },
-      {
-        category: "Rendering",
-        items: ["Canvas API", "WebGL", "OffscreenCanvas"],
-      },
-      {
-        category: "Audio",
-        items: ["Web Audio API", "Spatial Audio", "Panner Nodes"],
-      },
-      {
-        category: "Infrastructure",
-        items: ["Vite", "Turborepo", "Vitest"],
+        label: "Contact & Inquiry",
+        description: "Streamlined inquiry form for project consultations and product requests.",
+        image: "/projects/window-corner/gallery-02.webp",
       },
     ],
     process: [
       {
-        phase: "01",
-        title: "Research",
-        description: "Studied how OS window managers handle focus, z-index stacking, and snap zones. Analyzed canvas performance benchmarks — found that the bottleneck is redraw frequency, not draw complexity.",
-        duration: "1 week",
+        number: "01",
+        title: "Discovery",
+        description:
+          "Reviewed the company's existing materials, product lines, and project portfolio. Identified key pages needed: home, projects, products, about, contact.",
       },
       {
-        phase: "02",
-        title: "Design",
-        description: "Designed the window chrome to match native OS aesthetics. Defined the snap zones (top = maximize, sides = half-screen). Created the spatial audio model: sound panning follows window position.",
-        duration: "2 weeks",
+        number: "02",
+        title: "Architecture",
+        description:
+          "Set up React with TypeScript. Designed the page structure with React Router. Built reusable layout components for consistent spacing and typography.",
       },
       {
-        phase: "03",
-        title: "Build",
-        description: "Developed the canvas renderer first — it handles all window drawing. Then built the window management layer on top: drag-and-drop, resize, snap zones, focus tracking. Integrated live app containers last.",
-        duration: "5 weeks",
+        number: "03",
+        title: "Interface",
+        description:
+          "Implemented the visual design with Tailwind CSS. Built the project gallery with responsive grids. Created the product catalog with category filtering.",
       },
       {
-        phase: "04",
-        title: "Optimize",
-        description: "Implemented offscreen rendering for background windows. Added virtual memory management — windows freeze when unfocused, restore instantly on focus. Tuned spatial audio to use minimal CPU.",
-        duration: "2 weeks",
+        number: "04",
+        title: "Motion",
+        description:
+          "Added Framer Motion for page transitions, scroll-based reveals, and hover effects on project cards. Kept animations subtle to maintain professionalism.",
+      },
+    ],
+    technical: [
+      {
+        label: "Page Structure",
+        description:
+          "React Router for navigation. Each page is a lazy-loaded component for faster initial load.",
+      },
+      {
+        label: "Responsive Design",
+        description:
+          "Mobile-first layouts with Tailwind breakpoints. Project galleries adapt from single column to multi-column grids.",
+      },
+      {
+        label: "Animation System",
+        description:
+          "Framer Motion for scroll reveals, page transitions, and hover interactions. All animations respect prefers-reduced-motion.",
+      },
+      {
+        label: "Performance",
+        description:
+          "Lazy loading for project images. Code splitting per route. Optimized image delivery.",
       },
     ],
     results: [
       {
-        metric: "Frame Rate",
-        value: "60fps",
-        description: "With 8+ animated windows. Verified with Chrome DevTools Performance panel.",
+        metric: "Projects",
+        value: "20+",
+        description:
+          "Project case studies showcased with full-width galleries and detailed descriptions.",
       },
       {
-        metric: "Window Limit",
-        value: "12+",
-        description: "Concurrent windows before memory management kicks in. Tested on 8GB RAM machines.",
+        metric: "Products",
+        value: "50+",
+        description: "Products listed across multiple categories with filtering and search.",
       },
       {
-        metric: "Audio Latency",
-        value: "<8ms",
-        description: "Spatial audio response time. Web Audio API panner nodes with HRTF.",
+        metric: "Load Time",
+        value: "<2.5s",
+        description: "Full page load on mobile. Image optimization and lazy loading.",
       },
       {
-        metric: "Cold Start",
-        value: "1.2s",
-        description: "From first paint to interactive desktop. Canvas initializes in a web worker.",
+        metric: "Responsive",
+        value: "100%",
+        description: "Tested across all device sizes from mobile to 4K displays.",
       },
     ],
-    keyDecision: {
-      question: "Why use Canvas instead of DOM elements for window rendering?",
-      answer: "DOM elements each trigger layout recalculation when moved. With 12+ windows being dragged simultaneously, that's 12+ layout recalcs per frame. Canvas redraws everything in a single paint pass — no layout thrashing.",
-      tradeoff: "Lost native DOM accessibility and event handling. Had to rebuild focus management and keyboard navigation from scratch.",
+    images: {
+      cover: "/projects/window-corner/cover.webp",
+      hero: "/projects/window-corner/hero.webp",
+      gallery: [
+        "/projects/window-corner/gallery-01.webp",
+        "/projects/window-corner/gallery-02.webp",
+        "/projects/window-corner/gallery-03.webp",
+      ],
     },
-    liveUrl: "#",
-    githubUrl: "#",
-    nextProjectId: "frontend-multiverse",
+    liveUrl: "https://window-corner.com/",
+    prevProjectId: "over-benefits",
+    nextProjectId: "mts-med",
+  },
+
+  "mts-med": {
+    id: "mts-med",
+    number: 3,
+    title: "MTS MED",
+    accentColor: "#ef4444",
+    accentRgb: "239, 68, 68",
+    hero: {
+      category: "Healthcare Platform",
+      year: "2026",
+      role: "Frontend Developer",
+      technologies: ["React", "TypeScript", "Tailwind CSS", "Responsive Design"],
+      description:
+        "A healthcare product platform focused on presenting medical solutions with clear navigation and accessible product information.",
+    },
+    overview: {
+      challenge:
+        "Medical product catalogs need to present complex technical information clearly. Healthcare professionals need to quickly find products by category, specification, or application.",
+      idea: "Build a structured product catalog with clear categorization. Make technical specifications easy to scan. Ensure the interface works for professionals who may be accessing it on tablets during consultations.",
+      solution:
+        "Created a React frontend with a clear information architecture. Built product detail pages with structured specifications. Implemented responsive design for tablet and mobile access.",
+    },
+    meta: {
+      role: "Frontend Developer",
+      timeline: "5 weeks",
+      stack: ["React", "TypeScript", "Tailwind CSS", "Responsive Design"],
+      responsibilities: [
+        "Frontend Development",
+        "Product Presentation",
+        "UI Structure",
+        "Responsive Experience",
+        "Usability Optimization",
+      ],
+    },
+    showcase: [
+      {
+        label: "Product Catalog",
+        description:
+          "Structured product browsing with categories, filters, and detailed specification views.",
+        image: "/projects/mts-med/hero.webp",
+      },
+      {
+        label: "Product Details",
+        description:
+          "Clear presentation of medical product specifications, features, and applications.",
+        image: "/projects/mts-med/gallery-01.jpeg",
+      },
+      {
+        label: "Category Navigation",
+        description:
+          "Intuitive navigation across product lines with breadcrumb trails and quick filters.",
+        image: "/projects/mts-med/gallery-02.jpeg",
+      },
+      {
+        label: "Company Information",
+        description:
+          "About section with company credentials, certifications, and contact information.",
+        image: "/projects/mts-med/gallery-03.jpeg",
+      },
+    ],
+    process: [
+      {
+        number: "01",
+        title: "Analysis",
+        description:
+          "Mapped the product catalog structure. Identified key product categories and the information needed for each product page.",
+      },
+      {
+        number: "02",
+        title: "Architecture",
+        description:
+          "Set up React with TypeScript. Designed the routing structure for product categories and individual product pages.",
+      },
+      {
+        number: "03",
+        title: "Interface",
+        description:
+          "Built the product catalog with Tailwind CSS. Created consistent card layouts, detail pages, and navigation patterns.",
+      },
+      {
+        number: "04",
+        title: "Usability",
+        description:
+          "Optimized for healthcare professionals — large touch targets, clear typography, fast navigation between products.",
+      },
+    ],
+    technical: [
+      {
+        label: "Information Architecture",
+        description:
+          "Clear product hierarchy: categories > subcategories > products > specifications.",
+      },
+      {
+        label: "Component System",
+        description:
+          "Reusable components for product cards, specification tables, and category navigation.",
+      },
+      {
+        label: "Responsive Design",
+        description:
+          "Optimized for tablet use in clinical settings. Touch-friendly navigation and large interactive areas.",
+      },
+      {
+        label: "Accessibility",
+        description:
+          "High contrast text, keyboard navigation, proper heading hierarchy for screen readers.",
+      },
+    ],
+    results: [
+      {
+        metric: "Products",
+        value: "100+",
+        description:
+          "Medical products cataloged across multiple categories with detailed specifications.",
+      },
+      {
+        metric: "Categories",
+        value: "8+",
+        description: "Product categories with clear navigation and filtering.",
+      },
+      {
+        metric: "Tablet Ready",
+        value: "Yes",
+        description: "Optimized for tablet access in clinical and consultation settings.",
+      },
+      {
+        metric: "Load Time",
+        value: "<2s",
+        description: "Fast initial load with optimized product data delivery.",
+      },
+    ],
+    images: {
+      cover: "/projects/mts-med/hero.webp",
+      hero: "/projects/mts-med/hero.webp",
+      gallery: [
+        "/projects/mts-med/gallery-01.jpeg",
+        "/projects/mts-med/gallery-02.jpeg",
+        "/projects/mts-med/gallery-03.jpeg",
+        "/projects/mts-med/gallery-04.jpeg",
+        "/projects/mts-med/gallery-05.jpeg",
+      ],
+    },
+    liveUrl: "https://mtsmed-eg.com/",
+    prevProjectId: "window-corner",
+    nextProjectId: "over-benefits",
   },
 };
 

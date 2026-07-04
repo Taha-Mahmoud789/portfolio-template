@@ -1,16 +1,12 @@
 export { ProjectPage } from "./components";
-export {
-  PROJECTS,
-  getProjectById,
-  getAllProjectIds,
-  getProjectSlugs,
-} from "./data";
+export { PROJECTS, getProjectById, getAllProjectIds, getProjectSlugs } from "./data";
 export type {
   ProjectCaseStudy,
+  ProjectHero,
   ProjectOverview,
-  ProjectRole,
-  ProjectTechStack,
+  ProjectMeta,
+  ProjectShowcaseItem,
   ProjectProcessStep,
+  ProjectTechnicalItem,
   ProjectResult,
-  ProjectKeyDecision,
 } from "./data";
