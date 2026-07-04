@@ -3,10 +3,31 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "description": "Developer portfolio with React 19, TypeScript, Three.js portal system, GSAP animations, and editorial landing page",
+  "keywords": [
+    "portfolio",
+    "react",
+    "typescript",
+    "three.js",
+    "gsap",
+    "animation",
+    "interactive",
+    "webgl",
+    "frontend"
+  ],
+  "author": "Taha Mahmoud",
+  "license": "MIT",
+  "homepage": "https://frontendmultiverse.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/taha-mahmoud/frontend-multiverse"
+  },
+  "bugs": {
+    "url": "https://github.com/taha-mahmoud/frontend-multiverse/issues"
+  },
   "engines": {
     "node": ">=18"
   },
-  "description": "An immersive interactive web experience where every world represents a different frontend design philosophy",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -21,6 +42,7 @@
   "dependencies": {
     "@react-three/drei": "^10.0.0",
     "@react-three/fiber": "^9.0.0",
+    "@react-three/postprocessing": "^3.0.4",
     "clsx": "^2.1.1",
     "framer-motion": "^11.18.0",
     "gsap": "^3.12.7",

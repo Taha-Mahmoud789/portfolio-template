@@ -88,6 +88,8 @@
     --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     --font-heading: "Space Grotesk", -apple-system, BlinkMacSystemFont, sans-serif;
     --font-mono: "JetBrains Mono", "Fira Code", monospace;
+    --font-display: var(--font-heading);
+    --font-body: var(--font-sans);
 
     /* Spacing tokens */
     --spacing-section-xs: 2rem;
@@ -366,6 +368,21 @@ html.lenis body {
 @keyframes app-spinner {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }
 
@@ -1429,20 +1446,6 @@ button[disabled] {
   [data-cursor-follower],
   [data-cursor-glow] {
     display: none !important;
-  }
-}
-
-/* Hide default cursor when custom cursor is active */
-@media (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  html.custom-cursor-active,
-  html.custom-cursor-active body,
-  html.custom-cursor-active a,
-  html.custom-cursor-active button,
-  html.custom-cursor-active [role="button"],
-  html.custom-cursor-active input,
-  html.custom-cursor-active textarea,
-  html.custom-cursor-active select {
-    cursor: none !important;
   }
 }
 

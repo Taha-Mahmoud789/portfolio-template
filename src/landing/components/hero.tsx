@@ -7,11 +7,11 @@
  * Each line enters with intentional stagger.
  */
 
-import { useRef, useEffect, useCallback } from "react";
+import { useRef, useEffect, useMemo } from "react";
 import { gsap } from "gsap";
 import { useReducedMotion } from "../hooks";
-import { useScrollTo } from "@/providers/lenis-provider";
 import { ANIMATION_EASINGS } from "@/animation/constants";
+import { PERSONAL_INFO, SECTIONS } from "@/content";
 
 // ============================================================================
 // Constants
@@ -24,65 +24,6 @@ const TIMING = {
 } as const;
 
 // ============================================================================
-// ScrollIndicator
-// ============================================================================
-
-function ScrollIndicator({
-  reducedMotion,
-  onClick,
-}: {
-  reducedMotion: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      aria-label="Scroll to next section"
-      className="focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/30"
-      style={{
-        position: "absolute",
-        bottom: "clamp(5rem, 8vh, 7rem)",
-        left: "50%",
-        transform: "translateX(-50%)",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: 8,
-        zIndex: 10,
-        background: "none",
-        border: "none",
-        cursor: "pointer",
-        padding: 8,
-      }}
-    >
-      <span
-        style={{
-          fontFamily: "'JetBrains Mono', monospace",
-          fontSize: 9,
-          color: "rgba(180, 170, 155, 0.4)",
-          letterSpacing: "0.25em",
-          textTransform: "uppercase" as const,
-        }}
-      >
-        Scroll
-      </span>
-      <svg
-        width="1"
-        height="32"
-        viewBox="0 0 1 32"
-        fill="none"
-        aria-hidden="true"
-        style={{
-          animation: reducedMotion ? "none" : "hero-breathe-mouse 2.5s ease-in-out infinite",
-        }}
-      >
-        <line x1="0.5" y1="0" x2="0.5" y2="32" stroke="rgba(180, 170, 155, 0.15)" strokeWidth="1" />
-      </svg>
-    </button>
-  );
-}
-
-// ============================================================================
 // Hero
 // ============================================================================
 
@@ -92,14 +33,12 @@ interface HeroProps {
 
 export function Hero({ isVisible }: HeroProps) {
   const reducedMotion = useReducedMotion();
-  const scrollTo = useScrollTo();
 
   const sectionRef = useRef<HTMLElement>(null);
   const eyebrowRef = useRef<HTMLDivElement>(null);
   const line1Ref = useRef<HTMLDivElement>(null);
   const line2Ref = useRef<HTMLDivElement>(null);
   const subtitleRef = useRef<HTMLDivElement>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
   const hasAnimated = useRef(false);
 
@@ -144,12 +83,11 @@ export function Hero({ isVisible }: HeroProps) {
       if (chars.length > 0) {
         tl.fromTo(
           chars,
-          { y: 80, opacity: 0, rotateX: -40 },
+          { y: 60, opacity: 0 },
           {
             y: 0,
             opacity: 1,
-            rotateX: 0,
-            duration: 1.1,
+            duration: 1.0,
             stagger: { each: TIMING.charStagger, from: "start" },
             ease: ANIMATION_EASINGS.expoOut,
           },
@@ -174,12 +112,11 @@ export function Hero({ isVisible }: HeroProps) {
       if (chars.length > 0) {
         tl.fromTo(
           chars,
-          { y: 80, opacity: 0, rotateX: -40 },
+          { y: 60, opacity: 0 },
           {
             y: 0,
             opacity: 1,
-            rotateX: 0,
-            duration: 1.1,
+            duration: 1.0,
             stagger: { each: TIMING.charStagger, from: "start" },
             ease: ANIMATION_EASINGS.expoOut,
           },
@@ -201,16 +138,6 @@ export function Hero({ isVisible }: HeroProps) {
           ease: ANIMATION_EASINGS.expoOut,
         },
         "-=0.5",
-      );
-    }
-
-    // Scroll indicator — fade in
-    if (scrollRef.current) {
-      tl.fromTo(
-        scrollRef.current,
-        { opacity: 0, y: 10 },
-        { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" },
-        `+=${String(TIMING.scrollDelay)}`,
       );
     }
 
@@ -241,10 +168,13 @@ export function Hero({ isVisible }: HeroProps) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [reducedMotion]);
 
-  // ── Callbacks ───────────────────────────────────────────────────────
-  const scrollToNext = useCallback(() => {
-    scrollTo("#intro");
-  }, [scrollTo]);
+  // ── Time-aware greeting ──────────────────────────────────────────────
+  const greeting = useMemo(() => {
+    const hour = new Date().getHours();
+    if (hour < 12) return SECTIONS.hero.greeting.morning;
+    if (hour < 18) return SECTIONS.hero.greeting.afternoon;
+    return SECTIONS.hero.greeting.evening;
+  }, []);
 
   // ── Render ──────────────────────────────────────────────────────────
   return (
@@ -301,16 +231,16 @@ export function Hero({ isVisible }: HeroProps) {
         <div
           ref={eyebrowRef}
           style={{
-            fontFamily: "'JetBrains Mono', monospace",
+            fontFamily: "var(--font-mono)",
             fontSize: "clamp(0.625rem, 0.8vw, 0.75rem)",
             fontWeight: 500,
             letterSpacing: "0.25em",
-            textTransform: "uppercase" as const,
+            textTransform: "uppercase",
             color: "rgba(180, 170, 155, 0.5)",
             marginBottom: "clamp(1.5rem, 3vw, 2.5rem)",
           }}
         >
-          Your Name
+          {greeting} — {PERSONAL_INFO.firstName}
         </div>
 
         {/* Headline */}
@@ -329,7 +259,7 @@ export function Hero({ isVisible }: HeroProps) {
           <div
             ref={line1Ref}
             style={{
-              fontFamily: "'Space Grotesk', sans-serif",
+              fontFamily: "var(--font-display)",
               fontSize: "clamp(3.5rem, 11vw, 10rem)",
               display: "flex",
               flexWrap: "wrap",
@@ -343,9 +273,9 @@ export function Hero({ isVisible }: HeroProps) {
               WebkitTextFillColor: "transparent",
               willChange: "clip-path",
             }}
-            aria-label="INTERFACES THAT"
+            aria-label={SECTIONS.hero.headline1}
           >
-            {"INTERFACES THAT".split(" ").map((word, wi) => (
+            {SECTIONS.hero.headline1.split(" ").map((word, wi) => (
               <span
                 key={`w1-${String(wi)}`}
                 data-word
@@ -373,7 +303,7 @@ export function Hero({ isVisible }: HeroProps) {
           <div
             ref={line2Ref}
             style={{
-              fontFamily: "'Space Grotesk', sans-serif",
+              fontFamily: "var(--font-display)",
               fontSize: "clamp(3.5rem, 11vw, 10rem)",
               color: "rgba(245, 240, 232, 0.95)",
               display: "flex",
@@ -384,9 +314,9 @@ export function Hero({ isVisible }: HeroProps) {
               transformOrigin: "top center",
               willChange: "clip-path",
             }}
-            aria-label="MOVE"
+            aria-label={SECTIONS.hero.headline2}
           >
-            {"MOVE".split("").map((char, i) => (
+            {SECTIONS.hero.headline2.split("").map((char, i) => (
               <span
                 key={`l2-${String(i)}`}
                 data-char
@@ -417,32 +347,17 @@ export function Hero({ isVisible }: HeroProps) {
           <p
             style={{
               margin: 0,
-              fontFamily: "'Inter', sans-serif",
+              fontFamily: "var(--font-body)",
               fontSize: "clamp(0.9375rem, 1.1vw, 1.0625rem)",
               fontWeight: 400,
               lineHeight: 1.75,
-              color: "rgba(214, 204, 190, 0.45)",
+              color: "rgba(214, 204, 190, 0.55)",
               letterSpacing: "0.01em",
             }}
           >
-            I build fast, accessible web applications with React and TypeScript. Motion systems,
-            performance optimization, clean architecture.
+            {PERSONAL_INFO.tagline}
           </p>
         </div>
-      </div>
-
-      {/* Scroll indicator */}
-      <div
-        ref={scrollRef}
-        style={{
-          position: "absolute",
-          bottom: "clamp(48px, 6vh, 64px)",
-          left: 0,
-          right: 0,
-          zIndex: 10,
-        }}
-      >
-        <ScrollIndicator reducedMotion={reducedMotion} onClick={scrollToNext} />
       </div>
     </section>
   );

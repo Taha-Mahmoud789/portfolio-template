@@ -9,10 +9,11 @@
  *       ThemeEngineProvider — theme engine (CSS variables, reduced motion)
  *         LenisProvider   — smooth scrolling, scroll position tracking
  *           BrowserRouter — routing context
- *             NavigationProvider — navigation state, transitions, scroll restoration
- *               Suspense    — lazy route loading
- *                 RootLayout — semantic HTML structure
- *                   AppRouter — route definitions
+ *             AnalyticsProvider — analytics, performance monitoring, error tracking
+ *               NavigationProvider — navigation state, transitions, scroll restoration
+ *                 Suspense    — lazy route loading
+ *                   RootLayout — semantic HTML structure
+ *                     AppRouter — route definitions
  *
  * Business logic (pages, components) lives outside this file.
  */
@@ -20,12 +21,14 @@
 import { Suspense } from "react";
 import { BrowserRouter } from "react-router";
 import { AppShell, ErrorBoundary } from "@/infrastructure";
+import { AnalyticsProvider } from "@/infrastructure/analytics";
 import { ThemeEngineProvider, NavigationProvider } from "@/engine";
 import { LenisProvider } from "@/providers/lenis-provider";
 import { RootLayout } from "@/layouts";
 import { SuspenseFallback } from "@/components/shared/suspense-fallback";
 import { AppRouter } from "@/router/routes";
 import { ProjectTransitionOverlay } from "@/landing/components/project-transition-overlay";
+import { MultiverseTransitionOverlay } from "@/landing/components/multiverse-transition-overlay";
 
 export function App() {
   return (
@@ -34,14 +37,17 @@ export function App() {
         <ThemeEngineProvider preload>
           <LenisProvider>
             <BrowserRouter>
-              <NavigationProvider>
-                <Suspense fallback={<SuspenseFallback />}>
-                  <RootLayout>
-                    <AppRouter />
-                  </RootLayout>
-                  <ProjectTransitionOverlay />
-                </Suspense>
-              </NavigationProvider>
+              <AnalyticsProvider>
+                <NavigationProvider>
+                  <Suspense fallback={<SuspenseFallback />}>
+                    <RootLayout>
+                      <AppRouter />
+                    </RootLayout>
+                    <ProjectTransitionOverlay />
+                    <MultiverseTransitionOverlay />
+                  </Suspense>
+                </NavigationProvider>
+              </AnalyticsProvider>
             </BrowserRouter>
           </LenisProvider>
         </ThemeEngineProvider>

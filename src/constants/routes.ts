@@ -1,6 +1,11 @@
 export const ROUTES = {
   HOME: "/",
   WORLD_INDEX: "/worlds",
+  MULTIVERSE: "/multiverse",
+  PROJECT_UNIVERSE: "/multiverse/projects",
+  CODE_UNIVERSE: "/multiverse/code",
+  CREATIVE_UNIVERSE: "/multiverse/creative",
+
   PROJECT: "/projects/:projectId",
   NOT_FOUND: "*",
 } as const;

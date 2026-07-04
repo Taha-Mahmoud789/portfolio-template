@@ -10,72 +10,7 @@ import { useRef, useEffect, useState, useCallback } from "react";
 import { gsap } from "gsap";
 import { useReducedMotion } from "../hooks";
 import { ANIMATION_EASINGS } from "@/animation/constants";
-
-// ============================================================================
-// Data
-// ============================================================================
-
-interface Service {
-  number: string;
-  title: string;
-  description: string;
-  items: readonly string[];
-}
-
-const SERVICES: readonly Service[] = [
-  {
-    number: "01",
-    title: "Frontend Architecture",
-    description:
-      "Building scalable interfaces with React and Next.js. Component systems, state management, and type-safe code that teams can maintain.",
-    items: [
-      "React & Next.js",
-      "TypeScript",
-      "Tailwind CSS",
-      "Component Architecture",
-      "State Management",
-    ],
-  },
-  {
-    number: "02",
-    title: "Motion Systems",
-    description:
-      "Creating performant motion that guides users. Scroll-driven reveals, page transitions, and animation that serves a purpose.",
-    items: [
-      "GSAP & ScrollTrigger",
-      "Framer Motion",
-      "CSS Animations",
-      "Scroll-Driven Effects",
-      "Page Transitions",
-    ],
-  },
-  {
-    number: "03",
-    title: "Interactive Experiences",
-    description:
-      "Pushing what browsers can do — 3D scenes, shader programming, canvas rendering, and spatial computing.",
-    items: [
-      "Three.js & WebGL",
-      "React Three Fiber",
-      "Canvas API",
-      "Web Audio",
-      "Shader Programming",
-    ],
-  },
-  {
-    number: "04",
-    title: "Performance Engineering",
-    description:
-      "Optimizing for speed at every level — code splitting, lazy loading, efficient rendering. Users shouldn't wait.",
-    items: [
-      "Core Web Vitals",
-      "Bundle Optimization",
-      "Image Optimization",
-      "Caching Strategies",
-      "Monitoring",
-    ],
-  },
-] as const;
+import { SERVICES, type Service } from "@/content";
 
 // ============================================================================
 // Accordion Item
@@ -156,6 +91,7 @@ function AccordionItem({
     >
       {/* Header */}
       <button
+        type="button"
         onClick={onToggle}
         onKeyDown={handleKeyDown}
         aria-expanded={isOpen}
@@ -188,11 +124,11 @@ function AccordionItem({
         <div style={{ display: "flex", alignItems: "center", gap: "clamp(1.5rem, 3vw, 3rem)" }}>
           <span
             style={{
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "var(--font-mono)",
               fontSize: "clamp(0.6875rem, 0.8vw, 0.8125rem)",
               fontWeight: 400,
               letterSpacing: "0.12em",
-              color: isOpen ? "rgba(245, 240, 232, 0.7)" : "rgba(180, 170, 155, 0.4)",
+              color: isOpen ? "rgba(245, 240, 232, 0.7)" : "rgba(180, 170, 155, 0.45)",
               transition: "color 0.3s ease",
               minWidth: 32,
             }}
@@ -201,12 +137,12 @@ function AccordionItem({
           </span>
           <h3
             style={{
-              fontFamily: "'Space Grotesk', sans-serif",
+              fontFamily: "var(--font-display)",
               fontSize: "clamp(1.5rem, 3.5vw, 3rem)",
               fontWeight: 600,
               letterSpacing: "-0.03em",
               lineHeight: 1.1,
-              color: isOpen ? "rgba(245, 240, 232, 0.95)" : "rgba(180, 170, 155, 0.35)",
+              color: isOpen ? "rgba(245, 240, 232, 0.95)" : "rgba(180, 170, 155, 0.45)",
               margin: 0,
               transition: "color 0.3s ease",
             }}
@@ -273,11 +209,11 @@ function AccordionItem({
           <p
             data-service-item
             style={{
-              fontFamily: "'Inter', sans-serif",
+              fontFamily: "var(--font-body)",
               fontSize: "clamp(0.9375rem, 1.1vw, 1.0625rem)",
               fontWeight: 400,
               lineHeight: 1.75,
-              color: "rgba(214, 204, 190, 0.4)",
+              color: "rgba(214, 204, 190, 0.45)",
               margin: "0 0 clamp(1.5rem, 3vw, 2rem) 0",
               maxWidth: 560,
             }}
@@ -290,7 +226,7 @@ function AccordionItem({
                 key={item}
                 data-service-item
                 style={{
-                  fontFamily: "'JetBrains Mono', monospace",
+                  fontFamily: "var(--font-mono)",
                   fontSize: "0.6875rem",
                   fontWeight: 500,
                   letterSpacing: "0.02em",
@@ -417,7 +353,7 @@ export function Expertise() {
         }}
       />
 
-      <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
         {/* Header */}
         <div
           ref={headerRef}
@@ -428,7 +364,7 @@ export function Expertise() {
           <h2
             id="expertise-heading"
             style={{
-              fontFamily: "'Space Grotesk', sans-serif",
+              fontFamily: "var(--font-display)",
               fontSize: "clamp(2.5rem, 6vw, 5rem)",
               fontWeight: 600,
               letterSpacing: "-0.04em",
@@ -444,7 +380,7 @@ export function Expertise() {
                 willChange: "clip-path",
               }}
             >
-              What I build.
+              Services.
             </span>
             <br />
             <span
@@ -459,7 +395,7 @@ export function Expertise() {
                 WebkitTextFillColor: "transparent",
               }}
             >
-              How I think.
+              Focus.
             </span>
           </h2>
         </div>

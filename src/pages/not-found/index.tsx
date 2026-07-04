@@ -10,6 +10,7 @@ import { useNavigate } from "react-router";
 import { gsap } from "gsap";
 import { useReducedMotion } from "@/landing/hooks";
 import { ANIMATION_EASINGS } from "@/animation/constants";
+import { NOT_FOUND } from "@/content";
 
 export default function NotFoundPage() {
   const navigate = useNavigate();
@@ -97,7 +98,7 @@ export default function NotFoundPage() {
           willChange: "transform, opacity",
         }}
       >
-        404
+        {NOT_FOUND.code}
       </h1>
 
       {/* Heading */}
@@ -113,7 +114,7 @@ export default function NotFoundPage() {
           willChange: "transform, opacity",
         }}
       >
-        Lost in the interface
+        {NOT_FOUND.title}
       </h2>
 
       {/* Description */}
@@ -129,7 +130,7 @@ export default function NotFoundPage() {
           willChange: "transform, opacity",
         }}
       >
-        The page you&apos;re looking for doesn&apos;t exist or has been moved.
+        {NOT_FOUND.description}
       </p>
 
       {/* Action */}
@@ -184,7 +185,7 @@ export default function NotFoundPage() {
             <line x1="19" y1="12" x2="5" y2="12" />
             <polyline points="12 19 5 12 12 5" />
           </svg>
-          Back to home
+          {NOT_FOUND.cta}
         </button>
       </div>
     </div>

@@ -1,58 +1,46 @@
 /**
- * Analytics Integration Structure
+ * Analytics Module
  *
- * No tracking keys are added. This module provides a clean interface
- * for future analytics integration (Google Analytics, Plausible, etc).
+ * Clean, optional, removable analytics system.
+ * No analytics logic lives inside components.
+ *
+ * Architecture:
+ *   types.ts       — strict event type definitions
+ *   tracker.ts     — core trackEvent() function
+ *   provider.tsx   — AnalyticsProvider (initializes, tracks routes)
+ *   performance.ts — Core Web Vitals monitoring
+ *   providers/     — provider implementations (GA, Plausible, Vercel, Sentry, Console)
  *
  * Usage:
- *   import { analytics } from '@/infrastructure/analytics';
- *   analytics.page('/projects');
- *   analytics.event('project_click', { projectId: 'aurora' });
+ *   import { trackEvent } from "@/infrastructure/analytics";
+ *   import { useAnalytics } from "@/hooks/use-analytics";
+ *
+ *   // Direct tracking
+ *   trackEvent("project_opened", { projectId: "aurora" });
+ *
+ *   // React hook
+ *   const { track } = useAnalytics("ProjectCard");
+ *   track("project_opened", { projectId: "aurora", referrer: "home" });
+ *
+ * Environment Variables:
+ *   VITE_ANALYTICS_ENABLED=true
+ *   VITE_ANALYTICS_DEBUG=true
+ *   VITE_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+ *   VITE_PLAUSIBLE_DOMAIN=yourdomain.com
+ *   VITE_VERCEL_ANALYTICS=true
+ *   VITE_SENTRY_DSN=https://xxx@sentry.io/xxx
+ *   VITE_SENTRY_TRACES_SAMPLE_RATE=0.1
  */
 
-// ============================================================================
+// Core
+export { trackEvent, trackPageView, trackError, flushAnalytics, destroyAnalytics } from "./tracker";
+export { getAnalyticsConfig, getProviders } from "./tracker";
+
+// Provider
+export { AnalyticsProvider } from "./provider";
+
+// Performance
+export { initPerformanceMonitoring, resetPerformanceMetrics } from "./performance";
+
 // Types
-// ============================================================================
-
-interface AnalyticsConfig {
-  enabled: boolean;
-  measurementId?: string;
-}
-
-// ============================================================================
-// Implementation
-// ============================================================================
-
-function createAnalytics() {
-  const config: AnalyticsConfig = {
-    enabled: import.meta.env.VITE_ANALYTICS_ENABLED === "true",
-    measurementId: String(import.meta.env.VITE_GA_MEASUREMENT_ID ?? ""),
-  };
-
-  function page(path: string) {
-    if (!config.enabled) return;
-    // Future: gtag('event', 'page_view', { page_path: path })
-    void path;
-  }
-
-  function event(name: string, properties?: Record<string, string | number | boolean>) {
-    if (!config.enabled) return;
-    // Future: gtag('event', name, properties)
-    void name;
-    void properties;
-  }
-
-  function identify(userId: string) {
-    if (!config.enabled) return;
-    // Future: gtag('set', { user_id: userId })
-    void userId;
-  }
-
-  return { page, event, identify, config };
-}
-
-// ============================================================================
-// Export singleton
-// ============================================================================
-
-export const analytics = createAnalytics();
+export type { EventName, AnalyticsEventMap, AnalyticsConfig } from "./types";

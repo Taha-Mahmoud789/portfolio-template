@@ -9,10 +9,7 @@
 import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { gsap } from "gsap";
 import { ANIMATION_EASINGS } from "@/animation/constants";
-
-// ============================================================================
-// Types
-// ============================================================================
+import { COMMAND_ACTIONS } from "@/content";
 
 interface CommandAction {
   id: string;
@@ -139,69 +136,55 @@ export function CommandPalette({ isOpen, onClose, onNavigate }: CommandPalettePr
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
 
+  const commandIconMap: Record<string, React.ReactNode> = {
+    home: <HomeIcon />,
+    projects: <ProjectsIcon />,
+    contact: <ContactIcon />,
+    about: <AboutIcon />,
+    expertise: <ExpertiseIcon />,
+  };
+
+  const commandActionMap: Record<string, () => void> = {
+    home: () => {
+      onNavigate("/");
+      onClose();
+    },
+    projects: () => {
+      onNavigate("/#projects");
+      onClose();
+    },
+    contact: () => {
+      onNavigate("/#contact");
+      onClose();
+    },
+    about: () => {
+      onNavigate("/#about");
+      onClose();
+    },
+    expertise: () => {
+      onNavigate("/#expertise");
+      onClose();
+    },
+  };
+
   const actions: CommandAction[] = useMemo(
-    () => [
-      {
-        id: "home",
-        label: "Go Home",
-        description: "Return to the landing page",
-        icon: <HomeIcon />,
-        shortcut: "H",
-        action: () => {
-          onNavigate("/");
-          onClose();
-        },
-      },
-      {
-        id: "projects",
-        label: "View Projects",
-        description: "Browse all case studies",
-        icon: <ProjectsIcon />,
-        shortcut: "P",
-        action: () => {
-          onNavigate("/#projects");
-          onClose();
-        },
-      },
-      {
-        id: "contact",
-        label: "Open Contact",
-        description: "Get in touch",
-        icon: <ContactIcon />,
-        shortcut: "C",
-        action: () => {
-          onNavigate("/#contact");
-          onClose();
-        },
-      },
-      {
-        id: "about",
-        label: "About",
-        description: "Learn about the developer",
-        icon: <AboutIcon />,
-        action: () => {
-          onNavigate("/#about");
-          onClose();
-        },
-      },
-      {
-        id: "expertise",
-        label: "Expertise",
-        description: "View skills and capabilities",
-        icon: <ExpertiseIcon />,
-        action: () => {
-          onNavigate("/#expertise");
-          onClose();
-        },
-      },
-    ],
+    () =>
+      COMMAND_ACTIONS.map((cmd) => ({
+        ...cmd,
+        icon: commandIconMap[cmd.id],
+        action: commandActionMap[cmd.id]!,
+      })),
     [onNavigate, onClose],
   );
 
-  const filtered = actions.filter(
-    (a) =>
-      a.label.toLowerCase().includes(query.toLowerCase()) ||
-      a.description.toLowerCase().includes(query.toLowerCase()),
+  const filtered = useMemo(
+    () =>
+      actions.filter(
+        (a) =>
+          a.label.toLowerCase().includes(query.toLowerCase()) ||
+          a.description.toLowerCase().includes(query.toLowerCase()),
+      ),
+    [actions, query],
   );
 
   // Scroll lock when open

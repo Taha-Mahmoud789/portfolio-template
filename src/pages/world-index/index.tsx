@@ -18,11 +18,13 @@ const WORLD_PORTALS: PortalDefinition[] = [
     worldId: "space-world",
     title: "Space",
     subtitle: "Explore the Infinite",
-    description: "Vast cosmic environments with procedural stars, nebulae, and zero-gravity physics.",
+    description:
+      "Vast cosmic environments with procedural stars, nebulae, and zero-gravity physics.",
     theme: "space",
     background: {
       type: "gradient",
-      value: "linear-gradient(160deg, rgba(15,23,42,0.95) 0%, rgba(30,58,95,0.6) 50%, rgba(99,102,241,0.15) 100%)",
+      value:
+        "linear-gradient(160deg, rgba(15,23,42,0.95) 0%, rgba(30,58,95,0.6) 50%, rgba(99,102,241,0.15) 100%)",
       fallbackColor: "#0f172a",
     },
     icon: { type: "emoji", emoji: "✦" },
@@ -37,18 +39,27 @@ const WORLD_PORTALS: PortalDefinition[] = [
     destinationRoute: WORLD_ROUTES.SPACE,
     status: "active",
     order: 1,
-    metadata: { author: "FM", version: "1.0", createdAt: "2025-01-01", tags: ["3d", "three.js", "cosmic"], category: "interactive", featured: true },
+    metadata: {
+      author: "FM",
+      version: "1.0",
+      createdAt: "2025-01-01",
+      tags: ["3d", "three.js", "cosmic"],
+      category: "interactive",
+      featured: true,
+    },
   },
   {
     id: "apple",
     worldId: "apple-world",
     title: "Apple",
     subtitle: "Designed to Feel Effortless",
-    description: "Precision-crafted interfaces with liquid metal, frosted glass, and perfect typography.",
+    description:
+      "Precision-crafted interfaces with liquid metal, frosted glass, and perfect typography.",
     theme: "apple",
     background: {
       type: "gradient",
-      value: "linear-gradient(160deg, rgba(248,250,252,0.1) 0%, rgba(226,232,240,0.06) 50%, rgba(200,210,220,0.1) 100%)",
+      value:
+        "linear-gradient(160deg, rgba(248,250,252,0.1) 0%, rgba(226,232,240,0.06) 50%, rgba(200,210,220,0.1) 100%)",
       fallbackColor: "#18181b",
     },
     icon: { type: "emoji", emoji: "◆" },
@@ -63,7 +74,14 @@ const WORLD_PORTALS: PortalDefinition[] = [
     destinationRoute: WORLD_ROUTES.APPLE,
     status: "coming-soon",
     order: 2,
-    metadata: { author: "FM", version: "1.0", createdAt: "2025-01-01", tags: ["minimal", "glass", "typography"], category: "minimal", featured: false },
+    metadata: {
+      author: "FM",
+      version: "1.0",
+      createdAt: "2025-01-01",
+      tags: ["minimal", "glass", "typography"],
+      category: "minimal",
+      featured: false,
+    },
   },
   {
     id: "cyberpunk",
@@ -74,7 +92,8 @@ const WORLD_PORTALS: PortalDefinition[] = [
     theme: "cyberpunk",
     background: {
       type: "gradient",
-      value: "linear-gradient(160deg, rgba(88,28,135,0.6) 0%, rgba(236,72,153,0.3) 50%, rgba(6,182,212,0.15) 100%)",
+      value:
+        "linear-gradient(160deg, rgba(88,28,135,0.6) 0%, rgba(236,72,153,0.3) 50%, rgba(6,182,212,0.15) 100%)",
       fallbackColor: "#581c87",
     },
     icon: { type: "emoji", emoji: "⬡" },
@@ -89,7 +108,14 @@ const WORLD_PORTALS: PortalDefinition[] = [
     destinationRoute: WORLD_ROUTES.CYBERPUNK,
     status: "coming-soon",
     order: 3,
-    metadata: { author: "FM", version: "1.0", createdAt: "2025-01-01", tags: ["neon", "glitch", "city"], category: "futuristic", featured: false },
+    metadata: {
+      author: "FM",
+      version: "1.0",
+      createdAt: "2025-01-01",
+      tags: ["neon", "glitch", "city"],
+      category: "futuristic",
+      featured: false,
+    },
   },
   {
     id: "gaming",
@@ -100,7 +126,8 @@ const WORLD_PORTALS: PortalDefinition[] = [
     theme: "gaming",
     background: {
       type: "gradient",
-      value: "linear-gradient(160deg, rgba(20,83,45,0.6) 0%, rgba(34,197,94,0.3) 50%, rgba(16,185,129,0.15) 100%)",
+      value:
+        "linear-gradient(160deg, rgba(20,83,45,0.6) 0%, rgba(34,197,94,0.3) 50%, rgba(16,185,129,0.15) 100%)",
       fallbackColor: "#14532d",
     },
     icon: { type: "emoji", emoji: "🎮" },
@@ -115,7 +142,14 @@ const WORLD_PORTALS: PortalDefinition[] = [
     destinationRoute: WORLD_ROUTES.GAMING,
     status: "coming-soon",
     order: 4,
-    metadata: { author: "FM", version: "1.0", createdAt: "2025-01-01", tags: ["particles", "lighting", "interactive"], category: "interactive", featured: false },
+    metadata: {
+      author: "FM",
+      version: "1.0",
+      createdAt: "2025-01-01",
+      tags: ["particles", "lighting", "interactive"],
+      category: "interactive",
+      featured: false,
+    },
   },
   {
     id: "ai",
@@ -126,7 +160,8 @@ const WORLD_PORTALS: PortalDefinition[] = [
     theme: "ai",
     background: {
       type: "gradient",
-      value: "linear-gradient(160deg, rgba(88,28,135,0.6) 0%, rgba(168,85,247,0.3) 50%, rgba(139,92,246,0.15) 100%)",
+      value:
+        "linear-gradient(160deg, rgba(88,28,135,0.6) 0%, rgba(168,85,247,0.3) 50%, rgba(139,92,246,0.15) 100%)",
       fallbackColor: "#581c87",
     },
     icon: { type: "emoji", emoji: "🧠" },
@@ -141,7 +176,14 @@ const WORLD_PORTALS: PortalDefinition[] = [
     destinationRoute: WORLD_ROUTES.AI,
     status: "coming-soon",
     order: 5,
-    metadata: { author: "FM", version: "1.0", createdAt: "2025-01-01", tags: ["neural", "fluid", "data"], category: "futuristic", featured: false },
+    metadata: {
+      author: "FM",
+      version: "1.0",
+      createdAt: "2025-01-01",
+      tags: ["neural", "fluid", "data"],
+      category: "futuristic",
+      featured: false,
+    },
   },
   {
     id: "editorial",
@@ -152,7 +194,8 @@ const WORLD_PORTALS: PortalDefinition[] = [
     theme: "editorial",
     background: {
       type: "gradient",
-      value: "linear-gradient(160deg, rgba(120,53,15,0.6) 0%, rgba(251,191,36,0.3) 50%, rgba(245,158,11,0.15) 100%)",
+      value:
+        "linear-gradient(160deg, rgba(120,53,15,0.6) 0%, rgba(251,191,36,0.3) 50%, rgba(245,158,11,0.15) 100%)",
       fallbackColor: "#78350f",
     },
     icon: { type: "emoji", emoji: "📖" },
@@ -167,7 +210,14 @@ const WORLD_PORTALS: PortalDefinition[] = [
     destinationRoute: WORLD_ROUTES.EDITORIAL,
     status: "coming-soon",
     order: 6,
-    metadata: { author: "FM", version: "1.0", createdAt: "2025-01-01", tags: ["typography", "layout", "storytelling"], category: "minimal", featured: false },
+    metadata: {
+      author: "FM",
+      version: "1.0",
+      createdAt: "2025-01-01",
+      tags: ["typography", "layout", "storytelling"],
+      category: "minimal",
+      featured: false,
+    },
   },
   {
     id: "liquid",
@@ -178,7 +228,8 @@ const WORLD_PORTALS: PortalDefinition[] = [
     theme: "liquid",
     background: {
       type: "gradient",
-      value: "linear-gradient(160deg, rgba(22,78,99,0.6) 0%, rgba(6,182,212,0.3) 50%, rgba(34,211,238,0.15) 100%)",
+      value:
+        "linear-gradient(160deg, rgba(22,78,99,0.6) 0%, rgba(6,182,212,0.3) 50%, rgba(34,211,238,0.15) 100%)",
       fallbackColor: "#164e63",
     },
     icon: { type: "emoji", emoji: "💧" },
@@ -193,7 +244,14 @@ const WORLD_PORTALS: PortalDefinition[] = [
     destinationRoute: WORLD_ROUTES.LIQUID,
     status: "coming-soon",
     order: 7,
-    metadata: { author: "FM", version: "1.0", createdAt: "2025-01-01", tags: ["fluid", "organic", "simulation"], category: "cosmic", featured: false },
+    metadata: {
+      author: "FM",
+      version: "1.0",
+      createdAt: "2025-01-01",
+      tags: ["fluid", "organic", "simulation"],
+      category: "cosmic",
+      featured: false,
+    },
   },
   {
     id: "brutalist",
@@ -204,7 +262,8 @@ const WORLD_PORTALS: PortalDefinition[] = [
     theme: "brutalist",
     background: {
       type: "gradient",
-      value: "linear-gradient(160deg, rgba(127,29,29,0.6) 0%, rgba(239,68,68,0.3) 50%, rgba(220,38,38,0.15) 100%)",
+      value:
+        "linear-gradient(160deg, rgba(127,29,29,0.6) 0%, rgba(239,68,68,0.3) 50%, rgba(220,38,38,0.15) 100%)",
       fallbackColor: "#7f1d1d",
     },
     icon: { type: "emoji", emoji: "⬛" },
@@ -219,7 +278,14 @@ const WORLD_PORTALS: PortalDefinition[] = [
     destinationRoute: WORLD_ROUTES.BRUTALIST,
     status: "coming-soon",
     order: 8,
-    metadata: { author: "FM", version: "1.0", createdAt: "2025-01-01", tags: ["raw", "bold", "typography"], category: "minimal", featured: false },
+    metadata: {
+      author: "FM",
+      version: "1.0",
+      createdAt: "2025-01-01",
+      tags: ["raw", "bold", "typography"],
+      category: "minimal",
+      featured: false,
+    },
   },
   {
     id: "retro",
@@ -230,7 +296,8 @@ const WORLD_PORTALS: PortalDefinition[] = [
     theme: "retro",
     background: {
       type: "gradient",
-      value: "linear-gradient(160deg, rgba(124,45,18,0.6) 0%, rgba(251,146,60,0.3) 50%, rgba(249,115,22,0.15) 100%)",
+      value:
+        "linear-gradient(160deg, rgba(124,45,18,0.6) 0%, rgba(251,146,60,0.3) 50%, rgba(249,115,22,0.15) 100%)",
       fallbackColor: "#7c2d12",
     },
     icon: { type: "emoji", emoji: "🕹️" },
@@ -245,7 +312,14 @@ const WORLD_PORTALS: PortalDefinition[] = [
     destinationRoute: WORLD_ROUTES.RETRO,
     status: "coming-soon",
     order: 9,
-    metadata: { author: "FM", version: "1.0", createdAt: "2025-01-01", tags: ["pixel", "nostalgia", "retro"], category: "interactive", featured: false },
+    metadata: {
+      author: "FM",
+      version: "1.0",
+      createdAt: "2025-01-01",
+      tags: ["pixel", "nostalgia", "retro"],
+      category: "interactive",
+      featured: false,
+    },
   },
   {
     id: "experimental",
@@ -256,7 +330,8 @@ const WORLD_PORTALS: PortalDefinition[] = [
     theme: "experimental",
     background: {
       type: "gradient",
-      value: "linear-gradient(160deg, rgba(88,28,135,0.6) 0%, rgba(168,85,247,0.3) 50%, rgba(192,132,252,0.15) 100%)",
+      value:
+        "linear-gradient(160deg, rgba(88,28,135,0.6) 0%, rgba(168,85,247,0.3) 50%, rgba(192,132,252,0.15) 100%)",
       fallbackColor: "#581c87",
     },
     icon: { type: "emoji", emoji: "🧪" },
@@ -271,7 +346,14 @@ const WORLD_PORTALS: PortalDefinition[] = [
     destinationRoute: WORLD_ROUTES.EXPERIMENTAL,
     status: "coming-soon",
     order: 10,
-    metadata: { author: "FM", version: "1.0", createdAt: "2025-01-01", tags: ["experimental", "avant-garde", "interactive"], category: "cosmic", featured: false },
+    metadata: {
+      author: "FM",
+      version: "1.0",
+      createdAt: "2025-01-01",
+      tags: ["experimental", "avant-garde", "interactive"],
+      category: "cosmic",
+      featured: false,
+    },
   },
 ];
 
@@ -298,19 +380,65 @@ export default function WorldIndexPage() {
     [navigate],
   );
 
-  const sortedPortals = useMemo(
-    () => [...WORLD_PORTALS].sort((a, b) => a.order - b.order),
-    [],
-  );
+  const sortedPortals = useMemo(() => [...WORLD_PORTALS].sort((a, b) => a.order - b.order), []);
 
   return (
     <div
       style={{
         minHeight: "100dvh",
-        background: "radial-gradient(ellipse 80% 70% at 50% 45%, rgba(8,8,20,1) 0%, rgba(3,3,10,1) 100%)",
+        background:
+          "radial-gradient(ellipse 80% 70% at 50% 45%, rgba(8,8,20,1) 0%, rgba(3,3,10,1) 100%)",
         padding: "clamp(2rem, 5vw, 4rem)",
       }}
     >
+      {/* Back link */}
+      <a
+        href="/"
+        style={{
+          position: "absolute",
+          top: "clamp(1.5rem, 3vw, 2.5rem)",
+          left: "clamp(1.5rem, 3vw, 2.5rem)",
+          display: "inline-flex",
+          alignItems: "center",
+          gap: "0.5rem",
+          fontFamily: "'JetBrains Mono', monospace",
+          fontSize: "0.6875rem",
+          fontWeight: 400,
+          letterSpacing: "0.1em",
+          textTransform: "uppercase",
+          color: "rgba(180,170,155,0.4)",
+          textDecoration: "none",
+          padding: "0.5rem 0.875rem",
+          borderRadius: "9999px",
+          border: "1px solid rgba(245,240,232,0.06)",
+          background: "rgba(8,7,6,0.5)",
+          backdropFilter: "blur(8px)",
+          transition: "color 0.2s ease, border-color 0.2s ease",
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.color = "rgba(245,240,232,0.75)";
+          e.currentTarget.style.borderColor = "rgba(180,170,155,0.18)";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.color = "rgba(180,170,155,0.4)";
+          e.currentTarget.style.borderColor = "rgba(245,240,232,0.06)";
+        }}
+      >
+        <svg
+          width="12"
+          height="12"
+          viewBox="0 0 12 12"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M7.5 2.5L4 6l3.5 3.5" />
+        </svg>
+        Portfolio
+      </a>
+
       {/* Header */}
       <div style={{ textAlign: "center", marginBottom: "clamp(2rem, 5vh, 4rem)" }}>
         <span

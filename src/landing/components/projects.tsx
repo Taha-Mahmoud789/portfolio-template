@@ -18,95 +18,9 @@ import { useReducedMotion } from "../hooks";
 import { ROUTES } from "@/constants/routes";
 import { useTransitionStore } from "./project-transition-store";
 import { ImageComponent } from "@/components/image-component";
+import { PROJECTS, type ProjectData } from "@/content";
 
 gsap.registerPlugin(ScrollTrigger);
-
-// ============================================================================
-// Data
-// ============================================================================
-
-interface Project {
-  id: number;
-  slug: string;
-  number: string;
-  title: string;
-  description: string;
-  year: string;
-  category: string;
-  technologies: readonly string[];
-  accentRgb: string;
-  coverImage: string;
-  heroImage: string;
-  galleryImages: readonly string[];
-  logo: string;
-  liveUrl: string;
-}
-
-const PROJECTS: readonly Project[] = [
-  {
-    id: 1,
-    slug: "over-benefits",
-    number: "01",
-    title: "Over Benefits",
-    description:
-      "A modern digital platform designed to simplify employee benefits, business solutions and consumer experiences through a clean responsive interface.",
-    year: "2026",
-    category: "Digital Benefits Platform",
-    technologies: ["React", "TypeScript", "Tailwind CSS", "REST API"],
-    accentRgb: "59, 130, 246",
-    coverImage: "/projects/over-benefits/cover.webp",
-    heroImage: "/projects/over-benefits/cover.webp",
-    galleryImages: [
-      "/projects/over-benefits/gallery-01.webp",
-      "/projects/over-benefits/gallery-02.webp",
-      "/projects/over-benefits/gallery-03.webp",
-    ],
-    logo: "/projects/over-benefits/logo.webp",
-    liveUrl: "overbenefits.net",
-  },
-  {
-    id: 2,
-    slug: "window-corner",
-    number: "02",
-    title: "Window Corner",
-    description:
-      "A premium web experience for an architectural aluminum and glass solutions company. Presenting products, projects and brand identity through a modern interface.",
-    year: "2026",
-    category: "Corporate Website",
-    technologies: ["React", "TypeScript", "Tailwind CSS", "Framer Motion"],
-    accentRgb: "20, 184, 166",
-    coverImage: "/projects/window-corner/cover.webp",
-    heroImage: "/projects/window-corner/cover.webp",
-    galleryImages: [
-      "/projects/window-corner/gallery-01.webp",
-      "/projects/window-corner/gallery-02.webp",
-      "/projects/window-corner/gallery-03.webp",
-    ],
-    logo: "/projects/window-corner/logo.webp",
-    liveUrl: "window-corner.com",
-  },
-  {
-    id: 3,
-    slug: "mts-med",
-    number: "03",
-    title: "MTS MED",
-    description:
-      "A healthcare product platform focused on presenting medical solutions with clear navigation and accessible product information.",
-    year: "2026",
-    category: "Healthcare Platform",
-    technologies: ["React", "TypeScript", "Tailwind CSS", "Responsive Design"],
-    accentRgb: "239, 68, 68",
-    coverImage: "/projects/mts-med/cover.png",
-    heroImage: "/projects/mts-med/hero.webp",
-    galleryImages: [
-      "/projects/mts-med/gallery-01.jpeg",
-      "/projects/mts-med/gallery-02.jpeg",
-      "/projects/mts-med/gallery-03.jpeg",
-    ],
-    logo: "/projects/mts-med/logo.png",
-    liveUrl: "mtsmed-eg.com",
-  },
-] as const;
 
 // ============================================================================
 // Preview Area — Premium full-bleed visual
@@ -117,7 +31,7 @@ function PreviewArea({
   previewRef,
   innerRef,
 }: {
-  project: Project;
+  project: ProjectData;
   previewRef: React.RefObject<HTMLDivElement | null>;
   innerRef: React.RefObject<HTMLDivElement | null>;
 }) {
@@ -155,7 +69,7 @@ function PreviewArea({
           }}
         >
           <ImageComponent
-            src={project.heroImage}
+            src={project.images.hero}
             alt={`${project.title} — ${project.category}`}
             width={1920}
             height={1080}
@@ -227,7 +141,7 @@ function PreviewArea({
         <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
           <span
             style={{
-              fontFamily: "'Space Grotesk', sans-serif",
+              fontFamily: "var(--font-display)",
               fontSize: "18px",
               fontWeight: 600,
               color: "rgba(245, 240, 232, 0.98)",
@@ -239,12 +153,12 @@ function PreviewArea({
           </span>
           <span
             style={{
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "var(--font-mono)",
               fontSize: "11px",
               fontWeight: 500,
               color: `rgba(${project.accentRgb}, 0.95)`,
               letterSpacing: "0.1em",
-              textTransform: "uppercase" as const,
+              textTransform: "uppercase",
               textShadow: "0 1px 4px rgba(0, 0, 0, 0.5)",
             }}
           >
@@ -265,7 +179,7 @@ function PreviewArea({
         >
           <span
             style={{
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "var(--font-mono)",
               fontSize: "12px",
               fontWeight: 500,
               color: "rgba(245, 240, 232, 0.8)",
@@ -305,7 +219,7 @@ function PreviewArea({
         >
           <span
             style={{
-              fontFamily: "'Space Grotesk', sans-serif",
+              fontFamily: "var(--font-display)",
               fontSize: "14px",
               fontWeight: 600,
               color: "#080706",
@@ -346,11 +260,11 @@ function PreviewArea({
       >
         {/* Tech tags */}
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          {project.technologies.slice(0, 3).map((tech) => (
+          {project.hero.technologies.slice(0, 3).map((tech) => (
             <span
               key={tech}
               style={{
-                fontFamily: "'JetBrains Mono', monospace",
+                fontFamily: "var(--font-mono)",
                 fontSize: "11px",
                 fontWeight: 500,
                 color: "rgba(245, 240, 232, 0.8)",
@@ -371,7 +285,7 @@ function PreviewArea({
         {/* Project number */}
         <span
           style={{
-            fontFamily: "'Space Grotesk', sans-serif",
+            fontFamily: "var(--font-display)",
             fontSize: "56px",
             fontWeight: 700,
             color: `rgba(${project.accentRgb}, 0.2)`,
@@ -411,7 +325,7 @@ function ProjectSection({
   index,
   reducedMotion,
 }: {
-  project: Project;
+  project: ProjectData;
   index: number;
   reducedMotion: boolean;
 }) {
@@ -421,6 +335,13 @@ function ProjectSection({
   const numberRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const descRef = useRef<HTMLParagraphElement>(null);
+
+  // Restore body overflow on unmount (safety net for navigation during transition)
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, []);
   const metaRef = useRef<HTMLDivElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
   const previewInnerRef = useRef<HTMLDivElement>(null);
@@ -444,9 +365,7 @@ function ProjectSection({
     const preview = previewRef.current;
     const tech = techRef.current;
 
-    let ctx: gsap.Context | null = null;
-
-    ctx = gsap.context(() => {
+    const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         defaults: { ease: "none" },
         scrollTrigger: {
@@ -746,7 +665,7 @@ function ProjectSection({
       fromRect: rect,
       projectId: project.slug,
       accentRgb: project.accentRgb,
-      projectNumber: project.number,
+      projectNumber: String(project.number).padStart(2, "0"),
     });
 
     void navigate(target);
@@ -856,11 +775,11 @@ function ProjectSection({
             <span
               data-project-meta
               style={{
-                fontFamily: "'JetBrains Mono', monospace",
+                fontFamily: "var(--font-mono)",
                 fontSize: "11px",
                 fontWeight: 500,
                 letterSpacing: "0.15em",
-                textTransform: "uppercase" as const,
+                textTransform: "uppercase",
                 color: `rgba(${project.accentRgb}, 0.7)`,
               }}
             >
@@ -878,7 +797,7 @@ function ProjectSection({
             <span
               data-project-meta
               style={{
-                fontFamily: "'JetBrains Mono', monospace",
+                fontFamily: "var(--font-mono)",
                 fontSize: "11px",
                 fontWeight: 400,
                 letterSpacing: "0.1em",
@@ -893,7 +812,7 @@ function ProjectSection({
           <h3
             ref={titleRef}
             style={{
-              fontFamily: "'Space Grotesk', sans-serif",
+              fontFamily: "var(--font-display)",
               fontSize: "clamp(2.5rem, 6vw, 5rem)",
               fontWeight: 600,
               letterSpacing: "-0.04em",
@@ -910,7 +829,7 @@ function ProjectSection({
           <p
             ref={descRef}
             style={{
-              fontFamily: "'Inter', sans-serif",
+              fontFamily: "var(--font-body)",
               fontSize: "clamp(1rem, 1.2vw, 1.125rem)",
               fontWeight: 400,
               lineHeight: 1.75,
@@ -933,12 +852,12 @@ function ProjectSection({
               marginTop: "0.5rem",
             }}
           >
-            {project.technologies.map((tech, i) => (
+            {project.hero.technologies.map((tech, i) => (
               <span
                 key={tech}
                 data-tech-tag
                 style={{
-                  fontFamily: "'JetBrains Mono', monospace",
+                  fontFamily: "var(--font-mono)",
                   fontSize: "11px",
                   fontWeight: 400,
                   letterSpacing: "0.02em",
@@ -959,12 +878,12 @@ function ProjectSection({
           <div
             ref={numberRef}
             style={{
-              fontFamily: "'Space Grotesk', sans-serif",
+              fontFamily: "var(--font-display)",
               fontSize: "clamp(5rem, 10vw, 10rem)",
               fontWeight: 700,
               letterSpacing: "-0.05em",
               lineHeight: 0.8,
-              color: `rgba(${project.accentRgb}, 0.08)`,
+              color: `rgba(${project.accentRgb}, 0.12)`,
               marginTop: "0.5rem",
               willChange: "transform",
               userSelect: "none",
@@ -1047,7 +966,7 @@ export function Projects() {
           <h2
             id="projects-heading"
             style={{
-              fontFamily: "'Space Grotesk', sans-serif",
+              fontFamily: "var(--font-display)",
               fontSize: "clamp(2.5rem, 6vw, 5rem)",
               fontWeight: 600,
               letterSpacing: "-0.04em",
@@ -1084,7 +1003,7 @@ export function Projects() {
           <p
             data-header-line
             style={{
-              fontFamily: "'Inter', sans-serif",
+              fontFamily: "var(--font-body)",
               fontSize: "clamp(0.9375rem, 1.1vw, 1.0625rem)",
               fontWeight: 400,
               lineHeight: 1.7,

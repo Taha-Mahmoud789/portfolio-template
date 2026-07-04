@@ -9,37 +9,7 @@ import { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { useReducedMotion } from "../hooks";
 import { ANIMATION_EASINGS } from "@/animation/constants";
-
-// ============================================================================
-// Data
-// ============================================================================
-
-interface ProcessStep {
-  number: string;
-  title: string;
-  description: string;
-}
-
-const STEPS: readonly ProcessStep[] = [
-  {
-    number: "01",
-    title: "Understand",
-    description:
-      "Before writing code, I learn the problem. Architecture decisions shape everything that follows.",
-  },
-  {
-    number: "02",
-    title: "Craft",
-    description:
-      "Component by component, frame by frame. Clean TypeScript, intentional motion, and structure that scales.",
-  },
-  {
-    number: "03",
-    title: "Refine",
-    description:
-      "Performance, accessibility, and the details that separate functional from exceptional. Then ship.",
-  },
-] as const;
+import { PROCESS_STEPS } from "@/content";
 
 // ============================================================================
 // Process Section
@@ -173,7 +143,7 @@ export function Process() {
           <h2
             id="process-heading"
             style={{
-              fontFamily: "'Space Grotesk', sans-serif",
+              fontFamily: "var(--font-display)",
               fontSize: "clamp(2.5rem, 6vw, 5rem)",
               fontWeight: 600,
               letterSpacing: "-0.04em",
@@ -189,7 +159,7 @@ export function Process() {
                 willChange: "clip-path",
               }}
             >
-              Different skills.
+              Process.
             </span>
             <br />
             <span
@@ -204,7 +174,7 @@ export function Process() {
                 WebkitTextFillColor: "transparent",
               }}
             >
-              One standard.
+              Standards.
             </span>
           </h2>
         </div>
@@ -217,7 +187,7 @@ export function Process() {
             flexDirection: "column",
           }}
         >
-          {STEPS.map((step, index) => (
+          {PROCESS_STEPS.map((step, index) => (
             <div
               key={step.number}
               data-process-step
@@ -228,14 +198,14 @@ export function Process() {
                 alignItems: "start",
                 padding: "clamp(2rem, 4vw, 3.5rem) 0",
                 borderBottom:
-                  index < STEPS.length - 1 ? "1px solid rgba(245, 240, 232, 0.04)" : "none",
+                  index < PROCESS_STEPS.length - 1 ? "1px solid rgba(245, 240, 232, 0.04)" : "none",
               }}
             >
               {/* Number */}
               <div
                 data-step-number
                 style={{
-                  fontFamily: "'Space Grotesk', sans-serif",
+                  fontFamily: "var(--font-display)",
                   fontSize: "clamp(3rem, 7vw, 6rem)",
                   fontWeight: 600,
                   letterSpacing: "-0.04em",
@@ -255,7 +225,7 @@ export function Process() {
               <div data-step-content style={{ willChange: "clip-path" }}>
                 <h3
                   style={{
-                    fontFamily: "'Space Grotesk', sans-serif",
+                    fontFamily: "var(--font-display)",
                     fontSize: "clamp(1.5rem, 3.5vw, 2.75rem)",
                     fontWeight: 600,
                     letterSpacing: "-0.03em",
@@ -268,11 +238,11 @@ export function Process() {
                 </h3>
                 <p
                   style={{
-                    fontFamily: "'Inter', sans-serif",
+                    fontFamily: "var(--font-body)",
                     fontSize: "clamp(0.9375rem, 1.1vw, 1.0625rem)",
                     fontWeight: 400,
                     lineHeight: 1.75,
-                    color: "rgba(214, 204, 190, 0.4)",
+                    color: "rgba(214, 204, 190, 0.45)",
                     margin: 0,
                     maxWidth: 600,
                   }}

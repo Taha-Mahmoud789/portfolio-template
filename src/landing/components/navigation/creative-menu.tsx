@@ -10,18 +10,7 @@ import { useEffect, useRef, useCallback } from "react";
 import { gsap } from "gsap";
 import { ANIMATION_EASINGS } from "@/animation/constants";
 import { useReducedMotion } from "@/landing/hooks";
-
-// ============================================================================
-// Constants
-// ============================================================================
-
-const MENU_ITEMS = [
-  { number: "01", label: "HOME", href: "#hero" },
-  { number: "02", label: "WORK", href: "#projects" },
-  { number: "03", label: "ABOUT", href: "#about" },
-  { number: "04", label: "EXPERTISE", href: "#expertise" },
-  { number: "05", label: "CONTACT", href: "#contact" },
-] as const;
+import { MENU_ITEMS, PERSONAL_INFO } from "@/content";
 
 // ============================================================================
 // Props
@@ -32,6 +21,7 @@ interface CreativeMenuProps {
   onClose: () => void;
   onNavigate: (href: string) => void;
   activeSection?: string;
+  onMultiverseEnter?: () => void;
 }
 
 // ============================================================================
@@ -43,6 +33,7 @@ export function CreativeMenu({
   onClose,
   onNavigate,
   activeSection = "#hero",
+  onMultiverseEnter,
 }: CreativeMenuProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
   const itemsRef = useRef<(HTMLButtonElement | null)[]>([]);
@@ -55,6 +46,8 @@ export function CreativeMenu({
 
   // Lock body scroll when menu is open
   useEffect(() => {
+    let rafId = 0;
+
     if (isOpen) {
       const scrollY = window.scrollY;
       document.body.dataset.scrollY = String(scrollY);
@@ -69,11 +62,12 @@ export function CreativeMenu({
       document.body.style.overflow = "";
       document.documentElement.classList.remove("lenis-stopped");
       delete document.body.dataset.scrollY;
-      requestAnimationFrame(() => {
+      rafId = requestAnimationFrame(() => {
         window.scrollTo(0, parseInt(savedY, 10));
       });
     }
     return () => {
+      cancelAnimationFrame(rafId);
       delete document.body.dataset.menuOpen;
       document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
@@ -310,8 +304,12 @@ export function CreativeMenu({
         <div className="cm-extra">
           <div className="cm-extra-divider" data-menu-extra aria-hidden="true" />
           <div className="cm-extra-row" data-menu-extra>
-            <a href="mailto:hello@example.com" className="cm-extra-link" onClick={() => onClose()}>
-              hello@example.com
+            <a
+              href={`mailto:${PERSONAL_INFO.email}`}
+              className="cm-extra-link"
+              onClick={() => onClose()}
+            >
+              {PERSONAL_INFO.email}
             </a>
             <span className="cm-extra-sep" aria-hidden="true">
               •
@@ -326,6 +324,27 @@ export function CreativeMenu({
             >
               Available for work
             </a>
+            <span className="cm-extra-sep" aria-hidden="true">
+              •
+            </span>
+            <button
+              type="button"
+              className="cm-extra-link"
+              style={{
+                background: "none",
+                border: "none",
+                padding: 0,
+                font: "inherit",
+                color: "inherit",
+                cursor: "pointer",
+              }}
+              onClick={() => {
+                onClose();
+                onMultiverseEnter?.();
+              }}
+            >
+              Enter Multiverse
+            </button>
           </div>
         </div>
 

@@ -1,84 +1,52 @@
 /**
- * Space World
- *
- * The cosmos is indifferent. The user is a witness.
- * Built on Base World foundation with Three.js scene.
+ * Space World — Public API
  */
 
-// ============================================================================
 // Types
-// ============================================================================
 export type {
-  SpaceWorldConfig,
-  ConstellationPoint,
-  Constellation,
-  StarDepth,
-  Star,
-  DepthLayer,
-  DepthLayerConfig,
-  DustParticle,
-  Nebula,
-  ScrollIntent,
-  IntentState,
-  SpaceWorldProps,
-  SpaceHeroProps,
-  SpaceSectionsProps,
-} from "./types";
+  WorldPhase,
+  CameraMode,
+  CameraPreset,
+  ObjectState,
+  OrbitGroup,
+  SpaceObject,
+  SpaceObjectType,
+  Connection,
+  OrbitConfig,
+  CoreConfig,
+  SpaceSceneConfig,
+} from "./data/types";
 
-// ============================================================================
 // Config
-// ============================================================================
 export {
-  SPACE_WORLD_CONFIG,
-  CONSTELLATIONS,
-  DEPTH_LAYERS,
-  SPACE_MOTION_TIMING,
-  SPACE_CURSOR,
-  STAR_FIELD_CONFIG,
-  DUST_FIELD_CONFIG,
-} from "./config";
+  CORE,
+  ORBITS,
+  OBJECTS,
+  CONNECTIONS,
+  CAMERA_PRESETS,
+  NAVIGATION,
+  SPACE_CONFIG,
+} from "./data/space.config";
 
-// ============================================================================
-// Scene (Three.js)
-// ============================================================================
-export {
-  SpaceScene,
-  DeepSpace,
-  Galaxy,
-  StarField,
-  NebulaCloud,
-  Planets,
-  ConstellationLines,
-  CosmicDust,
-  SpaceEnvironment,
-} from "./scene";
+// Systems
+export { useSpaceState } from "./systems/state-manager";
+export { useCameraController } from "./systems/camera-controller";
+export { useObjectRegistry } from "./systems/object-registry";
+export { useInteractionManager } from "./systems/interaction-manager";
 
-// ============================================================================
-// Camera
-// ============================================================================
-export {
-  SPACE_CAMERA_PRESETS,
-  SPACE_CAMERA_STATES,
-  SPACE_CAMERA_EFFECTS,
-  SPACE_CAMERA_TIMELINE,
-} from "./camera/space-camera";
-
-// ============================================================================
-// Components
-// ============================================================================
-export { SpaceWorld } from "./components/space-world";
-export { SpaceHero } from "./components/space-hero";
-export { SpaceSections } from "./components/space-sections";
-
-// ============================================================================
 // Hooks
-// ============================================================================
+export { useSpaceWorld } from "./hooks/use-space-world";
+export { useReducedMotion } from "./hooks/use-reduced-motion";
+export { useSpatialNav } from "./hooks/use-spatial-nav";
+
+// Components
+export { SpaceWorldExperience, ReducedMotionFallback } from "./components";
+
+// Accessibility
 export {
-  useSpaceWorld,
-  useStarField,
-  useDustField,
-  useConstellations,
-  useDepthLayer,
-  useScrollIntent,
-  useReducedMotion,
-} from "./hooks";
+  prefersReducedMotion,
+  onReducedMotionChange,
+  getReducedMotionDuration,
+  shouldAnimate,
+  announceToScreenReader,
+} from "./accessibility";

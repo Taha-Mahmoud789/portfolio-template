@@ -720,10 +720,10 @@ function WorldCard({
           </div>
           <span
             style={{
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "var(--font-mono)",
               fontSize: "0.625rem",
               letterSpacing: "0.15em",
-              textTransform: "uppercase" as const,
+              textTransform: "uppercase",
               color: isHovered ? "rgba(245,240,232,0.55)" : "rgba(245,240,232,0.3)",
               padding: "5px 12px",
               borderRadius: 8,
@@ -743,10 +743,10 @@ function WorldCard({
         <div>
           <span
             style={{
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "var(--font-mono)",
               fontSize: "clamp(0.625rem, 0.8vw, 0.6875rem)",
               letterSpacing: "0.2em",
-              textTransform: "uppercase" as const,
+              textTransform: "uppercase",
               color: "rgba(245,240,232,0.35)",
               display: "block",
               marginBottom: "clamp(0.5rem, 1vw, 0.75rem)",
@@ -757,7 +757,7 @@ function WorldCard({
 
           <h3
             style={{
-              fontFamily: "'Space Grotesk', sans-serif",
+              fontFamily: "var(--font-display)",
               fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)",
               fontWeight: 700,
               letterSpacing: "-0.03em",
@@ -772,7 +772,7 @@ function WorldCard({
 
           <p
             style={{
-              fontFamily: "'Inter', sans-serif",
+              fontFamily: "var(--font-body)",
               fontSize: "clamp(0.8125rem, 1vw, 0.9375rem)",
               lineHeight: 1.6,
               color: isHovered ? "rgba(226,232,240,0.65)" : "rgba(226,232,240,0.45)",
@@ -797,10 +797,10 @@ function WorldCard({
           >
             <span
               style={{
-                fontFamily: "'JetBrains Mono', monospace",
+                fontFamily: "var(--font-mono)",
                 fontSize: "0.6875rem",
                 letterSpacing: "0.15em",
-                textTransform: "uppercase" as const,
+                textTransform: "uppercase",
                 color: world.accentColor,
                 fontWeight: 500,
               }}
@@ -1288,10 +1288,10 @@ export function WorldSelection({ visible, onExit }: { visible: boolean; onExit: 
           border: "1px solid rgba(245,240,232,0.08)",
           borderRadius: 10,
           color: "rgba(226,232,240,0.6)",
-          fontFamily: "'JetBrains Mono', monospace",
+          fontFamily: "var(--font-mono)",
           fontSize: "clamp(0.625rem, 0.8vw, 0.75rem)",
           letterSpacing: "0.1em",
-          textTransform: "uppercase" as const,
+          textTransform: "uppercase",
           cursor: "pointer",
           padding: "0.5rem 1rem",
           backdropFilter: "blur(8px)",
@@ -1315,11 +1315,11 @@ export function WorldSelection({ visible, onExit }: { visible: boolean; onExit: 
         <span
           ref={subtitleRef}
           style={{
-            fontFamily: "'JetBrains Mono', monospace",
+            fontFamily: "var(--font-mono)",
             fontSize: "clamp(0.5625rem, 0.75vw, 0.6875rem)",
             fontWeight: 400,
             letterSpacing: "0.35em",
-            textTransform: "uppercase" as const,
+            textTransform: "uppercase",
             color: "rgba(245,240,232,0.3)",
             display: "block",
             marginBottom: "clamp(0.75rem, 1.5vw, 1rem)",
@@ -1330,7 +1330,7 @@ export function WorldSelection({ visible, onExit }: { visible: boolean; onExit: 
         <h2
           ref={headingRef}
           style={{
-            fontFamily: "'Space Grotesk', sans-serif",
+            fontFamily: "var(--font-display)",
             fontSize: "clamp(1.75rem, 4.5vw, 3.25rem)",
             fontWeight: 700,
             letterSpacing: "-0.04em",
@@ -1380,10 +1380,10 @@ export function WorldSelection({ visible, onExit }: { visible: boolean; onExit: 
           display: "flex",
           alignItems: "center",
           gap: 16,
-          fontFamily: "'JetBrains Mono', monospace",
+          fontFamily: "var(--font-mono)",
           fontSize: "0.5625rem",
           letterSpacing: "0.15em",
-          textTransform: "uppercase" as const,
+          textTransform: "uppercase",
           color: "rgba(245,240,232,0.2)",
         }}
       >

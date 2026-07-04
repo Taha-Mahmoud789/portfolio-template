@@ -67,6 +67,7 @@ export function ErrorFallback({ error, resetError }: ErrorFallbackProps) {
 
         <div style={{ display: "flex", gap: "0.75rem", justifyContent: "center" }}>
           <button
+            type="button"
             ref={buttonRef}
             onClick={resetError}
             style={{
@@ -82,6 +83,7 @@ export function ErrorFallback({ error, resetError }: ErrorFallbackProps) {
             Try Again
           </button>
           <button
+            type="button"
             onClick={() => window.location.reload()}
             style={{
               padding: "0.5rem 1rem",

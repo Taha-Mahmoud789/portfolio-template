@@ -1,38 +1,23 @@
 /**
- * CosmicDust — Particle System (Awwwards Grade)
+ * CosmicDust — Minimal Foreground Drift
  *
- * Noise-based drift through 3D space, size pulsing, depth-based opacity.
- * Foreground particles that create parallax depth.
+ * Few particles, extremely slow drift.
+ * Creates subtle parallax depth.
+ * NOT a particle system. NOT a screensaver.
+ * Just a few specks of light floating in space.
  */
 
 import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
+import * as THREE from "three";
 import type { ShaderMaterial } from "three";
-import { Points } from "@react-three/drei";
 import { useReducedMotion } from "../hooks";
 
-// ============================================================================
-// Constants
-// ============================================================================
+const COUNT = 30;
 
-const DUST_CONFIG = {
-  count: 80,
-  sizeMin: 0.5,
-  sizeMax: 3.0,
-  speedMin: 0.3,
-  speedMax: 0.8,
-  depthSpread: 20,
-} as const;
-
-// ============================================================================
-// Dust Vertex Shader — noise drift + size pulsing
-// ============================================================================
-
-const DUST_VERTEX_SHADER = `
+const VERTEX = `
   attribute float aSize;
   attribute float aOpacity;
-  attribute float aSpeed;
-  attribute float aAngle;
   attribute float aPhase;
 
   uniform float uTime;
@@ -40,45 +25,27 @@ const DUST_VERTEX_SHADER = `
 
   varying float vOpacity;
 
-  // Simple 3D noise for organic drift
-  float hash(vec3 p) {
-    p = fract(p * 0.3183099 + 0.1);
-    p *= 17.0;
-    return fract(p.x * p.y * p.z * (p.x + p.y + p.z));
-  }
-
   void main() {
     vec3 pos = position;
 
-    // Noise-based drift — organic, not linear
-    float t = uTime * aSpeed * 0.05;
-    float nx = hash(vec3(floor(pos.x * 0.5), 0.0, aPhase)) * 2.0 - 1.0;
-    float ny = hash(vec3(0.0, floor(pos.y * 0.5), aPhase)) * 2.0 - 1.0;
-    pos.x += cos(aAngle + t) * 0.3 + nx * sin(t * 0.3) * 0.2;
-    pos.y += sin(aAngle + t) * 0.25 + ny * cos(t * 0.4) * 0.15;
-    pos.z += sin(t * 0.2 + aPhase) * 0.1;
-
-    // Wrap around
-    pos.x = mod(pos.x + 10.0, 20.0) - 10.0;
-    pos.y = mod(pos.y + 10.0, 20.0) - 10.0;
+    // Ultra-slow drift — barely moves
+    float t = uTime * 0.01;
+    pos.x += sin(aPhase + t) * 0.08;
+    pos.y += cos(aPhase * 0.6 + t * 0.5) * 0.05;
 
     vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
 
-    // Size pulsing — subtle breathing
-    float pulse = sin(uTime * 0.5 + aPhase) * 0.15 + 1.0;
+    // Subtle breathing
+    float pulse = sin(uTime * 0.1 + aPhase) * 0.08 + 1.0;
 
     vOpacity = aOpacity;
 
-    gl_PointSize = max(aSize * pulse * uPixelRatio * (120.0 / -mvPosition.z), 0.5);
+    gl_PointSize = max(aSize * pulse * uPixelRatio * (140.0 / -mvPosition.z), 0.5);
     gl_Position = projectionMatrix * mvPosition;
   }
 `;
 
-// ============================================================================
-// Dust Fragment Shader — soft glow
-// ============================================================================
-
-const DUST_FRAGMENT_SHADER = `
+const FRAGMENT = `
   uniform vec3 uColor;
   varying float vOpacity;
 
@@ -86,90 +53,78 @@ const DUST_FRAGMENT_SHADER = `
     vec2 center = gl_PointCoord - vec2(0.5);
     float dist = length(center);
 
+    // Very soft glow — cubic falloff
     float alpha = 1.0 - smoothstep(0.0, 0.5, dist);
+    alpha *= alpha * alpha;
     alpha *= vOpacity;
 
     gl_FragColor = vec4(uColor, alpha);
   }
 `;
 
-// ============================================================================
-// Component
-// ============================================================================
-
-export function CosmicDust(): React.JSX.Element {
+export function CosmicDust() {
   const materialRef = useRef<ShaderMaterial>(null);
   const reducedMotion = useReducedMotion();
-  const { count, sizeMin, sizeMax, speedMin, speedMax } = DUST_CONFIG;
 
-  const { positions } = useMemo(() => {
-    const pos = new Float32Array(count * 3);
-    const sz = new Float32Array(count);
-    const op = new Float32Array(count);
-    const sp = new Float32Array(count);
-    const an = new Float32Array(count);
-    const ph = new Float32Array(count);
+  const buffers = useMemo(() => {
+    const pos = new Float32Array(COUNT * 3);
+    const sz = new Float32Array(COUNT);
+    const op = new Float32Array(COUNT);
+    const ph = new Float32Array(COUNT);
 
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < COUNT; i++) {
       const theta = Math.random() * Math.PI * 2;
       const phi = Math.acos(2 * Math.random() - 1);
-      const radius = 3 + Math.random() * DUST_CONFIG.depthSpread;
+      const radius = 3 + Math.random() * 12;
 
       pos[i * 3] = Math.sin(phi) * Math.cos(theta) * radius;
       pos[i * 3 + 1] = Math.sin(phi) * Math.sin(theta) * radius;
       pos[i * 3 + 2] = Math.cos(phi) * radius;
 
-      // Size variance — some particles larger for depth
-      const depthFactor = radius / DUST_CONFIG.depthSpread;
-      sz[i] = sizeMin + Math.random() * (sizeMax - sizeMin) * (1 - depthFactor * 0.5);
-
-      // Opacity — depth-based attenuation
-      op[i] = (0.15 + Math.random() * 0.2) * (1 - depthFactor * 0.4);
-
-      sp[i] = speedMin + Math.random() * (speedMax - speedMin);
-      an[i] = Math.random() * Math.PI * 2;
+      // Few larger, rest tiny
+      sz[i] = i < 5 ? 1.5 + Math.random() * 2.0 : 0.3 + Math.random() * 0.8;
+      op[i] = 0.06 + Math.random() * 0.1;
       ph[i] = Math.random() * Math.PI * 2;
     }
 
-    return {
-      positions: pos,
-      sizes: sz,
-      opacities: op,
-      speeds: sp,
-      angles: an,
-      phases: ph,
-    };
-  }, [count, sizeMin, sizeMax, speedMin, speedMax]);
+    return { positions: pos, sizes: sz, opacities: op, phases: ph };
+  }, []);
 
   const uniforms = useMemo(
     () => ({
       uTime: { value: 0 },
-      uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
-      uColor: { value: "#818cf8" },
+      uPixelRatio: {
+        value: typeof window !== "undefined" ? Math.min(window.devicePixelRatio, 2) : 1,
+      },
+      uColor: { value: new THREE.Color("#b8a990") },
     }),
     [],
   );
 
   useFrame((state) => {
-    if (materialRef.current && !reducedMotion) {
-      const uTime = materialRef.current.uniforms.uTime;
-      if (uTime) {
-        uTime.value = state.clock.elapsedTime;
-      }
+    if (!reducedMotion) {
+      const u = materialRef.current?.uniforms.uTime;
+      if (u) u.value = state.clock.elapsedTime;
     }
   });
 
   return (
-    <Points positions={positions} stride={3} frustumCulled={false}>
+    <points frustumCulled={false}>
+      <bufferGeometry>
+        <bufferAttribute attach="attributes-position" args={[buffers.positions, 3]} />
+        <bufferAttribute attach="attributes-aSize" args={[buffers.sizes, 1]} />
+        <bufferAttribute attach="attributes-aOpacity" args={[buffers.opacities, 1]} />
+        <bufferAttribute attach="attributes-aPhase" args={[buffers.phases, 1]} />
+      </bufferGeometry>
       <shaderMaterial
         ref={materialRef}
-        vertexShader={DUST_VERTEX_SHADER}
-        fragmentShader={DUST_FRAGMENT_SHADER}
+        vertexShader={VERTEX}
+        fragmentShader={FRAGMENT}
         uniforms={uniforms}
         transparent
         depthWrite={false}
         blending={2}
       />
-    </Points>
+    </points>
   );
 }

@@ -31,9 +31,9 @@ export function GenericWorldPage({
     void navigate("/");
   }, [navigate]);
 
-  const handleReady = useCallback(() => {}, []);
+  const handleReady = useCallback(() => undefined, []);
 
-  const handleError = useCallback((_error: Error) => {}, []);
+  const handleError = useCallback((_error: Error) => undefined, []);
 
   return (
     <BaseWorld
@@ -99,6 +99,7 @@ export function GenericWorldPage({
         </p>
 
         <button
+          type="button"
           onClick={handleBack}
           style={{
             display: "flex",
@@ -129,7 +130,13 @@ export function GenericWorldPage({
           }}
         >
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-            <path d="M9 3L5 7L9 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path
+              d="M9 3L5 7L9 11"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
           Back to Home
         </button>

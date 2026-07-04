@@ -1,12 +1,16 @@
 /**
  * Space World Page
  *
- * Renders the SpaceWorld component with full 3D scene,
- * hero content, and section content.
+ * Entry point for /worlds/space route.
+ * Renders the SpaceWorldExperience component.
  */
 
-import { SpaceWorld } from "@/worlds/space-world";
+import { SpaceWorldExperience } from "@/worlds/space-world/components/space-world-experience";
 
 export default function SpaceWorldPage() {
-  return <SpaceWorld />;
+  return (
+    <main className="relative min-h-screen bg-black">
+      <SpaceWorldExperience />
+    </main>
+  );
 }

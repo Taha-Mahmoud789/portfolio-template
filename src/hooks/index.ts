@@ -5,3 +5,4 @@ export { useReducedMotion, useFocusTrap, useKeyboardNavigation } from "./use-acc
 export { useLenis } from "./use-lenis";
 export { useMediaQuery, useIsMobile, useIsTablet, useIsDesktop } from "./use-media-query";
 export { useScrollPosition, useScrollProgress, useScrollDirection } from "./use-scroll";
+export { useAnalytics } from "./use-analytics";

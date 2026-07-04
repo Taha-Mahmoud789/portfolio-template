@@ -37,12 +37,16 @@ const sizeStyles: Record<IconButtonSize, string> = {
 };
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
-  ({ icon, variant = "ghost", size = "md", loading = false, disabled, className, ...props }, ref) => {
+  (
+    { icon, variant = "ghost", size = "md", loading = false, disabled, className, type, ...props },
+    ref,
+  ) => {
     const isDisabled = disabled || loading;
 
     return (
       <button
         ref={ref}
+        type={type ?? "button"}
         disabled={isDisabled}
         aria-disabled={isDisabled || undefined}
         aria-busy={loading || undefined}

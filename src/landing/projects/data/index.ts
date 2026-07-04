@@ -1,12 +1,8 @@
-export { PROJECTS, getProjectById, getAllProjectIds, getProjectSlugs } from "./projects";
-
-export type {
-  ProjectCaseStudy,
-  ProjectHero,
-  ProjectOverview,
-  ProjectMeta,
-  ProjectShowcaseItem,
-  ProjectProcessStep,
-  ProjectTechnicalItem,
-  ProjectResult,
+export {
+  PROJECTS,
+  getProjectById,
+  getProjectBySlug,
+  getOrderedProjects,
+  getAdjacentProjects,
 } from "./projects";
+export type { ProjectCaseStudy } from "./projects";

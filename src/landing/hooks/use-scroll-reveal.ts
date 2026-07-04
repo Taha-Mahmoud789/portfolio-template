@@ -1,46 +1,59 @@
-import { useRef, useCallback } from "react";
+/**
+ * useScrollReveal — Shared IntersectionObserver + GSAP context pattern.
+ *
+ * Observes a section element and triggers a GSAP animation callback
+ * when it enters the viewport. Handles cleanup automatically.
+ */
+
+import { useEffect } from "react";
 import { gsap } from "gsap";
 import { useReducedMotion } from "./use-reduced-motion";
+import { ANIMATION_EASINGS } from "@/animation/constants";
 
 interface ScrollRevealOptions {
   threshold?: number;
-  rootMargin?: string;
+  onReveal: (timeline: gsap.core.Timeline, reducedMotion: boolean) => void;
 }
 
-export function useScrollReveal(options?: ScrollRevealOptions) {
+export function useScrollReveal(
+  sectionRef: React.RefObject<HTMLElement | null>,
+  { threshold = 0.3, onReveal }: ScrollRevealOptions,
+) {
   const reducedMotion = useReducedMotion();
-  const sectionRef = useRef<HTMLElement>(null);
-  const hasRevealed = useRef(false);
 
-  const reveal = useCallback(
-    (refs: React.RefObject<HTMLElement | null>[], timeline: (tl: gsap.core.Timeline) => void) => {
-      const section = sectionRef.current;
-      if (!section) return;
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
 
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (!entry?.isIntersecting || hasRevealed.current) return;
-          hasRevealed.current = true;
-          observer.disconnect();
+    let ctx: gsap.Context | null = null;
 
-          if (reducedMotion) {
-            refs.forEach((ref) => {
-              if (ref.current) ref.current.style.opacity = "1";
-            });
-            return;
-          }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return;
+        observer.disconnect();
 
-          const tl = gsap.timeline();
-          timeline(tl);
-        },
-        { threshold: options?.threshold ?? 0.1, rootMargin: options?.rootMargin },
-      );
+        if (reducedMotion) {
+          onReveal(gsap.timeline(), true);
+          return;
+        }
 
-      observer.observe(section);
-      return () => observer.disconnect();
-    },
-    [reducedMotion, options?.threshold, options?.rootMargin],
-  );
+        ctx = gsap.context(() => {
+          const tl = gsap.timeline({
+            defaults: { ease: ANIMATION_EASINGS.expoOut },
+          });
+          onReveal(tl, false);
+        }, sectionRef);
+      },
+      { threshold },
+    );
 
-  return { sectionRef, reveal, reducedMotion };
+    observer.observe(section);
+
+    return () => {
+      observer.disconnect();
+      ctx?.revert();
+    };
+  }, [sectionRef, threshold, onReveal, reducedMotion]);
 }
+
+export { ANIMATION_EASINGS };

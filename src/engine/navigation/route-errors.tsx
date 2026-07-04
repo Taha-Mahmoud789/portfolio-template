@@ -63,6 +63,7 @@ export class RouteErrorBoundary extends Component<
           </p>
           <div className="flex gap-3">
             <button
+              type="button"
               onClick={() => this.setState({ hasError: false, error: null })}
               className="inline-flex items-center justify-center rounded-md border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-2 text-sm font-medium text-[var(--color-foreground)] transition-colors hover:bg-[var(--color-background-subtle)]"
             >
@@ -110,9 +111,7 @@ export function NotFoundPage({
       <h1 className="mb-4 text-6xl font-bold tracking-tighter text-[var(--color-foreground)]">
         {title}
       </h1>
-      <p className="mb-8 max-w-md text-lg text-[var(--color-foreground-muted)]">
-        {message}
-      </p>
+      <p className="mb-8 max-w-md text-lg text-[var(--color-foreground-muted)]">{message}</p>
       {action ?? (
         <Link
           to="/"
@@ -157,11 +156,10 @@ export function RouteErrorDisplay({
       <h2 className="mb-4 text-3xl font-bold tracking-tight text-[var(--color-foreground)]">
         {title}
       </h2>
-      <p className="mb-6 max-w-md text-[var(--color-foreground-muted)]">
-        {errorMessage}
-      </p>
+      <p className="mb-6 max-w-md text-[var(--color-foreground-muted)]">{errorMessage}</p>
       <div className="flex gap-3">
         <button
+          type="button"
           onClick={() => window.location.reload()}
           className="inline-flex items-center justify-center rounded-md border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-2 text-sm font-medium text-[var(--color-foreground)] transition-colors hover:bg-[var(--color-background-subtle)]"
         >

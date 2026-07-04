@@ -1,9 +1,9 @@
 /**
- * DeepSpace — Background Void Gradient
+ * DeepSpace — Abstract Digital Void
  *
- * Large inverted sphere with a multi-band gradient shader.
- * Creates the deep void aesthetic — the cosmic emptiness.
- * Depth band: void (z: -100)
+ * Large inverted sphere with multi-band gradient and subtle noise.
+ * Creates the premium dark base — not a galaxy, not stars, just depth.
+ * Brand colors: #030712 → #0a0f1e → #1e1b4b → void
  */
 
 import { useMemo, useRef } from "react";
@@ -11,21 +11,8 @@ import { useFrame } from "@react-three/fiber";
 import type { ShaderMaterial } from "three";
 import { useReducedMotion } from "../hooks";
 
-// ============================================================================
-// Types
-// ============================================================================
-
-interface DeepSpaceProps {
-  readonly radius?: number;
-}
-
-// ============================================================================
-// DeepSpace Vertex Shader
-// ============================================================================
-
-const DEEP_SPACE_VERTEX_SHADER = `
+const VERTEX = `
   varying vec3 vWorldPosition;
-
   void main() {
     vec4 worldPos = modelMatrix * vec4(position, 1.0);
     vWorldPosition = worldPos.xyz;
@@ -33,57 +20,103 @@ const DEEP_SPACE_VERTEX_SHADER = `
   }
 `;
 
-// ============================================================================
-// DeepSpace Fragment Shader — multi-band void gradient
-// ============================================================================
-
-const DEEP_SPACE_FRAGMENT_SHADER = `
+const FRAGMENT = `
   uniform float uTime;
   uniform float uReducedMotion;
-
   varying vec3 vWorldPosition;
 
-  void main() {
-    // Normalized direction from center
-    vec3 dir = normalize(vWorldPosition);
+  // Simplex noise for subtle texture
+  vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+  vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+  vec4 permute(vec4 x) { return mod289(((x * 34.0) + 1.0) * x); }
+  vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }
 
-    // Y-axis gradient bands — matching CSS: #030712 → #0a0f1e → #1e1b4b → #030712
+  float snoise(vec3 v) {
+    const vec2 C = vec2(1.0 / 6.0, 1.0 / 3.0);
+    const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
+    vec3 i = floor(v + dot(v, C.yyy));
+    vec3 x0 = v - i + dot(i, C.xxx);
+    vec3 g = step(x0.yzx, x0.xyz);
+    vec3 l = 1.0 - g;
+    vec3 i1 = min(g, l.zxy);
+    vec3 i2 = max(g, l.zxy);
+    vec3 x1 = x0 - i1 + C.xxx;
+    vec3 x2 = x0 - i2 + C.yyy;
+    vec3 x3 = x0 - D.yyy;
+    i = mod289(i);
+    vec4 p = permute(permute(permute(
+      i.z + vec4(0.0, i1.z, i2.z, 1.0))
+      + i.y + vec4(0.0, i1.y, i2.y, 1.0))
+      + i.x + vec4(0.0, i1.x, i2.x, 1.0));
+    float n_ = 0.142857142857;
+    vec3 ns = n_ * D.wyz - D.xzx;
+    vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
+    vec4 x_ = floor(j * ns.z);
+    vec4 y_ = floor(j - 7.0 * x_);
+    vec4 x = x_ * ns.x + ns.yyyy;
+    vec4 y = y_ * ns.x + ns.yyyy;
+    vec4 h = 1.0 - abs(x) - abs(y);
+    vec4 b0 = vec4(x.xy, y.xy);
+    vec4 b1 = vec4(x.zw, y.zw);
+    vec4 s0 = floor(b0) * 2.0 + 1.0;
+    vec4 s1 = floor(b1) * 2.0 + 1.0;
+    vec4 sh = -step(h, vec4(0.0));
+    vec4 a0 = b0.xzyw + s0.xzyw * sh.xxyy;
+    vec4 a1 = b1.xzyw + s1.xzyw * sh.zzww;
+    vec3 p0 = vec3(a0.xy, h.x);
+    vec3 p1 = vec3(a0.zw, h.y);
+    vec3 p2 = vec3(a1.xy, h.z);
+    vec3 p3 = vec3(a1.zw, h.w);
+    vec4 norm = taylorInvSqrt(vec4(dot(p0, p0), dot(p1, p1), dot(p2, p2), dot(p3, p3)));
+    p0 *= norm.x; p1 *= norm.y; p2 *= norm.z; p3 *= norm.w;
+    vec4 m = max(0.6 - vec4(dot(x0, x0), dot(x1, x1), dot(x2, x2), dot(x3, x3)), 0.0);
+    m = m * m;
+    return 42.0 * dot(m * m, vec4(dot(p0, x0), dot(p1, x1), dot(p2, x2), dot(p3, x3)));
+  }
+
+  void main() {
+    vec3 dir = normalize(vWorldPosition);
     float y = dir.y * 0.5 + 0.5;
 
-    // Gradient bands
-    vec3 voidBlack = vec3(0.012, 0.027, 0.071);   // #030712
-    vec3 deepBlue = vec3(0.039, 0.059, 0.118);     // #0a0f1e
-    vec3 indigo = vec3(0.118, 0.106, 0.294);       // #1e1b4b
-    vec3 deepVoid = vec3(0.008, 0.016, 0.047);     // darker void
+    // Brand palette — premium dark warm
+    vec3 voidBlack  = vec3(0.012, 0.027, 0.071);  // #030712
+    vec3 deepBlue   = vec3(0.025, 0.035, 0.065);   // subtle warm dark
+    vec3 warmDark   = vec3(0.035, 0.028, 0.045);   // warm undertone
+    vec3 deepVoid   = vec3(0.005, 0.012, 0.035);   // deeper void
+    vec3 warmBlack  = vec3(0.02, 0.016, 0.028);    // warm black
 
-    // Smooth band transitions
+    // 6-band gradient for richness — warm tones, no indigo
     vec3 color;
-    if (y < 0.2) {
-      color = mix(deepVoid, voidBlack, y / 0.2);
-    } else if (y < 0.4) {
-      color = mix(voidBlack, deepBlue, (y - 0.2) / 0.2);
-    } else if (y < 0.6) {
-      color = mix(deepBlue, indigo, (y - 0.4) / 0.2);
-    } else if (y < 0.8) {
-      color = mix(indigo, deepBlue, (y - 0.6) / 0.2);
+    if (y < 0.15) {
+      color = mix(deepVoid, warmBlack, y / 0.15);
+    } else if (y < 0.3) {
+      color = mix(warmBlack, voidBlack, (y - 0.15) / 0.15);
+    } else if (y < 0.45) {
+      color = mix(voidBlack, deepBlue, (y - 0.3) / 0.15);
+    } else if (y < 0.55) {
+      color = mix(deepBlue, warmDark, (y - 0.45) / 0.1);
+    } else if (y < 0.7) {
+      color = mix(warmDark, deepBlue, (y - 0.55) / 0.15);
+    } else if (y < 0.85) {
+      color = mix(deepBlue, voidBlack, (y - 0.7) / 0.15);
     } else {
-      color = mix(deepBlue, voidBlack, (y - 0.8) / 0.2);
+      color = mix(voidBlack, deepVoid, (y - 0.85) / 0.15);
     }
 
-    // Subtle time-based shimmer — cosmic breathing
-    float shimmer = sin(uTime * 0.05 + dir.x * 2.0) * 0.02 + 1.0;
-    shimmer = mix(1.0, shimmer, 1.0 - uReducedMotion);
-    color *= shimmer;
+    // Subtle noise texture — prevents banding
+    float noise = snoise(dir * 3.0 + uTime * 0.01) * 0.015;
+    color += noise;
+
+    // Extremely slow breathing
+    float breathe = sin(uTime * 0.03) * 0.008 + 1.0;
+    breathe = mix(1.0, breathe, 1.0 - uReducedMotion);
+    color *= breathe;
 
     gl_FragColor = vec4(color, 1.0);
   }
 `;
 
-// ============================================================================
-// Component
-// ============================================================================
-
-export function DeepSpace({ radius = 80 }: DeepSpaceProps): React.JSX.Element {
+export function DeepSpace({ radius = 80 }: { readonly radius?: number }) {
   const materialRef = useRef<ShaderMaterial>(null);
   const reducedMotion = useReducedMotion();
 
@@ -96,21 +129,19 @@ export function DeepSpace({ radius = 80 }: DeepSpaceProps): React.JSX.Element {
   );
 
   useFrame((state) => {
-    if (materialRef.current && !reducedMotion) {
-      const uTime = materialRef.current.uniforms.uTime;
-      if (uTime) {
-        uTime.value = state.clock.elapsedTime;
-      }
+    if (!reducedMotion) {
+      const u = materialRef.current?.uniforms.uTime;
+      if (u) u.value = state.clock.elapsedTime;
     }
   });
 
   return (
     <mesh scale={[-1, 1, 1]}>
-      <sphereGeometry args={[radius, 32, 32]} />
+      <sphereGeometry args={[radius, 48, 48]} />
       <shaderMaterial
         ref={materialRef}
-        vertexShader={DEEP_SPACE_VERTEX_SHADER}
-        fragmentShader={DEEP_SPACE_FRAGMENT_SHADER}
+        vertexShader={VERTEX}
+        fragmentShader={FRAGMENT}
         uniforms={uniforms}
         side={0}
         depthWrite={false}

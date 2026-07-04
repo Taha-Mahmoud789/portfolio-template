@@ -6,25 +6,18 @@
  */
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useNavigate } from "react-router";
 import { gsap } from "gsap";
 import { useReducedMotion } from "../hooks";
+import { useAnalytics } from "@/hooks";
 import { useScrollTo } from "@/providers/lenis-provider";
 import { ANIMATION_EASINGS } from "@/animation/constants";
+import { ROUTES } from "@/constants/routes";
+import { useMultiverseTransition } from "../components/multiverse-transition-store";
+import { NAV_LINKS } from "@/content";
 import { Logo } from "./logo";
 import { CreativeMenu } from "./navigation/creative-menu";
 import { MagneticLink } from "./navigation/magnetic-link";
-
-// ============================================================================
-// Constants
-// ============================================================================
-
-const NAV_LINKS = [
-  { label: "Home", href: "#hero" },
-  { label: "Work", href: "#projects" },
-  { label: "About", href: "#about" },
-  { label: "Expertise", href: "#expertise" },
-  { label: "Contact", href: "#contact" },
-] as const;
 
 const SCROLL_THRESHOLD = 10;
 
@@ -60,7 +53,7 @@ function CharLink({ href, label, isActive, onClick }: CharLinkProps) {
         fontSize: "clamp(0.75rem, 0.9vw, 0.875rem)",
         fontWeight: 500,
         letterSpacing: "0.06em",
-        textTransform: "uppercase" as const,
+        textTransform: "uppercase",
         color: isActive ? "#f5f0e8" : "rgba(180, 170, 155, 0.45)",
         transition: "color 0.3s ease",
         height: "1em",
@@ -217,19 +210,26 @@ function ScrollProgress() {
 export function Navigation() {
   const reducedMotion = useReducedMotion();
   const scrollTo = useScrollTo();
+  const navigate = useNavigate();
+  const { openPortal } = useMultiverseTransition();
+  const analytics = useAnalytics("Navigation");
   const [scrolled, setScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const navRef = useRef<HTMLElement>(null);
+  const multiverseTriggerRef = useRef<HTMLButtonElement>(null);
 
   // Entrance animation
   useEffect(() => {
     if (!navRef.current) return;
-    gsap.fromTo(
+    const tween = gsap.fromTo(
       navRef.current,
       { y: -20, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.8, ease: ANIMATION_EASINGS.expoOut, delay: 0.5 },
     );
+    return () => {
+      tween.kill();
+    };
   }, [reducedMotion]);
 
   // Scroll detection for background
@@ -316,9 +316,14 @@ export function Navigation() {
 
   const handleNavigate = useCallback(
     (href: string) => {
-      scrollTo(href);
+      analytics.track("nav_click", { destination: href, source: "nav_link" });
+      if (href.startsWith("/")) {
+        void navigate(href);
+      } else {
+        scrollTo(href);
+      }
     },
-    [scrollTo],
+    [scrollTo, analytics, navigate],
   );
 
   const toggleMenu = useCallback(() => {
@@ -328,6 +333,18 @@ export function Navigation() {
   const closeMenu = useCallback(() => {
     setIsMenuOpen(false);
   }, []);
+
+  const handleMultiverseEnter = useCallback(() => {
+    analytics.track("hero_interact", { action: "cta_click", target: "multiverse" });
+    const el = multiverseTriggerRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    openPortal(rect);
+    // Navigate after portal opens
+    setTimeout(() => {
+      void navigate(ROUTES.MULTIVERSE);
+    }, 600);
+  }, [openPortal, navigate, analytics]);
 
   return (
     <>
@@ -387,7 +404,33 @@ export function Navigation() {
           </ul>
 
           {/* Desktop CTA — visible on lg+ */}
-          <div className="hidden lg:flex items-center shrink-0">
+          <div className="hidden lg:flex items-center gap-3 shrink-0">
+            <MagneticLink strength={0.15}>
+              <button
+                ref={multiverseTriggerRef}
+                type="button"
+                onClick={handleMultiverseEnter}
+                className="inline-flex items-center rounded-full px-4 py-2 text-[10px] font-medium uppercase tracking-[0.14em] transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/30"
+                style={{
+                  color: "rgba(201, 169, 110, 0.5)",
+                  border: "1px solid rgba(201, 169, 110, 0.12)",
+                  background: "rgba(201, 169, 110, 0.03)",
+                }}
+                aria-label="Enter Multiverse"
+              >
+                <span
+                  style={{
+                    width: 5,
+                    height: 5,
+                    borderRadius: "50%",
+                    background: "rgba(201, 169, 110, 0.4)",
+                    marginRight: 8,
+                  }}
+                  aria-hidden="true"
+                />
+                Multiverse
+              </button>
+            </MagneticLink>
             <MagneticLink strength={0.15}>
               <a
                 href="#contact"
@@ -420,6 +463,7 @@ export function Navigation() {
         onClose={closeMenu}
         onNavigate={handleNavigate}
         activeSection={activeSection}
+        onMultiverseEnter={handleMultiverseEnter}
       />
     </>
   );

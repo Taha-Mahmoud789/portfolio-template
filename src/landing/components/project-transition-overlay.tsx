@@ -352,7 +352,7 @@ export function ProjectTransitionOverlay() {
               position: "absolute",
               bottom: "-5%",
               right: "-2%",
-              fontFamily: "'Space Grotesk', sans-serif",
+              fontFamily: "var(--font-display)",
               fontSize: "clamp(10rem, 25vw, 20rem)",
               fontWeight: 700,
               letterSpacing: "-0.05em",

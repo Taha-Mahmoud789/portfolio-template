@@ -11,17 +11,8 @@ import { useRef, useEffect, useState } from "react";
 import { gsap } from "gsap";
 import { useReducedMotion } from "../hooks";
 import { ANIMATION_EASINGS } from "@/animation/constants";
+import { EXPERIENCE_STATS, ABOUT } from "@/content";
 import { CountUp } from "./count-up";
-
-// ============================================================================
-// Data
-// ============================================================================
-
-const EXPERIENCE = [
-  { value: 4, suffix: "+", label: "Years Building" },
-  { value: 15, suffix: "+", label: "Projects Shipped" },
-  { value: 8, suffix: "+", label: "Clients Served" },
-] as const;
 
 // ============================================================================
 // About Section
@@ -164,7 +155,7 @@ export function About() {
           <h2
             id="about-heading"
             style={{
-              fontFamily: "'Space Grotesk', sans-serif",
+              fontFamily: "var(--font-display)",
               fontSize: "clamp(2rem, 5vw, 4rem)",
               fontWeight: 600,
               letterSpacing: "-0.03em",
@@ -174,10 +165,7 @@ export function About() {
               maxWidth: 900,
             }}
           >
-            Frontend developer who writes{" "}
-            <span style={{ color: "rgba(245, 240, 232, 0.95)" }}>clean architecture</span>,{" "}
-            <span style={{ color: "rgba(245, 240, 232, 0.95)" }}>builds fast interfaces</span>, and{" "}
-            <span style={{ color: "rgba(245, 240, 232, 0.95)" }}>ships with confidence</span>.
+            {ABOUT.heading}
           </h2>
         </div>
 
@@ -194,19 +182,16 @@ export function About() {
           <div ref={bodyRef} style={{}}>
             <p
               style={{
-                fontFamily: "'Inter', sans-serif",
+                fontFamily: "var(--font-body)",
                 fontSize: "clamp(0.9375rem, 1.1vw, 1.0625rem)",
                 fontWeight: 400,
                 lineHeight: 1.75,
-                color: "rgba(214, 204, 190, 0.4)",
+                color: "rgba(214, 204, 190, 0.45)",
                 margin: 0,
                 maxWidth: 480,
               }}
             >
-              I specialize in React, TypeScript, and frontend architecture. I care about
-              performance, accessibility, and writing code that other developers can actually
-              maintain. Most of my work involves building interactive interfaces, motion systems,
-              and high-performance web applications.
+              {ABOUT.body}
             </p>
           </div>
 
@@ -224,7 +209,7 @@ export function About() {
               role="list"
               aria-label="Key metrics"
             >
-              {EXPERIENCE.map((item) => (
+              {EXPERIENCE_STATS.map((item) => (
                 <div
                   key={item.label}
                   data-number-item
@@ -238,7 +223,7 @@ export function About() {
                 >
                   <div
                     style={{
-                      fontFamily: "'Space Grotesk', sans-serif",
+                      fontFamily: "var(--font-display)",
                       fontSize: "clamp(2rem, 4vw, 3rem)",
                       fontWeight: 700,
                       letterSpacing: "-0.03em",
@@ -265,12 +250,12 @@ export function About() {
                   </div>
                   <div
                     style={{
-                      fontFamily: "'JetBrains Mono', monospace",
+                      fontFamily: "var(--font-mono)",
                       fontSize: "clamp(0.625rem, 0.7vw, 0.6875rem)",
                       fontWeight: 400,
                       letterSpacing: "0.12em",
-                      textTransform: "uppercase" as const,
-                      color: "rgba(214, 204, 190, 0.45)",
+                      textTransform: "uppercase",
+                      color: "rgba(214, 204, 190, 0.5)",
                     }}
                   >
                     {item.label}
@@ -296,20 +281,20 @@ export function About() {
             <div ref={philosophyRef} style={{}}>
               <h3
                 style={{
-                  fontFamily: "'JetBrains Mono', monospace",
+                  fontFamily: "var(--font-mono)",
                   fontSize: "clamp(0.625rem, 0.75vw, 0.75rem)",
                   fontWeight: 400,
                   letterSpacing: "0.25em",
-                  textTransform: "uppercase" as const,
+                  textTransform: "uppercase",
                   color: "rgba(214, 204, 190, 0.3)",
                   margin: "0 0 clamp(1rem, 2vw, 1.5rem) 0",
                 }}
               >
-                Focus
+                {ABOUT.focusLabel}
               </h3>
               <p
                 style={{
-                  fontFamily: "'Space Grotesk', sans-serif",
+                  fontFamily: "var(--font-display)",
                   fontSize: "clamp(1.125rem, 1.8vw, 1.5rem)",
                   fontWeight: 500,
                   lineHeight: 1.4,
@@ -319,7 +304,7 @@ export function About() {
                   maxWidth: 400,
                 }}
               >
-                React, TypeScript, and motion-driven interfaces.
+                {ABOUT.focusText}
               </p>
             </div>
           </div>

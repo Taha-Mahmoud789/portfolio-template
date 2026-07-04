@@ -27,8 +27,7 @@ const variantStyles: Record<ButtonVariant, string> = {
     "bg-transparent text-foreground hover:bg-hover-overlay active:bg-active-overlay focus-visible:ring-focus-ring",
   danger:
     "bg-danger text-foreground-inverse hover:bg-danger-hover active:bg-danger-hover focus-visible:ring-danger",
-  link:
-    "bg-transparent text-primary underline-offset-4 hover:underline focus-visible:ring-focus-ring p-0 h-auto",
+  link: "bg-transparent text-primary underline-offset-4 hover:underline focus-visible:ring-focus-ring p-0 h-auto",
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
@@ -51,6 +50,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       rightIcon,
       disabled,
       className,
+      type,
       ...props
     },
     ref,
@@ -60,6 +60,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <button
         ref={ref}
+        type={type ?? "button"}
         disabled={isDisabled}
         aria-disabled={isDisabled || undefined}
         aria-busy={loading || undefined}

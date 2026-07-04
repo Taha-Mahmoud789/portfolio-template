@@ -1,11 +1,10 @@
 /**
- * Footer — Modern Redesign v2
+ * Footer — Clean closing section
  *
- * - Logo + brand
- * - Large "Let's Talk" CTA
- * - Marquee ticker with skills
- * - Minimal 2-column layout (Connect + Location)
- * - Cinematic entrance animations
+ * - CTA heading
+ * - Contact button
+ * - Minimal layout (Connect + Location)
+ * - Entrance animations
  */
 
 import { useRef, useEffect, useCallback } from "react";
@@ -13,82 +12,37 @@ import { gsap } from "gsap";
 import { useReducedMotion } from "../hooks";
 import { useScrollTo } from "@/providers/lenis-provider";
 import { ANIMATION_EASINGS } from "@/animation/constants";
+import { FOOTER_NAV_LINKS, SOCIAL_LINKS } from "@/content";
 import { Logo } from "./logo";
 
-// ============================================================================
-// Data
-// ============================================================================
-
-const NAV_LINKS = [
-  { label: "Home", href: "#hero" },
-  { label: "About", href: "#about" },
-  { label: "Projects", href: "#projects" },
-  { label: "Expertise", href: "#expertise" },
-  { label: "How I Work", href: "#how-i-work" },
-  { label: "Contact", href: "#contact" },
-];
-
-const SOCIAL_LINKS = [
-  {
-    label: "GitHub",
-    href: "https://github.com/yourusername",
-    ariaLabel: "View GitHub profile",
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-        <path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0112 6.8c.85 0 1.7.11 2.5.34 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0022 12c0-5.52-4.48-10-10-10z" />
-      </svg>
-    ),
-  },
-  {
-    label: "LinkedIn",
-    href: "https://linkedin.com/in/yourusername",
-    ariaLabel: "Connect on LinkedIn",
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-        <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 110-4.12 2.06 2.06 0 010 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22 0H2C.9 0 0 .9 0 2v20c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2V2c0-1.1-.9-2-2-2z" />
-      </svg>
-    ),
-  },
-  {
-    label: "Email",
-    href: "mailto:your.email@example.com",
-    ariaLabel: "Send an email",
-    icon: (
-      <svg
-        width="18"
-        height="18"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        aria-hidden="true"
-      >
-        <rect x="2" y="4" width="20" height="16" rx="2" />
-        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-      </svg>
-    ),
-  },
-];
-
-const MARQUEE_ITEMS = [
-  "React",
-  "TypeScript",
-  "Next.js",
-  "Tailwind CSS",
-  "GSAP",
-  "Node.js",
-  "GraphQL",
-  "PostgreSQL",
-  "Docker",
-  "AWS",
-  "Figma",
-  "Three.js",
-  "Framer Motion",
-  "Prisma",
-  "Vercel",
-];
+const FOOTER_SOCIAL_ICONS: Record<string, React.ReactNode> = {
+  GitHub: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0112 6.8c.85 0 1.7.11 2.5.34 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0022 12c0-5.52-4.48-10-10-10z" />
+    </svg>
+  ),
+  LinkedIn: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 110-4.12 2.06 2.06 0 010 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22 0H2C.9 0 0 .9 0 2v20c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2V2c0-1.1-.9-2-2-2z" />
+    </svg>
+  ),
+  Email: (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <rect x="2" y="4" width="20" height="16" rx="2" />
+      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+    </svg>
+  ),
+};
 
 // ============================================================================
 // Footer
@@ -99,7 +53,6 @@ export function Footer() {
   const scrollTo = useScrollTo();
   const sectionRef = useRef<HTMLElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
-  const marqueeRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
 
@@ -119,14 +72,6 @@ export function Footer() {
               ctaRef.current.children,
               { y: 50, opacity: 0 },
               { y: 0, opacity: 1, duration: 0.7, stagger: 0.1, ease: ANIMATION_EASINGS.backOut },
-            );
-          }
-
-          if (marqueeRef.current) {
-            gsap.fromTo(
-              marqueeRef.current,
-              { opacity: 0, y: 20 },
-              { opacity: 1, y: 0, duration: 0.6, delay: 0.3, ease: ANIMATION_EASINGS.backOut },
             );
           }
 
@@ -190,8 +135,8 @@ export function Footer() {
         style={{
           position: "absolute",
           top: 0,
-          left: "8%",
-          right: "8%",
+          left: "10%",
+          right: "10%",
           height: 1,
           background:
             "linear-gradient(90deg, transparent, rgba(245,240,232,0.04) 50%, transparent)",
@@ -232,7 +177,7 @@ export function Footer() {
         <div style={{ textAlign: "center" }}>
           <p
             style={{
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "var(--font-mono)",
               fontSize: "0.7rem",
               fontWeight: 500,
               letterSpacing: "0.2em",
@@ -241,11 +186,11 @@ export function Footer() {
               margin: "0 0 clamp(0.75rem, 1.5vw, 1rem) 0",
             }}
           >
-            Available for work
+            Currently available
           </p>
           <h2
             style={{
-              fontFamily: "'Space Grotesk', sans-serif",
+              fontFamily: "var(--font-display)",
               fontSize: "clamp(2.5rem, 7vw, 5.5rem)",
               fontWeight: 600,
               letterSpacing: "-0.04em",
@@ -269,7 +214,7 @@ export function Footer() {
         </div>
 
         <a
-          href="mailto:your.email@example.com"
+          href="mailto:hello@taha.dev"
           style={{
             display: "inline-flex",
             alignItems: "center",
@@ -278,7 +223,7 @@ export function Footer() {
             borderRadius: "60px",
             background: "rgba(245, 240, 232, 0.95)",
             color: "#080706",
-            fontFamily: "'Space Grotesk', sans-serif",
+            fontFamily: "var(--font-display)",
             fontSize: "0.9rem",
             fontWeight: 600,
             letterSpacing: "0.01em",
@@ -295,7 +240,7 @@ export function Footer() {
             e.currentTarget.style.boxShadow = "0 20px 50px rgba(8, 7, 6, 0.4)";
           }}
         >
-          Get In Touch
+          Say hello
           <svg
             width="15"
             height="15"
@@ -312,55 +257,6 @@ export function Footer() {
         </a>
       </div>
 
-      {/* ── Marquee Ticker ─────────────────────────────────── */}
-      <div
-        ref={marqueeRef}
-        style={{
-          marginTop: "clamp(2.5rem, 5vh, 4rem)",
-          padding: "clamp(0.75rem, 1.5vh, 1.25rem) 0",
-          borderTop: "1px solid rgba(245, 240, 232, 0.03)",
-          borderBottom: "1px solid rgba(245, 240, 232, 0.03)",
-          overflow: "hidden",
-          whiteSpace: "nowrap",
-        }}
-      >
-        <div
-          style={{
-            display: "inline-flex",
-            animation: "footer-marquee 30s linear infinite",
-          }}
-        >
-          {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, i) => (
-            <span
-              key={`marquee-${String(i)}`}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "12px",
-                fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: "clamp(0.75rem, 0.9vw, 0.9rem)",
-                fontWeight: 500,
-                letterSpacing: "0.02em",
-                color: "rgba(180, 170, 155, 0.2)",
-                padding: "0 clamp(10px, 1.5vw, 20px)",
-                whiteSpace: "nowrap",
-              }}
-            >
-              {item}
-              <span
-                style={{
-                  width: 3,
-                  height: 3,
-                  borderRadius: "50%",
-                  background: "rgba(201, 169, 110, 0.35)",
-                  flexShrink: 0,
-                }}
-              />
-            </span>
-          ))}
-        </div>
-      </div>
-
       {/* ── Grid Section — 3 columns ──────────────────────── */}
       <div
         ref={gridRef}
@@ -369,7 +265,7 @@ export function Footer() {
           gridTemplateColumns: "1fr 1fr 1fr",
           gap: "clamp(2rem, 4vw, 3rem)",
           padding: "clamp(2rem, 4vh, 3rem) clamp(2rem, 6vw, 6rem)",
-          maxWidth: "900px",
+          maxWidth: "1000px",
           margin: "0 auto",
         }}
       >
@@ -377,7 +273,7 @@ export function Footer() {
         <div data-footer-col>
           <h3
             style={{
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "var(--font-mono)",
               fontSize: "0.6rem",
               fontWeight: 500,
               letterSpacing: "0.2em",
@@ -399,7 +295,7 @@ export function Footer() {
                 gap: "clamp(0.4rem, 0.8vw, 0.6rem)",
               }}
             >
-              {NAV_LINKS.map((link) => (
+              {FOOTER_NAV_LINKS.map((link) => (
                 <li key={link.href}>
                   <a
                     href={link.href}
@@ -408,7 +304,7 @@ export function Footer() {
                       handleNavClick(link.href);
                     }}
                     style={{
-                      fontFamily: "'Space Grotesk', sans-serif",
+                      fontFamily: "var(--font-display)",
                       fontSize: "clamp(0.8rem, 1vw, 0.9rem)",
                       fontWeight: 500,
                       color: "rgba(180, 170, 155, 0.35)",
@@ -434,7 +330,7 @@ export function Footer() {
         <div data-footer-col>
           <h3
             style={{
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "var(--font-mono)",
               fontSize: "0.6rem",
               fontWeight: 500,
               letterSpacing: "0.2em",
@@ -455,36 +351,39 @@ export function Footer() {
               gap: "clamp(0.4rem, 0.8vw, 0.6rem)",
             }}
           >
-            {SOCIAL_LINKS.map((link) => (
-              <li key={link.label}>
-                <a
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={link.ariaLabel}
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "8px",
-                    fontFamily: "'Space Grotesk', sans-serif",
-                    fontSize: "clamp(0.8rem, 1vw, 0.9rem)",
-                    fontWeight: 500,
-                    color: "rgba(180, 170, 155, 0.35)",
-                    textDecoration: "none",
-                    transition: "color 0.3s ease",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.color = "rgba(245, 240, 232, 0.85)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.color = "rgba(180, 170, 155, 0.35)";
-                  }}
-                >
-                  <span style={{ display: "inline-flex", opacity: 0.5 }}>{link.icon}</span>
-                  {link.label}
-                </a>
-              </li>
-            ))}
+            {SOCIAL_LINKS.map((link) => {
+              const icon = FOOTER_SOCIAL_ICONS[link.label];
+              return (
+                <li key={link.label}>
+                  <a
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={link.ariaLabel}
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "8px",
+                      fontFamily: "var(--font-display)",
+                      fontSize: "clamp(0.8rem, 1vw, 0.9rem)",
+                      fontWeight: 500,
+                      color: "rgba(180, 170, 155, 0.35)",
+                      textDecoration: "none",
+                      transition: "color 0.3s ease",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = "rgba(245, 240, 232, 0.85)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = "rgba(180, 170, 155, 0.35)";
+                    }}
+                  >
+                    <span style={{ display: "inline-flex", opacity: 0.5 }}>{icon}</span>
+                    {link.label}
+                  </a>
+                </li>
+              );
+            })}
           </ul>
         </div>
 
@@ -492,7 +391,7 @@ export function Footer() {
         <div data-footer-col>
           <h3
             style={{
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "var(--font-mono)",
               fontSize: "0.6rem",
               fontWeight: 500,
               letterSpacing: "0.2em",
@@ -505,7 +404,7 @@ export function Footer() {
           </h3>
           <p
             style={{
-              fontFamily: "'Space Grotesk', sans-serif",
+              fontFamily: "var(--font-display)",
               fontSize: "clamp(0.8rem, 1vw, 0.9rem)",
               fontWeight: 500,
               color: "rgba(180, 170, 155, 0.35)",
@@ -517,7 +416,7 @@ export function Footer() {
           </p>
           <p
             style={{
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "var(--font-mono)",
               fontSize: "0.65rem",
               color: "rgba(201, 169, 110, 0.55)",
               margin: "10px 0 0 0",
@@ -544,15 +443,38 @@ export function Footer() {
       >
         <p
           style={{
-            fontFamily: "'JetBrains Mono', monospace",
+            fontFamily: "var(--font-mono)",
             fontSize: "0.6rem",
             fontWeight: 400,
             letterSpacing: "0.08em",
             color: "rgba(180, 170, 155, 0.2)",
             margin: 0,
+            display: "flex",
+            alignItems: "center",
+            gap: "0.75rem",
           }}
         >
-          &copy; {new Date().getFullYear()} Taha Mahmoud
+          <span>&copy; {new Date().getFullYear()} Taha Mahmoud</span>
+          <span
+            aria-hidden="true"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "4px",
+              color: "rgba(180, 170, 155, 0.12)",
+            }}
+          >
+            <span
+              style={{
+                padding: "1px 5px",
+                borderRadius: 3,
+                border: "1px solid rgba(180, 170, 155, 0.1)",
+                fontSize: "0.55rem",
+              }}
+            >
+              ⌘K
+            </span>
+          </span>
         </p>
 
         {/* Back to top */}
@@ -565,7 +487,7 @@ export function Footer() {
             display: "inline-flex",
             alignItems: "center",
             gap: "6px",
-            fontFamily: "'JetBrains Mono', monospace",
+            fontFamily: "var(--font-mono)",
             fontSize: "0.6rem",
             fontWeight: 400,
             letterSpacing: "0.08em",
@@ -601,7 +523,7 @@ export function Footer() {
 
         <p
           style={{
-            fontFamily: "'JetBrains Mono', monospace",
+            fontFamily: "var(--font-mono)",
             fontSize: "0.6rem",
             fontWeight: 400,
             letterSpacing: "0.08em",
@@ -609,16 +531,9 @@ export function Footer() {
             margin: 0,
           }}
         >
-          Built with React &amp; GSAP
+          Crafted with care.
         </p>
       </div>
-
-      <style>{`
-        @keyframes footer-marquee {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-33.333%); }
-        }
-      `}</style>
     </footer>
   );
 }

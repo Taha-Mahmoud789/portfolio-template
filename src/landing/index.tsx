@@ -1,12 +1,12 @@
 /**
  * LandingExperience
  *
- * TRIONN-inspired creative studio landing page.
+ * Creative developer portfolio landing page.
  * Preloader -> Hero -> Intro -> About -> Projects -> Expertise -> Process -> Contact -> Footer.
- * Respects prefers-reduced-motion. Keyboard accessible. 60 FPS target.
+ * Respects prefers-reduced-motion. Keyboard accessible.
  */
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { Hero } from "./components/hero";
 import { NoiseGrain } from "./components/noise-grain";
 import { Navigation } from "./components/navigation";
@@ -19,10 +19,10 @@ import { Contact } from "./components/contact";
 import { Footer } from "./components/footer";
 import { BackToTop } from "./components/back-to-top";
 import { Preloader } from "./components/preloader";
-import { CustomCursor } from "./components/custom-cursor";
 import { useReducedMotion } from "./hooks";
 import { PortalExperience } from "./components/portal";
 import { CommandPalette, useCommandPalette } from "./components/navigation/command-palette";
+import { SECTIONS } from "@/content";
 
 // ============================================================================
 // Inner landing — children of PortalExperience, so usePortal is in scope
@@ -38,6 +38,15 @@ function LandingContent({ onPreloaderDone }: { onPreloaderDone: () => void }) {
     setLoaderDone(true);
     onPreloaderDone();
   }, [onPreloaderDone]);
+
+  const handleNavigate = useCallback((href: string) => {
+    if (href.startsWith("/#")) {
+      const section = document.getElementById(href.slice(2));
+      section?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      window.location.href = href;
+    }
+  }, []);
 
   // Scroll restoration — save position on unmount, restore on mount
   useEffect(() => {
@@ -101,29 +110,15 @@ function LandingContent({ onPreloaderDone }: { onPreloaderDone: () => void }) {
       {/* Film grain overlay */}
       <NoiseGrain />
 
-      {/* Custom cursor */}
-      <CustomCursor />
-
       {/* Command palette */}
-      <CommandPalette
-        isOpen={isCmdOpen}
-        onClose={closeCmd}
-        onNavigate={(href) => {
-          if (href.startsWith("/#")) {
-            const section = document.getElementById(href.slice(2));
-            section?.scrollIntoView({ behavior: "smooth" });
-          } else {
-            window.location.href = href;
-          }
-        }}
-      />
+      <CommandPalette isOpen={isCmdOpen} onClose={closeCmd} onNavigate={handleNavigate} />
 
       {/* Floating back to top */}
       <BackToTop />
 
       {/* Screen reader announcer */}
       <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
-        {isReady && "Welcome to the Creative Developer Portfolio. Scroll to explore."}
+        {isReady && SECTIONS.screenReader}
       </div>
     </div>
   );
@@ -136,10 +131,10 @@ function LandingContent({ onPreloaderDone }: { onPreloaderDone: () => void }) {
 export function LandingExperience() {
   const reducedMotion = useReducedMotion();
   const [navReady, setNavReady] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handlePreloaderDone = useCallback(() => {
-    // Navbar appears after preloader curtain exit completes
-    setTimeout(() => setNavReady(true), 400);
+    timerRef.current = setTimeout(() => setNavReady(true), 400);
   }, []);
 
   useEffect(() => {
@@ -147,6 +142,12 @@ export function LandingExperience() {
       setNavReady(true);
     }
   }, [reducedMotion]);
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, []);
 
   return (
     <>
