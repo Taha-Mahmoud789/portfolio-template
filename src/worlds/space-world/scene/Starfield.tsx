@@ -13,7 +13,7 @@ import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import type { ShaderMaterial } from "three";
 
-const STAR_COUNT = 600;
+const STAR_COUNT = 300;
 
 const VERTEX = `
   attribute float aSize;
@@ -52,7 +52,7 @@ const FRAGMENT = `
     alpha *= vBrightness;
 
     // Warm white — slight color variation
-    vec3 color = mix(vec3(0.95, 0.92, 0.85), vec3(0.85, 0.88, 0.95), vBrightness);
+    vec3 color = mix(vec3(0.92, 0.89, 0.82), vec3(0.82, 0.85, 0.92), vBrightness);
 
     gl_FragColor = vec4(color, alpha);
   }

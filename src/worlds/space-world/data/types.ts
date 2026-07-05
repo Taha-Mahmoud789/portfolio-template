@@ -35,13 +35,13 @@ export type ObjectState = "idle" | "discovered" | "hovered" | "focused" | "selec
 // Orbit Groups
 // ============================================================================
 
-export type OrbitGroup = "projects" | "technology" | "creative" | "future";
+export type OrbitGroup = "projects";
 
 // ============================================================================
 // Space Objects
 // ============================================================================
 
-export type SpaceObjectType = "project" | "technology" | "creative" | "future";
+export type SpaceObjectType = "project";
 
 export interface SpaceObject {
   id: string;

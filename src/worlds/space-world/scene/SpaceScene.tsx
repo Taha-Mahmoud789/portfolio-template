@@ -12,7 +12,6 @@
 import { Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { AdaptiveDpr, AdaptiveEvents, Environment, Preload } from "@react-three/drei";
-import { EffectComposer, Bloom, Vignette } from "@react-three/postprocessing";
 import type { Group } from "three";
 import { useReducedMotion } from "../hooks";
 import { CAMERA_PRESETS, NAVIGATION } from "../data/space.config";
@@ -113,19 +112,12 @@ function SceneContents({
 }) {
   return (
     <group>
-      {/* Premium lighting — dramatic hierarchy */}
-      <ambientLight intensity={0.1} color="#f5f0e8" />
-      <directionalLight position={[5, 8, 5]} intensity={0.6} color="#f5f0e8" />
-      <directionalLight position={[-3, 5, -3]} intensity={0.25} color="#C9A96E" />
-      <pointLight position={[0, 0, 0]} intensity={0.5} color="#C9A96E" distance={20} decay={2} />
-      <pointLight position={[3.5, 0, 0]} intensity={0.2} color="#f5f0e8" distance={8} decay={2} />
-      <pointLight
-        position={[-2.5, 2, -1.5]}
-        intensity={0.2}
-        color="#f5f0e8"
-        distance={8}
-        decay={2}
-      />
+      {/* Premium cinematic lighting */}
+      <ambientLight intensity={0.1} color="#e8dcc8" />
+      <directionalLight position={[12, 18, 8]} intensity={0.8} color="#f5efe3" />
+      <directionalLight position={[-15, 8, -5]} intensity={0.3} color="#8fa8c8" />
+      <directionalLight position={[0, -2, -20]} intensity={0.15} color="#c8b89a" />
+      <pointLight position={[0, 0, 0]} intensity={1.5} color="#d4b896" distance={30} decay={2} />
 
       {/* Environment for reflections */}
       <Environment preset="night" />
@@ -173,7 +165,7 @@ function SceneContents({
       )}
 
       {opacity > 0.01 && (
-        <mesh position={[0, 0, 4]} frustumCulled={false}>
+        <mesh position={[0, 0, 50]} frustumCulled={false}>
           <planeGeometry args={[100, 100]} />
           <meshBasicMaterial color="#030712" transparent opacity={opacity} depthWrite={false} />
         </mesh>
@@ -187,12 +179,7 @@ function SceneContents({
 // ============================================================================
 
 function PostProcessing() {
-  return (
-    <EffectComposer>
-      <Bloom intensity={0.5} luminanceThreshold={0.4} luminanceSmoothing={0.9} mipmapBlur />
-      <Vignette offset={0.3} darkness={0.6} />
-    </EffectComposer>
-  );
+  return null;
 }
 
 // ============================================================================
@@ -432,8 +419,16 @@ export function SpaceScene({
   }, []);
 
   const handleCreated = useCallback(
-    (state: { gl: { setClearColor: (color: string | number) => void } }) => {
-      state.gl.setClearColor("#030712");
+    (state: {
+      gl: {
+        setClearColor: (color: string | number) => void;
+        toneMapping: number;
+        toneMappingExposure: number;
+      };
+    }) => {
+      state.gl.setClearColor("#06080e");
+      state.gl.toneMapping = 4; // ACESFilmicToneMapping
+      state.gl.toneMappingExposure = 1.1;
     },
     [],
   );
@@ -449,7 +444,7 @@ export function SpaceScene({
           position: CAMERA_PRESETS.intro.position,
           fov: 50,
           near: 0.1,
-          far: 200,
+          far: 5000,
         }}
         dpr={[1, 2]}
         gl={{

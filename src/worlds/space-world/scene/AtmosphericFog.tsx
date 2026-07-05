@@ -109,32 +109,32 @@ function FogLayer({ position, scale, color, opacity, index }: FogLayerProps) {
 
 const FOG_LAYERS = [
   {
-    position: [-8, 3, -15] as [number, number, number],
-    scale: 12,
-    color: "#1e1b4b",
-    opacity: 0.04,
-    speed: 0.02,
-  },
-  {
-    position: [10, -2, -20] as [number, number, number],
+    position: [-10, 4, -18] as [number, number, number],
     scale: 14,
-    color: "#0a0f1e",
-    opacity: 0.05,
+    color: "#0a1628",
+    opacity: 0.03,
     speed: 0.015,
   },
   {
-    position: [-5, -5, -25] as [number, number, number],
+    position: [12, -3, -22] as [number, number, number],
     scale: 16,
-    color: "#312e81",
-    opacity: 0.03,
-    speed: 0.01,
+    color: "#0d0a18",
+    opacity: 0.035,
+    speed: 0.012,
   },
   {
-    position: [6, 6, -30] as [number, number, number],
+    position: [-6, -6, -28] as [number, number, number],
     scale: 18,
-    color: "#1e1b4b",
+    color: "#0a0f1e",
     opacity: 0.025,
     speed: 0.008,
+  },
+  {
+    position: [8, 7, -32] as [number, number, number],
+    scale: 20,
+    color: "#0d1220",
+    opacity: 0.02,
+    speed: 0.006,
   },
 ] as const;
 

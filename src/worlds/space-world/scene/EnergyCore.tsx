@@ -1,16 +1,14 @@
 /**
  * EnergyCore — Digital Identity Heart
  *
- * The center of the universe.
- * Organic distorted shape with premium materials.
- * Reacts to mouse proximity — subtle glow intensification.
- * Shows identity on hover.
- * Bloom-ready emissive for soft glow.
+ * Premium warm gold orb with physical material.
+ * Subtle distortion, clearcoat finish.
+ * Reacts to mouse proximity — gentle glow intensification.
  */
 
 import { useRef, useState, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
-import { Float, MeshDistortMaterial, Html } from "@react-three/drei";
+import { Float, Html } from "@react-three/drei";
 import type { Mesh } from "three";
 import { useReducedMotion } from "../hooks";
 
@@ -36,11 +34,10 @@ export function EnergyCore() {
     const t = state.clock.elapsedTime;
 
     if (meshRef.current) {
-      meshRef.current.rotation.y = t * 0.05;
-      meshRef.current.rotation.x = t * 0.03;
+      meshRef.current.rotation.y = t * 0.03;
+      meshRef.current.rotation.x = t * 0.02;
     }
 
-    // Proximity-based glow
     const dist = Math.sqrt(
       mouseRef.current.x * mouseRef.current.x + mouseRef.current.y * mouseRef.current.y,
     );
@@ -49,45 +46,43 @@ export function EnergyCore() {
   });
 
   return (
-    <Float speed={0.6} rotationIntensity={0.1} floatIntensity={0.15}>
+    <Float speed={0.4} rotationIntensity={0.05} floatIntensity={0.08}>
       <group onPointerOver={() => setIsHovered(true)} onPointerOut={() => setIsHovered(false)}>
-        {/* Core sphere — organic distorted shape */}
+        {/* Core sphere — physical material */}
         <mesh ref={meshRef}>
-          <dodecahedronGeometry args={[0.6, 2]} />
-          <MeshDistortMaterial
-            color="#d6ccb8"
-            emissive="#C9A96E"
-            emissiveIntensity={isHovered ? 0.7 : 0.35}
-            metalness={0.6}
-            roughness={0.08}
-            transparent
-            opacity={0.95}
-            distort={isHovered ? 0.25 : 0.1}
-            speed={1.5}
+          <dodecahedronGeometry args={[1.8, 2]} />
+          <meshPhysicalMaterial
+            color="#c8b896"
+            emissive="#a08a60"
+            emissiveIntensity={isHovered ? 0.5 : 0.2}
+            metalness={0.5}
+            roughness={0.1}
+            clearcoat={0.9}
+            clearcoatRoughness={0.05}
           />
         </mesh>
 
-        {/* Inner glow sphere */}
-        <mesh scale={2.0}>
-          <sphereGeometry args={[0.5, 16, 16]} />
+        {/* Inner glow — very subtle */}
+        <mesh scale={1.5}>
+          <sphereGeometry args={[1.5, 16, 16]} />
           <meshBasicMaterial
-            color="#C9A96E"
+            color="#b8a070"
             transparent
-            opacity={isHovered ? 0.1 : 0.04}
+            opacity={isHovered ? 0.06 : 0.02}
             depthWrite={false}
           />
         </mesh>
 
-        {/* Gold accent ring */}
+        {/* Gold accent ring — thin */}
         <mesh rotation={[Math.PI * 0.5, 0, 0]}>
-          <torusGeometry args={[1.0, 0.005, 16, 64]} />
-          <meshBasicMaterial color="#C9A96E" transparent opacity={0.2} />
+          <torusGeometry args={[2.5, 0.008, 16, 64]} />
+          <meshBasicMaterial color="#b8a070" transparent opacity={0.12} />
         </mesh>
 
-        {/* Identity label on hover */}
+        {/* Identity label on hover only */}
         {isHovered && (
           <Html
-            position={[0, -0.7, 0]}
+            position={[0, -2.5, 0]}
             center
             style={{ pointerEvents: "none", userSelect: "none" }}
           >
@@ -95,10 +90,10 @@ export function EnergyCore() {
               <p
                 style={{
                   fontFamily: "'Space Grotesk', sans-serif",
-                  fontSize: "14px",
-                  fontWeight: 500,
+                  fontSize: "13px",
+                  fontWeight: 400,
                   letterSpacing: "0.04em",
-                  color: "#f5f0e8",
+                  color: "rgba(232, 220, 200, 0.8)",
                 }}
               >
                 Taha
@@ -106,10 +101,10 @@ export function EnergyCore() {
               <p
                 style={{
                   fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: "9px",
+                  fontSize: "8px",
                   letterSpacing: "0.2em",
-                  textTransform: "uppercase",
-                  color: "rgba(201, 169, 110, 0.6)",
+                  textTransform: "uppercase" as const,
+                  color: "rgba(184, 160, 112, 0.4)",
                   marginTop: "2px",
                 }}
               >

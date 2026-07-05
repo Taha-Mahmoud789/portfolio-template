@@ -1,17 +1,16 @@
 /**
- * Space Object Mesh
+ * Space Object Mesh — Premium Physical Materials
  *
- * Premium 3D objects with external libraries:
- * - Float for gentle floating motion
- * - MeshDistortMaterial for organic distortion
- * - Environment reflections for glass-like materials
- * - Bloom-ready emissive materials
- * - Premium geometry variety
+ * 3D objects with glass/energy aesthetic:
+ * - MeshPhysicalMaterial with clearcoat
+ * - Subtle emissive glow
+ * - Labels only on hover/focus
+ * - Selection ring indicator
  */
 
 import { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
-import { Float, MeshDistortMaterial, Html } from "@react-three/drei";
+import { Float, Html } from "@react-three/drei";
 import type { Mesh } from "three";
 import type { SpaceObject } from "../data/types";
 import { CONNECTIONS } from "../data/space.config";
@@ -27,13 +26,14 @@ interface SpaceObjectMeshProps {
 }
 
 // ============================================================================
-// Premium palette — warm white + gold
+// Premium palette — muted, cinematic
 // ============================================================================
 
 const PALETTE = {
-  base: "#b8a990",
-  hover: "#f5f0e8",
-  emissive: "#C9A96E",
+  base: 0x5a5550,
+  hover: 0xe8dcc8,
+  emissive: 0x8a7545,
+  accent: 0xb8a070,
 } as const;
 
 // ============================================================================
@@ -43,15 +43,9 @@ const PALETTE = {
 function ObjectGeometry({ type }: { readonly type: SpaceObject["type"] }) {
   switch (type) {
     case "project":
-      return <dodecahedronGeometry args={[0.8, 0]} />;
-    case "technology":
-      return <icosahedronGeometry args={[0.65, 0]} />;
-    case "creative":
-      return <octahedronGeometry args={[0.65, 0]} />;
-    case "future":
-      return <torusGeometry args={[0.5, 0.2, 16, 32]} />;
+      return <dodecahedronGeometry args={[0.6, 0]} />;
     default:
-      return <sphereGeometry args={[0.6, 32, 32]} />;
+      return <sphereGeometry args={[0.5, 32, 32]} />;
   }
 }
 
@@ -86,33 +80,29 @@ export function SpaceObjectMesh({
 
     const t = state.clock.elapsedTime;
 
-    // Slow rotation
-    meshRef.current.rotation.y = t * 0.03;
-    meshRef.current.rotation.x = t * 0.015;
+    meshRef.current.rotation.y = t * 0.02;
+    meshRef.current.rotation.x = t * 0.01;
 
-    // Selection pulse
     if (selectPulseRef.current > 0) {
       selectPulseRef.current *= 0.93;
     }
 
-    // Scale
     const baseScale = object.type === "project" ? 1.0 : 0.85;
     const pulseScale = 1 + selectPulseRef.current * 0.1;
     const targetScale = isFocused
-      ? baseScale * 1.1 * pulseScale
+      ? baseScale * 1.08 * pulseScale
       : isHovered
-        ? baseScale * 1.05 * pulseScale
+        ? baseScale * 1.04 * pulseScale
         : baseScale * pulseScale;
     meshRef.current.scale.lerp({ x: targetScale, y: targetScale, z: targetScale }, 0.05);
 
-    // Glow ring
     if (glowRef.current) {
-      const glowScale = isFocused ? 1.3 : isHovered ? 1.05 : 0;
+      const glowScale = isFocused ? 1.2 : isHovered ? 1.04 : 0;
       glowRef.current.scale.lerp({ x: glowScale, y: glowScale, z: glowScale }, 0.04);
     }
   });
 
-  const emissiveIntensity = isFocused ? 0.6 : isHovered ? 0.45 : isConnected ? 0.3 : 0.18;
+  const emissiveIntensity = isFocused ? 0.4 : isHovered ? 0.3 : isConnected ? 0.2 : 0.1;
 
   const handlePointerOver = () => {
     onHover(object.id);
@@ -133,15 +123,15 @@ export function SpaceObjectMesh({
     onSelect(object.id);
   };
 
-  const floatSpeed = object.type === "project" ? 0.8 : object.type === "technology" ? 1.2 : 1.5;
-  const floatIntensity = object.type === "project" ? 0.3 : 0.2;
+  const floatSpeed = object.type === "project" ? 0.6 : object.type === "technology" ? 0.8 : 1.0;
+  const floatIntensity = object.type === "project" ? 0.15 : 0.1;
 
   return (
     <Float
       speed={floatSpeed}
-      rotationIntensity={0.15}
+      rotationIntensity={0.08}
       floatIntensity={floatIntensity}
-      floatingRange={[-0.05, 0.05]}
+      floatingRange={[-0.03, 0.03]}
     >
       <group position={object.position}>
         <mesh
@@ -151,29 +141,27 @@ export function SpaceObjectMesh({
           onClick={handleClick}
         >
           <ObjectGeometry type={object.type} />
-          <MeshDistortMaterial
+          <meshPhysicalMaterial
             color={isHovered || isFocused ? PALETTE.hover : PALETTE.base}
             emissive={PALETTE.emissive}
             emissiveIntensity={emissiveIntensity}
-            metalness={0.7}
-            roughness={0.08}
-            transparent
-            opacity={0.95}
-            distort={isHovered ? 0.18 : 0.06}
-            speed={2}
+            metalness={0.5}
+            roughness={0.15}
+            clearcoat={0.7}
+            clearcoatRoughness={0.1}
           />
         </mesh>
 
-        {/* Selection ring */}
+        {/* Selection ring — thin, subtle */}
         <mesh ref={glowRef} scale={0} rotation={[Math.PI / 2, 0, 0]}>
-          <torusGeometry args={[1.1, 0.008, 16, 64]} />
-          <meshBasicMaterial color={PALETTE.emissive} transparent opacity={0.3} />
+          <torusGeometry args={[0.8, 0.005, 16, 64]} />
+          <meshBasicMaterial color={PALETTE.accent} transparent opacity={0.2} />
         </mesh>
 
-        {/* Label */}
+        {/* Label — hover/focus only */}
         {(isHovered || isFocused) && (
           <Html
-            position={[0, object.type === "project" ? 1.3 : 1.1, 0]}
+            position={[0, object.type === "project" ? 1.0 : 0.8, 0]}
             center
             style={{ pointerEvents: "none", userSelect: "none" }}
           >
@@ -181,18 +169,18 @@ export function SpaceObjectMesh({
               className="whitespace-nowrap animate-[fadeIn_0.15s_ease-out]"
               style={{
                 fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: "12px",
-                fontWeight: 500,
-                letterSpacing: "0.06em",
-                textTransform: "uppercase",
-                color: "#f5f0e8",
-                padding: "6px 14px",
-                borderRadius: "8px",
-                background: "rgba(8, 7, 6, 0.75)",
-                border: "1px solid rgba(201, 169, 110, 0.25)",
+                fontSize: "11px",
+                fontWeight: 400,
+                letterSpacing: "0.05em",
+                textTransform: "uppercase" as const,
+                color: "rgba(232, 220, 200, 0.85)",
+                padding: "5px 12px",
+                borderRadius: "6px",
+                background: "rgba(6, 8, 14, 0.8)",
+                border: "1px solid rgba(184, 160, 112, 0.15)",
                 backdropFilter: "blur(12px)",
                 WebkitBackdropFilter: "blur(12px)",
-                boxShadow: "0 4px 24px rgba(0, 0, 0, 0.3)",
+                boxShadow: "0 4px 20px rgba(0, 0, 0, 0.4)",
               }}
             >
               {object.metadata.title}

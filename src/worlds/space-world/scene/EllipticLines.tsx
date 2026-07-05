@@ -13,10 +13,10 @@ import * as THREE from "three";
 export function EllipticLines() {
   const rings = useMemo(() => {
     const result = [];
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < 8; i++) {
       const gap = 0.08 + Math.random() * 0.004;
-      const hue = 0.12 - (i / 12) * 0.12;
-      const lightness = 0.45 - (i / 12) * 0.45;
+      const hue = 0.12 - (i / 8) * 0.12;
+      const lightness = 0.45 - (i / 8) * 0.45;
       result.push({ radius: 1.2 + i * gap, hue, lightness, key: i });
     }
     return result;
@@ -24,7 +24,7 @@ export function EllipticLines() {
 
   const radialLines = useMemo(() => {
     const lines = [];
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 10; i++) {
       const angle = Math.random() * Math.PI * 2;
       const minRadius = 1.2 + Math.random() * 0.1;
       const points: THREE.Vector3[] = [];
@@ -32,7 +32,7 @@ export function EllipticLines() {
         const r = minRadius + j / 6;
         points.push(new THREE.Vector3(Math.cos(angle) * r, 0, Math.sin(angle) * r));
       }
-      const hue = 0.12 - (i / 20) * 0.12;
+      const hue = 0.12 - (i / 10) * 0.12;
       const col = new THREE.Color().setHSL(hue, 0.8, 0.4);
       lines.push({ points, color: col, key: i });
     }

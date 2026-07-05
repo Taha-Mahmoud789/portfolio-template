@@ -22,6 +22,7 @@ interface ConnectionArcProps {
 
 function ConnectionArc({ fromPosition, toPosition, isActive, index }: ConnectionArcProps) {
   const dotRef = useRef<THREE.Mesh>(null);
+  const lerpRef = useRef(new THREE.Vector3());
 
   const midPoint = useMemo(() => {
     const mx = (fromPosition[0] + toPosition[0]) / 2;
@@ -53,8 +54,12 @@ function ConnectionArc({ fromPosition, toPosition, isActive, index }: Connection
     const idx = Math.floor(t * (points.length - 1));
     const nextIdx = Math.min(idx + 1, points.length - 1);
     const localT = (t * (points.length - 1)) % 1;
-    const pos = points[idx]?.clone().lerp(points[nextIdx] ?? points[idx], localT);
-    if (pos) dotRef.current.position.copy(pos);
+    const current = points[idx];
+    const next = points[nextIdx];
+    if (current && next) {
+      lerpRef.current.copy(current).lerp(next, localT);
+      dotRef.current.position.copy(lerpRef.current);
+    }
   });
 
   const opacity = isActive ? 0.3 : 0.03;

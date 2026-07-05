@@ -1,20 +1,22 @@
 /**
  * Space World Experience — Developer Solar System
  *
- * Interactive solar system:
- * - Click a planet to focus
- * - Camera travels to the planet
- * - Info panel shows planet details
- * - Click background to return to overview
- * - Escape to deselect
- *
- * Minimal HUD: current planet, description, controls.
+ * Cinematic 3-state experience:
+ * - SOLAR_VIEW: orbiting overview with HUD
+ * - TRAVELING: camera flight to planet
+ * - PLANET_VIEW: focused planet with content
  */
 
 import { Component, useCallback, useEffect, useState } from "react";
 import type { ErrorInfo, ReactNode } from "react";
-import { SpaceCarouselScene } from "../scene/SpaceCarouselScene";
-import { ORBITS } from "../data/space.config";
+import { SpaceCarouselScene, cameraAPIRef } from "../scene/SpaceCarouselScene";
+import { ProjectCard } from "./project-card";
+
+// ============================================================================
+// View Mode Type
+// ============================================================================
+
+type ViewMode = "solar" | "traveling" | "planet";
 
 // ============================================================================
 // Error Boundary
@@ -110,161 +112,6 @@ function WebGLFallback() {
 }
 
 // ============================================================================
-// Planet Info Panel — glass card with details
-// ============================================================================
-
-function PlanetInfoPanel({
-  orbitId,
-  onClose,
-}: {
-  readonly orbitId: string;
-  readonly onClose: () => void;
-}) {
-  const orbit = ORBITS.find((o) => o.id === orbitId);
-  if (!orbit) return null;
-
-  const planetColors: Record<string, string> = {
-    projects: "#3b82f6",
-    technology: "#06b6d4",
-    creative: "#a855f7",
-    future: "#f59e0b",
-  };
-
-  const planetDescriptions: Record<string, string> = {
-    projects:
-      "Interactive moons showcasing completed projects. Each moon represents a real product delivered to clients.",
-    technology:
-      "The code tools and frameworks that power every project. Technical precision meets creative ambition.",
-    creative: "The design philosophy and motion principles. Where aesthetics meet functionality.",
-    future: "Exploring the frontier. New technologies, new ideas, new possibilities.",
-  };
-
-  const color = planetColors[orbitId] ?? "#C9A96E";
-
-  return (
-    <div
-      className="pointer-events-auto absolute right-6 top-1/2 -translate-y-1/2 w-[280px] animate-[fadeIn_0.3s_ease-out]"
-      style={{ zIndex: 20 }}
-    >
-      <div
-        style={{
-          borderRadius: "16px",
-          border: "1px solid rgba(201, 169, 110, 0.12)",
-          background: "rgba(8, 7, 6, 0.85)",
-          backdropFilter: "blur(24px)",
-          WebkitBackdropFilter: "blur(24px)",
-          padding: "28px",
-          boxShadow: "0 12px 48px rgba(0, 0, 0, 0.5)",
-        }}
-      >
-        {/* Close button */}
-        <button
-          onClick={onClose}
-          style={{
-            position: "absolute",
-            top: "12px",
-            right: "12px",
-            width: "28px",
-            height: "28px",
-            borderRadius: "50%",
-            border: "1px solid rgba(201, 169, 110, 0.15)",
-            background: "rgba(8, 7, 6, 0.5)",
-            color: "rgba(180, 170, 155, 0.5)",
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: "12px",
-            transition: "all 0.2s ease",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.borderColor = "rgba(201, 169, 110, 0.4)";
-            e.currentTarget.style.color = "#f5f0e8";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.borderColor = "rgba(201, 169, 110, 0.15)";
-            e.currentTarget.style.color = "rgba(180, 170, 155, 0.5)";
-          }}
-        >
-          ×
-        </button>
-
-        {/* Planet color dot */}
-        <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
-          <div
-            style={{
-              width: "8px",
-              height: "8px",
-              borderRadius: "50%",
-              background: color,
-              boxShadow: `0 0 12px ${color}40`,
-            }}
-          />
-          <span
-            style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: "9px",
-              letterSpacing: "0.2em",
-              textTransform: "uppercase",
-              color: "rgba(201, 169, 110, 0.5)",
-            }}
-          >
-            Orbit {String(ORBITS.indexOf(orbit) + 1)}
-          </span>
-        </div>
-
-        {/* Title */}
-        <h3
-          style={{
-            fontFamily: "'Space Grotesk', sans-serif",
-            fontSize: "20px",
-            fontWeight: 600,
-            letterSpacing: "-0.02em",
-            color: "#f5f0e8",
-            margin: 0,
-          }}
-        >
-          {orbit.label}
-        </h3>
-
-        {/* Description */}
-        <p
-          style={{
-            fontFamily: "'Inter', sans-serif",
-            fontSize: "12px",
-            lineHeight: 1.7,
-            color: "rgba(180, 170, 155, 0.5)",
-            marginTop: "12px",
-          }}
-        >
-          {planetDescriptions[orbitId] ?? ""}
-        </p>
-
-        {/* Object count */}
-        <div
-          style={{
-            marginTop: "20px",
-            paddingTop: "16px",
-            borderTop: "1px solid rgba(201, 169, 110, 0.08)",
-          }}
-        >
-          <p
-            style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: "9px",
-              letterSpacing: "0.15em",
-              color: "rgba(180, 170, 155, 0.3)",
-            }}
-          >
-            {String(orbit.objectIds.length)} objects in orbit
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ============================================================================
 // Component
 // ============================================================================
 
@@ -274,6 +121,7 @@ interface SpaceWorldExperienceProps {
 
 export function SpaceWorldExperience({ className }: SpaceWorldExperienceProps) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<ViewMode>("solar");
   const [showUI, setShowUI] = useState(false);
 
   // Show UI after entrance
@@ -283,23 +131,35 @@ export function SpaceWorldExperience({ className }: SpaceWorldExperienceProps) {
   }, []);
 
   const handleSelect = useCallback((id: string) => {
-    setSelectedId((prev) => (prev === id ? null : id));
+    setSelectedId(id);
+    setViewMode("traveling");
   }, []);
 
-  const handleClose = useCallback(() => {
-    setSelectedId(null);
+  const handleViewModeChange = useCallback((mode: ViewMode) => {
+    setViewMode(mode);
+    if (mode === "solar") {
+      setSelectedId(null);
+    }
   }, []);
 
-  // Keyboard: Escape to deselect
+  const handleBack = useCallback(() => {
+    setViewMode("solar");
+    const api = cameraAPIRef.current as { startReturn: () => void } | null;
+    if (api) {
+      api.startReturn();
+    }
+  }, []);
+
+  // Keyboard: Escape to go back
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape") {
-        setSelectedId(null);
+      if (e.key === "Escape" && viewMode === "planet") {
+        handleBack();
       }
     }
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  }, [viewMode, handleBack]);
 
   return (
     <WebGLErrorBoundary fallback={<WebGLFallback />}>
@@ -309,10 +169,12 @@ export function SpaceWorldExperience({ className }: SpaceWorldExperienceProps) {
           className="absolute inset-0"
           selectedId={selectedId}
           onSelect={handleSelect}
+          viewMode={viewMode}
+          onViewModeChange={handleViewModeChange}
         />
 
-        {/* UI Overlay */}
-        {showUI && (
+        {/* UI Overlay — SOLAR VIEW */}
+        {showUI && viewMode === "solar" && (
           <div className="pointer-events-none absolute inset-0 z-10">
             {/* Back navigation */}
             <div className="pointer-events-auto absolute left-5 top-5 z-20">
@@ -383,6 +245,9 @@ export function SpaceWorldExperience({ className }: SpaceWorldExperienceProps) {
               <div
                 className="pointer-events-none absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
                 style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
                   fontFamily: "'JetBrains Mono', monospace",
                   fontSize: "10px",
                   letterSpacing: "0.15em",
@@ -396,26 +261,37 @@ export function SpaceWorldExperience({ className }: SpaceWorldExperienceProps) {
                   WebkitBackdropFilter: "blur(8px)",
                 }}
               >
-                Click a planet to explore
+                <span
+                  style={{
+                    width: "4px",
+                    height: "4px",
+                    borderRadius: "50%",
+                    background: "rgba(201, 169, 110, 0.35)",
+                    boxShadow: "0 0 6px rgba(201, 169, 110, 0.15)",
+                  }}
+                />
+                Select a planet to explore
               </div>
             )}
-
-            {/* Object counter — bottom right */}
-            <div
-              className="pointer-events-none absolute bottom-8 right-6 z-10"
-              style={{
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: "10px",
-                letterSpacing: "0.1em",
-                color: "rgba(180, 170, 155, 0.25)",
-              }}
-            >
-              {String(ORBITS.length)} orbits
-            </div>
-
-            {/* Planet Info Panel */}
-            {selectedId && <PlanetInfoPanel orbitId={selectedId} onClose={handleClose} />}
           </div>
+        )}
+
+        {/* UI Overlay — PLANET VIEW (Project Card) */}
+        <ProjectCard
+          projectId={selectedId ?? ""}
+          isVisible={viewMode === "planet" && selectedId !== null}
+          onBack={handleBack}
+        />
+
+        {/* Traveling overlay — subtle depth indicator */}
+        {viewMode === "traveling" && (
+          <div
+            className="pointer-events-none absolute inset-0 z-10"
+            style={{
+              background:
+                "radial-gradient(ellipse at center, transparent 40%, rgba(6, 8, 14, 0.3) 100%)",
+            }}
+          />
         )}
       </div>
     </WebGLErrorBoundary>

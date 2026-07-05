@@ -1,22 +1,30 @@
 /**
- * SpaceEnvironment — Premium Lighting
+ * SpaceEnvironment — Premium Cinematic Lighting
  *
- * Warm, controlled lighting with gold accents.
- * Apple Vision Pro feel — calm, not dramatic.
+ * Apple Vision Pro–inspired lighting:
+ * - Warm key light from upper right
+ * - Cool fill from left
+ * - Subtle rim from behind
+ * - Deep space fog
  */
 
 export function SpaceEnvironment() {
   return (
     <>
-      <ambientLight intensity={0.12} color="#f5f0e8" />
+      {/* Ambient — very low, warm base */}
+      <ambientLight intensity={0.08} color="#e8dcc8" />
 
-      <directionalLight intensity={0.4} color="#f5f0e8" position={[10, 5, 8]} />
+      {/* Key light — warm, directional */}
+      <directionalLight intensity={0.6} color="#f5efe3" position={[12, 18, 8]} />
 
-      <directionalLight intensity={0.08} color="#C9A96E" position={[-8, -3, -5]} />
+      {/* Fill light — cool blue */}
+      <directionalLight intensity={0.2} color="#8fa8c8" position={[-15, 8, -5]} />
 
-      <directionalLight intensity={0.05} color="#C9A96E" position={[0, 8, -10]} />
+      {/* Rim light — from behind */}
+      <directionalLight intensity={0.12} color="#c8b89a" position={[0, -2, -20]} />
 
-      <fog attach="fog" args={["#030712", 30, 80]} />
+      {/* Deep space fog */}
+      <fog attach="fog" args={["#06080e", 40, 120]} />
     </>
   );
 }
