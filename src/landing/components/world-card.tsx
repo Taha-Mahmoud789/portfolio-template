@@ -231,7 +231,7 @@ export const WorldCard = memo(function WorldCard({
           fontSize: "0.55rem",
           fontWeight: 500,
           letterSpacing: "0.15em",
-          color: "rgba(245, 240, 232, 0.2)",
+          color: "rgba(241, 245, 249, 0.2)",
           marginBottom: "clamp(1rem, 1.5vw, 1.5rem)",
         }}
       >
@@ -256,7 +256,7 @@ export const WorldCard = memo(function WorldCard({
           fontSize: "clamp(1rem, 1.3vw, 1.2rem)",
           fontWeight: 600,
           letterSpacing: "-0.01em",
-          color: "#f5f0e8",
+          color: "#F1F5F9",
           margin: "0 0 0.4rem 0",
           lineHeight: 1.2,
         }}
@@ -270,7 +270,7 @@ export const WorldCard = memo(function WorldCard({
           fontFamily: "var(--font-body)",
           fontSize: "clamp(0.75rem, 0.85vw, 0.85rem)",
           lineHeight: 1.6,
-          color: "rgba(245, 240, 232, 0.35)",
+          color: "rgba(241, 245, 249, 0.35)",
           margin: "0 0 1rem 0",
           maxWidth: 220,
         }}
@@ -287,7 +287,7 @@ export const WorldCard = memo(function WorldCard({
           fontWeight: 500,
           letterSpacing: "0.12em",
           textTransform: "uppercase",
-          color: status === "available" ? `${accentColor}cc` : "rgba(245, 240, 232, 0.18)",
+          color: status === "available" ? `${accentColor}cc` : "rgba(241, 245, 249, 0.18)",
         }}
       >
         <span
@@ -295,7 +295,7 @@ export const WorldCard = memo(function WorldCard({
             width: 4,
             height: 4,
             borderRadius: "50%",
-            background: status === "available" ? accentColor : "rgba(245, 240, 232, 0.12)",
+            background: status === "available" ? accentColor : "rgba(241, 245, 249, 0.12)",
           }}
         />
         {status === "available" ? "Open" : "Soon"}

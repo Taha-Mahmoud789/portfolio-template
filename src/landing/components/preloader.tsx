@@ -74,7 +74,7 @@ export function Preloader({ onComplete }: PreloaderProps) {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        background: "#080706",
+        background: "#0B0F1A",
       }}
     >
       <span
@@ -84,7 +84,7 @@ export function Preloader({ onComplete }: PreloaderProps) {
           fontSize: "clamp(3rem, 8vw, 6rem)",
           fontWeight: 700,
           letterSpacing: "-0.03em",
-          color: "#f5f0e8",
+          color: "#F1F5F9",
           lineHeight: 1,
           fontVariantNumeric: "tabular-nums",
         }}

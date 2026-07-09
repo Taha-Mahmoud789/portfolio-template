@@ -251,7 +251,7 @@ export function MultiverseTransitionOverlay() {
           position: "fixed",
           inset: 0,
           zIndex: 9998,
-          background: "#050507",
+          background: "#0B0F1A",
           opacity: 0,
           pointerEvents: "all",
         }}
@@ -276,7 +276,7 @@ export function MultiverseTransitionOverlay() {
             position: "absolute",
             inset: 0,
             background:
-              "radial-gradient(circle at center, rgba(201, 169, 110, 0.06) 0%, rgba(8, 7, 6, 0.95) 60%, #050507 100%)",
+              "radial-gradient(circle at center, rgba(59, 130, 246, 0.06) 0%, rgba(11, 15, 26, 0.95) 60%, #0B0F1A 100%)",
           }}
         />
 
@@ -292,7 +292,7 @@ export function MultiverseTransitionOverlay() {
             marginTop: "-50vmax",
             marginLeft: "-50vmax",
             borderRadius: "50%",
-            border: "1px solid rgba(201, 169, 110, 0.12)",
+            border: "1px solid rgba(59, 130, 246, 0.12)",
           }}
         />
 
@@ -308,7 +308,7 @@ export function MultiverseTransitionOverlay() {
             marginTop: "-50vmax",
             marginLeft: "-50vmax",
             borderRadius: "50%",
-            border: "1px solid rgba(201, 169, 110, 0.07)",
+            border: "1px solid rgba(59, 130, 246, 0.07)",
           }}
         />
 
@@ -324,7 +324,7 @@ export function MultiverseTransitionOverlay() {
             marginTop: "-50vmax",
             marginLeft: "-50vmax",
             borderRadius: "50%",
-            border: "1px solid rgba(201, 169, 110, 0.04)",
+            border: "1px solid rgba(59, 130, 246, 0.04)",
           }}
         />
       </div>

@@ -175,7 +175,7 @@ export function PortalGlow({ phase }: { phase: string }) {
           inset: 0,
           borderRadius: "50%",
           background:
-            "radial-gradient(circle, rgba(201, 169, 110, 0.16) 0%, rgba(201, 169, 110, 0.06) 25%, rgba(180, 140, 80, 0.03) 50%, transparent 65%)",
+            "radial-gradient(circle, rgba(59, 130, 246, 0.16) 0%, rgba(59, 130, 246, 0.06) 25%, rgba(96, 165, 250, 0.03) 50%, transparent 65%)",
           filter: "blur(40px)",
         }}
       />
@@ -186,7 +186,7 @@ export function PortalGlow({ phase }: { phase: string }) {
           inset: "10%",
           borderRadius: "50%",
           background:
-            "radial-gradient(circle, rgba(212, 184, 122, 0.25) 0%, rgba(201, 169, 110, 0.08) 40%, transparent 65%)",
+            "radial-gradient(circle, rgba(147, 197, 253, 0.25) 0%, rgba(59, 130, 246, 0.08) 40%, transparent 65%)",
           filter: "blur(25px)",
           opacity: 0,
         }}
@@ -202,7 +202,7 @@ export function PortalGlow({ phase }: { phase: string }) {
           height: "10%",
           borderRadius: "50%",
           background:
-            "linear-gradient(90deg, transparent 0%, rgba(201, 169, 110, 0.12) 20%, rgba(220, 200, 160, 0.2) 50%, rgba(201, 169, 110, 0.12) 80%, transparent 100%)",
+            "linear-gradient(90deg, transparent 0%, rgba(59, 130, 246, 0.12) 20%, rgba(191, 219, 254, 0.2) 50%, rgba(59, 130, 246, 0.12) 80%, transparent 100%)",
           filter: "blur(6px)",
           opacity: 0,
           willChange: "transform, opacity",
@@ -218,7 +218,7 @@ export function PortalGlow({ phase }: { phase: string }) {
           width: "50%",
           height: "40%",
           borderRadius: "50%",
-          background: "radial-gradient(ellipse, rgba(220, 200, 160, 0.15) 0%, transparent 60%)",
+          background: "radial-gradient(ellipse, rgba(191, 219, 254, 0.15) 0%, transparent 60%)",
           filter: "blur(12px)",
           opacity: 0,
           willChange: "transform, opacity",
@@ -234,7 +234,7 @@ export function PortalGlow({ phase }: { phase: string }) {
           height: "180%",
           borderRadius: "50%",
           background:
-            "radial-gradient(circle, rgba(220, 200, 160, 0.3) 0%, rgba(212, 184, 122, 0.12) 25%, transparent 55%)",
+            "radial-gradient(circle, rgba(191, 219, 254, 0.3) 0%, rgba(147, 197, 253, 0.12) 25%, transparent 55%)",
           filter: "blur(30px)",
           opacity: 0,
         }}

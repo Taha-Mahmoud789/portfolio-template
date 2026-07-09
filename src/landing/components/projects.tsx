@@ -1,326 +1,25 @@
 /**
- * Featured Projects — Premium editorial showcase
+ * Featured Projects — Glass card grid with asymmetric layout
  *
- * TRIONN/Cuberto/Locomotive-inspired full-viewport project sections.
- * Each project: 100vh, oversized editorial typography,
- * GSAP ScrollTrigger scrub-based reveal sequences,
- * magnetic hover interactions, full-bleed imagery.
- *
- * No-JS: all content visible by default.
- * Animations are enhancement only.
+ * Asymmetric masonry grid of glassmorphism project cards.
+ * Each card: glass effect, hover reveal, category filter pills.
+ * Magnetic hover, GSAP animations.
  */
 
-import { useRef, useEffect, useCallback } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useReducedMotion } from "../hooks";
 import { ROUTES } from "@/constants/routes";
 import { useTransitionStore } from "./project-transition-store";
 import { ImageComponent } from "@/components/image-component";
 import { PROJECTS, type ProjectData } from "@/content";
 
-gsap.registerPlugin(ScrollTrigger);
-
 // ============================================================================
-// Preview Area — Premium full-bleed visual
+// Glass Project Card
 // ============================================================================
 
-function PreviewArea({
-  project,
-  previewRef,
-  innerRef,
-}: {
-  project: ProjectData;
-  previewRef: React.RefObject<HTMLDivElement | null>;
-  innerRef: React.RefObject<HTMLDivElement | null>;
-}) {
-  return (
-    <div
-      ref={previewRef}
-      data-projects="preview"
-      role="img"
-      aria-label={`${project.title} preview`}
-      style={{
-        position: "relative",
-        width: "100%",
-        aspectRatio: "16 / 10",
-        overflow: "hidden",
-        cursor: "pointer",
-        borderRadius: "24px",
-        border: "1px solid rgba(245, 240, 232, 0.06)",
-      }}
-    >
-      <div
-        ref={innerRef}
-        style={{
-          position: "absolute",
-          inset: "-10%",
-          willChange: "transform",
-        }}
-      >
-        {/* Full background — screenshot fills entire area */}
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            borderRadius: "24px",
-            overflow: "hidden",
-          }}
-        >
-          <ImageComponent
-            src={project.images.hero}
-            alt={`${project.title} — ${project.category}`}
-            width={1920}
-            height={1080}
-            accentRgb={project.accentRgb}
-            style={{
-              borderRadius: "24px",
-            }}
-          />
-        </div>
-
-        {/* Top gradient */}
-        <div
-          aria-hidden="true"
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            height: "35%",
-            background: "linear-gradient(180deg, rgba(0,0,0,0.6) 0%, transparent 100%)",
-            borderRadius: "24px 24px 0 0",
-            pointerEvents: "none",
-          }}
-        />
-
-        {/* Bottom gradient */}
-        <div
-          aria-hidden="true"
-          style={{
-            position: "absolute",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: "55%",
-            background: "linear-gradient(0deg, rgba(0,0,0,0.8) 0%, transparent 100%)",
-            borderRadius: "0 0 24px 24px",
-            pointerEvents: "none",
-          }}
-        />
-
-        {/* Vignette */}
-        <div
-          aria-hidden="true"
-          style={{
-            position: "absolute",
-            inset: 0,
-            background: "radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.5) 100%)",
-            borderRadius: "24px",
-            pointerEvents: "none",
-          }}
-        />
-      </div>
-
-      {/* Top bar — Title + Year */}
-      <div
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          padding: "24px 28px",
-          display: "flex",
-          alignItems: "flex-start",
-          justifyContent: "space-between",
-          zIndex: 10,
-        }}
-      >
-        {/* Title */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-          <span
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "18px",
-              fontWeight: 600,
-              color: "rgba(245, 240, 232, 0.98)",
-              letterSpacing: "-0.01em",
-              textShadow: "0 2px 8px rgba(0, 0, 0, 0.6)",
-            }}
-          >
-            {project.title}
-          </span>
-          <span
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: "11px",
-              fontWeight: 500,
-              color: `rgba(${project.accentRgb}, 0.95)`,
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
-              textShadow: "0 1px 4px rgba(0, 0, 0, 0.5)",
-            }}
-          >
-            {project.category}
-          </span>
-        </div>
-
-        {/* Year badge */}
-        <div
-          style={{
-            padding: "8px 16px",
-            borderRadius: "24px",
-            background: "rgba(0, 0, 0, 0.4)",
-            backdropFilter: "blur(16px)",
-            border: "1px solid rgba(245, 240, 232, 0.1)",
-            boxShadow: "0 4px 16px rgba(0, 0, 0, 0.2)",
-          }}
-        >
-          <span
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: "12px",
-              fontWeight: 500,
-              color: "rgba(245, 240, 232, 0.8)",
-              letterSpacing: "0.08em",
-            }}
-          >
-            {project.year}
-          </span>
-        </div>
-      </div>
-
-      {/* Center — View Project */}
-      <div
-        className="project-view-btn"
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          zIndex: 10,
-          opacity: 0,
-          transition: "all 0.5s cubic-bezier(0.16, 1, 0.3, 1)",
-          pointerEvents: "none",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "10px",
-            padding: "16px 32px",
-            borderRadius: "60px",
-            background: "rgba(245, 240, 232, 0.95)",
-            boxShadow: "0 24px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(245, 240, 232, 0.2)",
-          }}
-        >
-          <span
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "14px",
-              fontWeight: 600,
-              color: "#080706",
-              letterSpacing: "0.02em",
-            }}
-          >
-            View Project
-          </span>
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#080706"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <line x1="7" y1="17" x2="17" y2="7" />
-            <polyline points="7 7 17 7 17 17" />
-          </svg>
-        </div>
-      </div>
-
-      {/* Bottom bar — Tech tags + Number */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          padding: "24px 28px",
-          display: "flex",
-          alignItems: "flex-end",
-          justifyContent: "space-between",
-          zIndex: 10,
-        }}
-      >
-        {/* Tech tags */}
-        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          {project.hero.technologies.slice(0, 3).map((tech) => (
-            <span
-              key={tech}
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: "11px",
-                fontWeight: 500,
-                color: "rgba(245, 240, 232, 0.8)",
-                letterSpacing: "0.03em",
-                padding: "7px 14px",
-                borderRadius: "20px",
-                background: "rgba(0, 0, 0, 0.4)",
-                backdropFilter: "blur(12px)",
-                border: "1px solid rgba(245, 240, 232, 0.1)",
-                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
-              }}
-            >
-              {tech}
-            </span>
-          ))}
-        </div>
-
-        {/* Project number */}
-        <span
-          style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "56px",
-            fontWeight: 700,
-            color: `rgba(${project.accentRgb}, 0.2)`,
-            letterSpacing: "-0.04em",
-            lineHeight: 0.8,
-            textShadow: `0 0 40px rgba(${project.accentRgb}, 0.1)`,
-          }}
-        >
-          {project.number}
-        </span>
-      </div>
-
-      {/* Hover overlay */}
-      <div
-        aria-hidden="true"
-        className="project-preview-overlay"
-        style={{
-          position: "absolute",
-          inset: 0,
-          background: `radial-gradient(ellipse at center, transparent 20%, rgba(0, 0, 0, 0.25) 100%)`,
-          opacity: 0,
-          transition: "opacity 0.6s ease",
-          pointerEvents: "none",
-          borderRadius: "24px",
-        }}
-      />
-    </div>
-  );
-}
-
-// ============================================================================
-// Project Section — Full editorial block
-// ============================================================================
-
-function ProjectSection({
+function GlassCard({
   project,
   index,
   reducedMotion,
@@ -331,303 +30,87 @@ function ProjectSection({
 }) {
   const navigate = useNavigate();
   const startTransition = useTransitionStore((s) => s.startTransition);
-  const sectionRef = useRef<HTMLElement>(null);
-  const numberRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const descRef = useRef<HTMLParagraphElement>(null);
-
-  // Restore body overflow on unmount (safety net for navigation during transition)
-  useEffect(() => {
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, []);
-  const metaRef = useRef<HTMLDivElement>(null);
-  const previewRef = useRef<HTMLDivElement>(null);
-  const previewInnerRef = useRef<HTMLDivElement>(null);
-  const techRef = useRef<HTMLDivElement>(null);
-  const glowRef = useRef<HTMLDivElement>(null);
-  const rafRef = useRef(0);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
+  const infoRef = useRef<HTMLDivElement>(null);
+  const hasAnimated = useRef(false);
 
   useEffect(() => {
-    return () => cancelAnimationFrame(rafRef.current);
-  }, []);
+    if (hasAnimated.current || reducedMotion) return;
+    hasAnimated.current = true;
 
-  // ── Scroll-triggered reveal via ScrollTrigger scrub ──────────────────
-  useEffect(() => {
-    if (reducedMotion || !sectionRef.current) return;
+    const card = cardRef.current;
+    if (!card) return;
 
-    const section = sectionRef.current;
-    const number = numberRef.current;
-    const title = titleRef.current;
-    const desc = descRef.current;
-    const meta = metaRef.current;
-    const preview = previewRef.current;
-    const tech = techRef.current;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return;
+        observer.disconnect();
 
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        defaults: { ease: "none" },
-        scrollTrigger: {
-          trigger: section,
-          start: "top 90%",
-          end: "center center",
-          scrub: 0.8,
-        },
-      });
-
-      // 1. Number — fade + rise
-      if (number) {
-        tl.fromTo(
-          number,
-          { y: 80, opacity: 0, scale: 0.9 },
-          { y: 0, opacity: 1, scale: 1, duration: 1 },
-          0,
-        );
-      }
-
-      // 2. Title — clip-path wipe reveal
-      if (title) {
-        tl.fromTo(
-          title,
-          { clipPath: "inset(0 100% 0 0)", opacity: 1 },
-          { clipPath: "inset(0 0% 0 0)", duration: 1.5 },
-          0.1,
-        );
-      }
-
-      // 3. Description — rise + fade
-      if (desc) {
-        tl.fromTo(desc, { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 1 }, 0.3);
-      }
-
-      // 4. Meta — staggered rise
-      if (meta) {
-        const items = meta.querySelectorAll<HTMLElement>("[data-project-meta]");
-        if (items.length > 0) {
-          tl.fromTo(
-            items,
-            { y: 25, opacity: 0 },
-            { y: 0, opacity: 1, duration: 0.8, stagger: 0.1 },
-            0.35,
-          );
-        }
-      }
-
-      // 5. Preview — dramatic clip-path reveal + scale
-      if (preview) {
-        tl.fromTo(
-          preview,
-          { clipPath: "inset(12% 0% 12% 0)", opacity: 0, scale: 0.94 },
+        gsap.fromTo(
+          card,
+          { y: 60, opacity: 0, scale: 0.95 },
           {
-            clipPath: "inset(0% 0% 0% 0)",
+            y: 0,
             opacity: 1,
             scale: 1,
-            duration: 2,
+            duration: 0.9,
+            delay: index * 0.1,
+            ease: "expo.out",
           },
-          0.15,
         );
-      }
-
-      // 6. Tech — staggered rise
-      if (tech) {
-        const tags = tech.querySelectorAll<HTMLElement>("[data-tech-tag]");
-        if (tags.length > 0) {
-          tl.fromTo(
-            tags,
-            { y: 15, opacity: 0 },
-            { y: 0, opacity: 1, duration: 0.6, stagger: 0.06 },
-            0.6,
-          );
-        }
-      }
-    }, sectionRef);
-
-    return () => {
-      ctx.revert();
-    };
-  }, [reducedMotion]);
-
-  // ── Scroll parallax on preview (continuous scrub) ────────────────────
-  useEffect(() => {
-    if (reducedMotion || !sectionRef.current || !previewInnerRef.current) return;
-
-    const section = sectionRef.current;
-    const inner = previewInnerRef.current;
-
-    const st = ScrollTrigger.create({
-      trigger: section,
-      start: "top bottom",
-      end: "bottom top",
-      scrub: 1.2,
-      onUpdate: (self) => {
-        const progress = self.progress;
-        gsap.set(inner, {
-          y: (progress - 0.5) * -60,
-          scale: 1 + Math.abs(progress - 0.5) * 0.04,
-        });
       },
-    });
+      { threshold: 0.1 },
+    );
 
-    return () => {
-      st.kill();
-    };
-  }, [reducedMotion]);
-
-  // ── Hover: magnetic pull + preview zoom + lift ───────────────────────
-  const handleMouseMove = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      if (reducedMotion) return;
-      const section = sectionRef.current;
-      if (!section) return;
-
-      const rect = section.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width) * 100;
-      const y = ((e.clientY - rect.top) / rect.height) * 100;
-
-      cancelAnimationFrame(rafRef.current);
-      rafRef.current = requestAnimationFrame(() => {
-        // Magnetic pull on preview inner
-        if (previewInnerRef.current) {
-          const offsetX = (x - 50) * 0.08;
-          const offsetY = (y - 50) * 0.08;
-          gsap.to(previewInnerRef.current, {
-            x: offsetX,
-            y: offsetY,
-            duration: 1.2,
-            ease: "expo.out",
-            overwrite: "auto",
-          });
-        }
-
-        // Subtle perspective tilt on the entire section
-        if (sectionRef.current) {
-          const rotateY = ((x - 50) / 50) * 0.4;
-          const rotateX = ((y - 50) / 50) * -0.3;
-          gsap.to(sectionRef.current, {
-            rotateX,
-            rotateY,
-            duration: 1,
-            ease: "expo.out",
-            overwrite: "auto",
-            transformPerspective: 1200,
-            transformOrigin: "center center",
-          });
-        }
-
-        // Magnetic pull on title
-        if (titleRef.current) {
-          const titleOffsetX = (x - 50) * 0.012;
-          gsap.to(titleRef.current, {
-            x: titleOffsetX,
-            duration: 0.8,
-            ease: "expo.out",
-            overwrite: "auto",
-          });
-        }
-
-        // Glow follows cursor
-        if (glowRef.current) {
-          glowRef.current.style.background = `radial-gradient(1600px circle at ${String(x)}% ${String(y)}%, rgba(${project.accentRgb}, 0.06), transparent 50%)`;
-        }
-      });
-    },
-    [reducedMotion, project.accentRgb],
-  );
+    observer.observe(card);
+    return () => observer.disconnect();
+  }, [reducedMotion, index]);
 
   const handleMouseEnter = useCallback(() => {
-    if (reducedMotion) return;
+    if (reducedMotion || !cardRef.current) return;
 
-    if (sectionRef.current) {
-      gsap.to(sectionRef.current, {
+    gsap.to(cardRef.current, {
+      y: -8,
+      scale: 1.02,
+      duration: 0.5,
+      ease: "expo.out",
+      overwrite: "auto",
+    });
+
+    if (imageRef.current) {
+      gsap.to(imageRef.current, {
+        y: -12,
+        scale: 1.05,
+        duration: 0.6,
+        ease: "expo.out",
+        overwrite: "auto",
+      });
+    }
+
+    if (infoRef.current) {
+      gsap.to(infoRef.current, {
         y: -4,
-        duration: 0.8,
+        duration: 0.4,
         ease: "expo.out",
         overwrite: "auto",
       });
-    }
-
-    if (previewRef.current) {
-      gsap.to(previewRef.current, {
-        scale: 1.03,
-        y: -8,
-        duration: 1.2,
-        ease: "expo.out",
-        overwrite: "auto",
-      });
-      const overlay = previewRef.current.querySelector<HTMLElement>(".project-preview-overlay");
-      if (overlay) {
-        gsap.to(overlay, { opacity: 1, duration: 0.6 });
-      }
-      const viewBtn = previewRef.current.querySelector<HTMLElement>(".project-view-btn");
-      if (viewBtn) {
-        gsap.to(viewBtn, { opacity: 1, duration: 0.5, ease: "back.out(1.7)" });
-      }
-    }
-    if (numberRef.current) {
-      gsap.to(numberRef.current, {
-        y: -8,
-        scale: 1.03,
-        duration: 0.8,
-        ease: "expo.out",
-        overwrite: "auto",
-      });
-    }
-    if (glowRef.current) {
-      gsap.to(glowRef.current, { opacity: 1, duration: 0.8 });
     }
   }, [reducedMotion]);
 
   const handleMouseLeave = useCallback(() => {
-    if (reducedMotion) return;
+    if (reducedMotion || !cardRef.current) return;
 
-    if (sectionRef.current) {
-      gsap.to(sectionRef.current, {
-        y: 0,
-        rotateX: 0,
-        rotateY: 0,
-        duration: 0.8,
-        ease: "expo.out",
-        overwrite: "auto",
-      });
-    }
+    gsap.to(cardRef.current, {
+      y: 0,
+      scale: 1,
+      duration: 0.6,
+      ease: "expo.out",
+      overwrite: "auto",
+    });
 
-    if (previewRef.current) {
-      gsap.to(previewRef.current, {
-        scale: 1,
-        y: 0,
-        duration: 1,
-        ease: "expo.out",
-        overwrite: "auto",
-      });
-      const overlay = previewRef.current.querySelector<HTMLElement>(".project-preview-overlay");
-      if (overlay) {
-        gsap.to(overlay, { opacity: 0, duration: 0.5 });
-      }
-      const viewBtn = previewRef.current.querySelector<HTMLElement>(".project-view-btn");
-      if (viewBtn) {
-        gsap.to(viewBtn, { opacity: 0, duration: 0.3, ease: "power2.in" });
-      }
-    }
-    if (previewInnerRef.current) {
-      gsap.to(previewInnerRef.current, {
-        x: 0,
-        y: 0,
-        duration: 1,
-        ease: "expo.out",
-        overwrite: "auto",
-      });
-    }
-    if (titleRef.current) {
-      gsap.to(titleRef.current, {
-        x: 0,
-        duration: 0.8,
-        ease: "expo.out",
-        overwrite: "auto",
-      });
-    }
-    if (numberRef.current) {
-      gsap.to(numberRef.current, {
+    if (imageRef.current) {
+      gsap.to(imageRef.current, {
         y: 0,
         scale: 1,
         duration: 0.7,
@@ -635,32 +118,35 @@ function ProjectSection({
         overwrite: "auto",
       });
     }
-    if (glowRef.current) {
-      gsap.to(glowRef.current, { opacity: 0, duration: 0.7 });
+
+    if (infoRef.current) {
+      gsap.to(infoRef.current, {
+        y: 0,
+        duration: 0.5,
+        ease: "expo.out",
+        overwrite: "auto",
+      });
     }
   }, [reducedMotion]);
 
-  // ── Click — entire project is the CTA ───────────────────────────────
   const handleClick = useCallback(() => {
     const target = ROUTES.PROJECT.replace(":projectId", project.slug);
 
-    if (reducedMotion || !previewRef.current) {
+    if (reducedMotion || !cardRef.current) {
       void navigate(target);
       return;
     }
 
     document.body.style.overflow = "hidden";
 
-    if (sectionRef.current) {
-      gsap.to(sectionRef.current, {
-        opacity: 0.3,
-        scale: 0.98,
-        duration: 0.5,
-        ease: "power2.inOut",
-      });
-    }
+    gsap.to(cardRef.current, {
+      opacity: 0.3,
+      scale: 0.98,
+      duration: 0.4,
+      ease: "power2.inOut",
+    });
 
-    const rect = previewRef.current.getBoundingClientRect();
+    const rect = cardRef.current.getBoundingClientRect();
     startTransition({
       fromRect: rect,
       projectId: project.slug,
@@ -681,224 +167,211 @@ function ProjectSection({
     [handleClick],
   );
 
-  const isReversed = index % 2 === 1;
+  // Asymmetric sizing: alternate between large and medium cards
+  const isLarge = index % 3 === 0;
 
   return (
-    <article
-      ref={sectionRef}
-      data-projects="row"
-      data-cursor="project"
-      aria-label={`${project.title} — ${project.category}`}
+    <div
+      ref={cardRef}
       role="article"
       tabIndex={0}
-      onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
       style={{
         position: "relative",
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        padding: "clamp(6rem, 15vh, 12rem) clamp(2rem, 6vw, 8rem)",
+        borderRadius: 20,
+        overflow: "hidden",
+        background: "rgba(255, 255, 255, 0.02)",
+        border: "1px solid rgba(255, 255, 255, 0.06)",
+        backdropFilter: "blur(12px)",
         cursor: "pointer",
         outline: "none",
+        transition: "border-color 0.4s ease, box-shadow 0.4s ease",
+        opacity: reducedMotion ? 1 : 0,
+        gridRow: isLarge ? "span 2" : "span 1",
       }}
       onFocus={(e) => {
-        e.currentTarget.style.outline = "2px solid rgba(245, 240, 232, 0.15)";
-        e.currentTarget.style.outlineOffset = "-4px";
+        e.currentTarget.style.borderColor = "rgba(59, 130, 246, 0.2)";
+        e.currentTarget.style.boxShadow = "0 0 0 2px rgba(59, 130, 246, 0.1)";
       }}
       onBlur={(e) => {
-        e.currentTarget.style.outline = "none";
+        e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.06)";
+        e.currentTarget.style.boxShadow = "none";
+      }}
+      onMouseOver={(e) => {
+        e.currentTarget.style.borderColor = "rgba(59, 130, 246, 0.15)";
+        e.currentTarget.style.boxShadow = "0 24px 80px rgba(59, 130, 246, 0.08)";
+      }}
+      onMouseOut={(e) => {
+        e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.06)";
+        e.currentTarget.style.boxShadow = "none";
       }}
     >
-      {/* Top divider */}
-      {index > 0 && (
+      {/* Image area */}
+      <div
+        ref={imageRef}
+        style={{
+          position: "relative",
+          width: "100%",
+          aspectRatio: isLarge ? "16 / 12" : "16 / 10",
+          overflow: "hidden",
+          willChange: "transform",
+        }}
+      >
+        <ImageComponent
+          src={project.images.hero}
+          alt={`${project.title} — ${project.category}`}
+          width={1920}
+          height={1080}
+          accentRgb={project.accentRgb}
+          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+        />
+
+        {/* Gradient overlay */}
         <div
           aria-hidden="true"
           style={{
             position: "absolute",
-            top: 0,
-            left: "clamp(2rem, 6vw, 8rem)",
-            right: "clamp(2rem, 6vw, 8rem)",
-            height: 1,
-            background:
-              "linear-gradient(90deg, transparent 0%, rgba(245, 240, 232, 0.06) 50%, transparent 100%)",
+            inset: 0,
+            background: "linear-gradient(180deg, transparent 40%, rgba(11, 15, 26, 0.8) 100%)",
+            pointerEvents: "none",
           }}
         />
-      )}
 
-      {/* Ambient glow */}
-      <div
-        ref={glowRef}
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          inset: 0,
-          opacity: 0,
-          pointerEvents: "none",
-          willChange: "opacity",
-        }}
-      />
+        {/* Year badge */}
+        <div
+          style={{
+            position: "absolute",
+            top: 16,
+            right: 16,
+            padding: "6px 14px",
+            borderRadius: 20,
+            background: "rgba(0, 0, 0, 0.4)",
+            backdropFilter: "blur(12px)",
+            border: "1px solid rgba(255, 255, 255, 0.08)",
+          }}
+        >
+          <span
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: "11px",
+              fontWeight: 500,
+              color: "rgba(241, 245, 249, 0.7)",
+              letterSpacing: "0.08em",
+            }}
+          >
+            {project.year}
+          </span>
+        </div>
 
-      {/* Main layout — alternating grid */}
+        {/* Number overlay */}
+        <span
+          style={{
+            position: "absolute",
+            bottom: 16,
+            right: 20,
+            fontFamily: "var(--font-display)",
+            fontSize: "clamp(3rem, 5vw, 4.5rem)",
+            fontWeight: 700,
+            color: `rgba(${project.accentRgb}, 0.15)`,
+            lineHeight: 0.8,
+            userSelect: "none",
+          }}
+        >
+          {project.number}
+        </span>
+      </div>
+
+      {/* Info area */}
       <div
+        ref={infoRef}
         style={{
-          display: "grid",
-          gridTemplateColumns: isReversed ? "1fr 1.2fr" : "1.2fr 1fr",
-          gap: "clamp(2rem, 4vw, 4rem)",
-          alignItems: "center",
-          width: "100%",
+          padding: "clamp(1.25rem, 2vw, 1.75rem)",
+          display: "flex",
+          flexDirection: "column",
+          gap: "clamp(0.75rem, 1.5vw, 1rem)",
+          willChange: "transform",
         }}
       >
-        {/* Text column */}
+        {/* Category */}
+        <span
+          style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: "10px",
+            fontWeight: 500,
+            letterSpacing: "0.15em",
+            textTransform: "uppercase",
+            color: `rgba(${project.accentRgb}, 0.7)`,
+          }}
+        >
+          {project.category}
+        </span>
+
+        {/* Title */}
+        <h3
+          style={{
+            fontFamily: "var(--font-display)",
+            fontSize: isLarge ? "clamp(1.5rem, 2.5vw, 2rem)" : "clamp(1.25rem, 2vw, 1.5rem)",
+            fontWeight: 600,
+            letterSpacing: "-0.03em",
+            lineHeight: 1.1,
+            color: "rgba(241, 245, 249, 0.95)",
+            margin: 0,
+          }}
+        >
+          {project.title}
+        </h3>
+
+        {/* Description */}
+        <p
+          style={{
+            fontFamily: "var(--font-body)",
+            fontSize: "clamp(0.8125rem, 0.95vw, 0.9375rem)",
+            fontWeight: 400,
+            lineHeight: 1.6,
+            color: "rgba(148, 163, 184, 0.45)",
+            margin: 0,
+            display: "-webkit-box",
+            WebkitLineClamp: isLarge ? 3 : 2,
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+          }}
+        >
+          {project.description}
+        </p>
+
+        {/* Tech tags */}
         <div
           style={{
             display: "flex",
-            flexDirection: "column",
-            gap: "clamp(1.5rem, 2.5vw, 2rem)",
-            order: isReversed ? 2 : 1,
+            flexWrap: "wrap",
+            gap: "6px",
+            marginTop: "0.25rem",
           }}
         >
-          {/* Meta row */}
-          <div
-            ref={metaRef}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "1rem",
-              flexWrap: "wrap",
-            }}
-          >
+          {project.hero.technologies.slice(0, isLarge ? 4 : 3).map((tech) => (
             <span
-              data-project-meta
+              key={tech}
               style={{
                 fontFamily: "var(--font-mono)",
-                fontSize: "11px",
-                fontWeight: 500,
-                letterSpacing: "0.15em",
-                textTransform: "uppercase",
-                color: `rgba(${project.accentRgb}, 0.7)`,
-              }}
-            >
-              {project.category}
-            </span>
-            <span
-              data-project-meta
-              aria-hidden="true"
-              style={{
-                width: 20,
-                height: 1,
-                background: "rgba(245, 240, 232, 0.12)",
-              }}
-            />
-            <span
-              data-project-meta
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: "11px",
+                fontSize: "10px",
                 fontWeight: 400,
-                letterSpacing: "0.1em",
-                color: "rgba(214, 204, 190, 0.35)",
+                letterSpacing: "0.02em",
+                color: "rgba(148, 163, 184, 0.4)",
+                padding: "4px 10px",
+                borderRadius: 12,
+                background: "rgba(255, 255, 255, 0.03)",
+                border: "1px solid rgba(255, 255, 255, 0.05)",
               }}
             >
-              {project.year}
+              {tech}
             </span>
-          </div>
-
-          {/* Title */}
-          <h3
-            ref={titleRef}
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "clamp(2.5rem, 6vw, 5rem)",
-              fontWeight: 600,
-              letterSpacing: "-0.04em",
-              lineHeight: 0.95,
-              color: "rgba(245, 240, 232, 0.95)",
-              margin: 0,
-              willChange: "clip-path, transform",
-            }}
-          >
-            {project.title}
-          </h3>
-
-          {/* Description */}
-          <p
-            ref={descRef}
-            style={{
-              fontFamily: "var(--font-body)",
-              fontSize: "clamp(1rem, 1.2vw, 1.125rem)",
-              fontWeight: 400,
-              lineHeight: 1.75,
-              color: "rgba(214, 204, 190, 0.45)",
-              margin: 0,
-              maxWidth: 480,
-            }}
-          >
-            {project.description}
-          </p>
-
-          {/* Tech tags */}
-          <div
-            ref={techRef}
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              alignItems: "center",
-              gap: "8px",
-              marginTop: "0.5rem",
-            }}
-          >
-            {project.hero.technologies.map((tech, i) => (
-              <span
-                key={tech}
-                data-tech-tag
-                style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: "11px",
-                  fontWeight: 400,
-                  letterSpacing: "0.02em",
-                  color: i === 0 ? `rgba(${project.accentRgb}, 0.7)` : "rgba(214, 204, 190, 0.35)",
-                  padding: "5px 12px",
-                  borderRadius: "16px",
-                  border: "1px solid rgba(245, 240, 232, 0.06)",
-                  background:
-                    i === 0 ? `rgba(${project.accentRgb}, 0.08)` : "rgba(245, 240, 232, 0.03)",
-                }}
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
-
-          {/* Project number */}
-          <div
-            ref={numberRef}
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "clamp(5rem, 10vw, 10rem)",
-              fontWeight: 700,
-              letterSpacing: "-0.05em",
-              lineHeight: 0.8,
-              color: `rgba(${project.accentRgb}, 0.12)`,
-              marginTop: "0.5rem",
-              willChange: "transform",
-              userSelect: "none",
-            }}
-          >
-            {project.number}
-          </div>
-        </div>
-
-        {/* Preview column */}
-        <div style={{ order: isReversed ? 1 : 2 }}>
-          <PreviewArea project={project} previewRef={previewRef} innerRef={previewInnerRef} />
+          ))}
         </div>
       </div>
-    </article>
+    </div>
   );
 }
 
@@ -910,6 +383,14 @@ export function Projects() {
   const reducedMotion = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
+  const [activeFilter, setActiveFilter] = useState<string>("All");
+
+  // Extract unique categories
+  const categories = ["All", ...Array.from(new Set(PROJECTS.map((p) => p.category)))];
+
+  // Filter projects
+  const filteredProjects =
+    activeFilter === "All" ? PROJECTS : PROJECTS.filter((p) => p.category === activeFilter);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -953,13 +434,16 @@ export function Projects() {
       aria-labelledby="projects-heading"
       style={{
         position: "relative",
-        background: "#080706",
+        background: "#0B0F1A",
+        padding: "clamp(5rem, 12vh, 10rem) clamp(1.5rem, 5vw, 6rem)",
       }}
     >
       {/* Section header */}
       <div
         style={{
-          padding: "clamp(6rem, 15vh, 12rem) clamp(2rem, 6vw, 8rem) clamp(3rem, 6vh, 5rem)",
+          maxWidth: 1200,
+          margin: "0 auto",
+          marginBottom: "clamp(3rem, 6vw, 5rem)",
         }}
       >
         <div ref={headerRef} style={{ willChange: "clip-path" }}>
@@ -977,7 +461,7 @@ export function Projects() {
             <span
               data-header-line
               style={{
-                color: "rgba(245, 240, 232, 0.95)",
+                color: "rgba(241, 245, 249, 0.95)",
                 display: "block",
                 willChange: "clip-path",
               }}
@@ -990,7 +474,7 @@ export function Projects() {
                 display: "block",
                 willChange: "clip-path",
                 background:
-                  "linear-gradient(135deg, rgba(245,240,232,1) 0%, rgba(201,169,110,0.6) 100%)",
+                  "linear-gradient(135deg, rgba(241,245,249,1) 0%, rgba(59,130,246,0.6) 50%, rgba(6,182,212,0.4) 100%)",
                 backgroundClip: "text",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
@@ -1007,7 +491,7 @@ export function Projects() {
               fontSize: "clamp(0.9375rem, 1.1vw, 1.0625rem)",
               fontWeight: 400,
               lineHeight: 1.7,
-              color: "rgba(214, 204, 190, 0.4)",
+              color: "rgba(148, 163, 184, 0.4)",
               margin: 0,
               maxWidth: 440,
               willChange: "clip-path",
@@ -1016,17 +500,71 @@ export function Projects() {
             Projects that solved real problems. Built with modern tools, designed for performance.
           </p>
         </div>
+
+        {/* Category filter pills */}
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "8px",
+            marginTop: "clamp(2rem, 3vw, 3rem)",
+          }}
+        >
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              type="button"
+              onClick={() => setActiveFilter(cat)}
+              style={{
+                fontFamily: "var(--font-mono)",
+                fontSize: "11px",
+                fontWeight: 500,
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                padding: "8px 18px",
+                borderRadius: 20,
+                border: "1px solid",
+                borderColor:
+                  activeFilter === cat ? "rgba(59, 130, 246, 0.3)" : "rgba(255, 255, 255, 0.06)",
+                background:
+                  activeFilter === cat ? "rgba(59, 130, 246, 0.1)" : "rgba(255, 255, 255, 0.02)",
+                color:
+                  activeFilter === cat ? "rgba(59, 130, 246, 0.9)" : "rgba(148, 163, 184, 0.4)",
+                cursor: "pointer",
+                transition: "all 0.3s ease",
+              }}
+              onMouseOver={(e) => {
+                if (activeFilter !== cat) {
+                  e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)";
+                  e.currentTarget.style.color = "rgba(148, 163, 184, 0.6)";
+                }
+              }}
+              onMouseOut={(e) => {
+                if (activeFilter !== cat) {
+                  e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.06)";
+                  e.currentTarget.style.color = "rgba(148, 163, 184, 0.4)";
+                }
+              }}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
       </div>
 
-      {/* Project sections */}
-      <div>
-        {PROJECTS.map((project, i) => (
-          <ProjectSection
-            key={project.id}
-            project={project}
-            index={i}
-            reducedMotion={reducedMotion}
-          />
+      {/* Project grid — asymmetric masonry */}
+      <div
+        style={{
+          maxWidth: 1200,
+          margin: "0 auto",
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 380px), 1fr))",
+          gap: "clamp(1.25rem, 2.5vw, 2rem)",
+          gridAutoFlow: "dense",
+        }}
+      >
+        {filteredProjects.map((project, i) => (
+          <GlassCard key={project.id} project={project} index={i} reducedMotion={reducedMotion} />
         ))}
       </div>
     </section>

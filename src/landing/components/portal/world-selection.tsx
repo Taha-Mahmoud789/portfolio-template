@@ -49,15 +49,15 @@ const WORLDS: readonly WorldDef[] = [
     description:
       "Vast cosmic environments with procedural stars, nebulae, and zero-gravity physics.",
     gradient:
-      "linear-gradient(160deg, rgba(15,23,42,0.95) 0%, rgba(30,58,95,0.6) 50%, rgba(201,169,110,0.15) 100%)",
-    glowColor: "rgba(201,169,110,0.25)",
-    borderHover: "rgba(201,169,110,0.5)",
-    accentColor: "#c9a96e",
-    accentBorder: "rgba(201,169,110,0.4)",
+      "linear-gradient(160deg, rgba(15,23,42,0.95) 0%, rgba(30,58,95,0.6) 50%, rgba(59,130,246,0.15) 100%)",
+    glowColor: "rgba(59,130,246,0.25)",
+    borderHover: "rgba(59,130,246,0.5)",
+    accentColor: "#3B82F6",
+    accentBorder: "rgba(59,130,246,0.4)",
     previewGradient:
-      "radial-gradient(ellipse 120% 100% at 50% 0%, rgba(201,169,110,0.15) 0%, transparent 60%)",
-    iconBg: "rgba(201,169,110,0.12)",
-    iconBorder: "rgba(201,169,110,0.2)",
+      "radial-gradient(ellipse 120% 100% at 50% 0%, rgba(59,130,246,0.15) 0%, transparent 60%)",
+    iconBg: "rgba(59,130,246,0.12)",
+    iconBorder: "rgba(59,130,246,0.2)",
   },
   {
     id: "apple",
@@ -82,15 +82,15 @@ const WORLDS: readonly WorldDef[] = [
     subtitle: "Enter the Neon Future",
     description: "Electric cityscapes with glitch aesthetics, neon light leaks, and raw energy.",
     gradient:
-      "linear-gradient(160deg, rgba(180,148,78,0.5) 0%, rgba(201,169,110,0.3) 50%, rgba(212,184,122,0.15) 100%)",
-    glowColor: "rgba(201,169,110,0.2)",
-    borderHover: "rgba(201,169,110,0.5)",
-    accentColor: "#c9a96e",
-    accentBorder: "rgba(201,169,110,0.4)",
+      "linear-gradient(160deg, rgba(59,130,246,0.5) 0%, rgba(59,130,246,0.3) 50%, rgba(147,197,253,0.15) 100%)",
+    glowColor: "rgba(59,130,246,0.2)",
+    borderHover: "rgba(59,130,246,0.5)",
+    accentColor: "#3B82F6",
+    accentBorder: "rgba(59,130,246,0.4)",
     previewGradient:
-      "radial-gradient(ellipse 120% 100% at 50% 0%, rgba(201,169,110,0.12) 0%, transparent 60%)",
-    iconBg: "rgba(201,169,110,0.12)",
-    iconBorder: "rgba(201,169,110,0.2)",
+      "radial-gradient(ellipse 120% 100% at 50% 0%, rgba(59,130,246,0.12) 0%, transparent 60%)",
+    iconBg: "rgba(59,130,246,0.12)",
+    iconBorder: "rgba(59,130,246,0.2)",
   },
 ] as const;
 
@@ -172,8 +172,8 @@ function SpaceBackground({ active }: { active: boolean }) {
               width: i % 3 === 0 ? 3 : 2,
               height: i % 3 === 0 ? 3 : 2,
               borderRadius: "50%",
-              background: i % 4 === 0 ? "#d4b87a" : "#c9a96e",
-              boxShadow: `0 0 ${String(i % 3 === 0 ? 6 : 3)}px ${i % 4 === 0 ? "rgba(220,200,160,0.6)" : "rgba(201,169,110,0.3)"}`,
+              background: i % 4 === 0 ? "#60A5FA" : "#3B82F6",
+              boxShadow: `0 0 ${String(i % 3 === 0 ? 6 : 3)}px ${i % 4 === 0 ? "rgba(191,219,254,0.6)" : "rgba(59,130,246,0.3)"}`,
               willChange: "transform, opacity",
               opacity: active ? undefined : 0.15,
               transition: "opacity 1s ease",
@@ -263,10 +263,10 @@ function CyberpunkBackground({ active }: { active: boolean }) {
           inset: 0,
           pointerEvents: "none",
           backgroundImage: `
-            linear-gradient(rgba(201,169,110,0.04) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(201,169,110,0.04) 1px, transparent 1px),
-            linear-gradient(rgba(201,169,110,0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(201,169,110,0.03) 1px, transparent 1px)
+            linear-gradient(rgba(59,130,246,0.04) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(59,130,246,0.04) 1px, transparent 1px),
+            linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px)
           `,
           backgroundSize: "60px 60px, 60px 60px, 20px 20px, 20px 20px",
           backgroundPosition: "-1px -1px, -1px -1px, -1px -1px, -1px -1px",
@@ -288,7 +288,7 @@ function CyberpunkBackground({ active }: { active: boolean }) {
               left: 0,
               right: 0,
               height: 1,
-              background: `linear-gradient(90deg, transparent 0%, ${i % 2 === 0 ? "rgba(201,169,110,0.2)" : "rgba(201,169,110,0.12)"} 50%, transparent 100%)`,
+              background: `linear-gradient(90deg, transparent 0%, ${i % 2 === 0 ? "rgba(59,130,246,0.2)" : "rgba(59,130,246,0.12)"} 50%, transparent 100%)`,
               transformOrigin: "left center",
               willChange: "transform, opacity",
             }}
@@ -347,7 +347,7 @@ function FloatingParticles() {
             width: i % 3 === 0 ? 2 : 1.5,
             height: i % 3 === 0 ? 2 : 1.5,
             borderRadius: "50%",
-            background: `hsla(${String(35 + (i % 3) * 5)}, 60%, 70%, 0.15)`,
+            background: `hsla(${String(210 + (i % 3) * 5)}, 60%, 70%, 0.15)`,
             willChange: "transform, opacity",
           }}
         />
@@ -382,7 +382,7 @@ function HeadingShimmer({ text }: { text: string }) {
       ref={ref}
       style={{
         background:
-          "linear-gradient(135deg, #d4b87a 0%, #c9a96e 30%, #d4b87a 50%, #c9a96e 70%, #c9a96e 100%)",
+          "linear-gradient(135deg, #60A5FA 0%, #3B82F6 30%, #60A5FA 50%, #3B82F6 70%, #3B82F6 100%)",
         backgroundSize: "200% 100%",
         WebkitBackgroundClip: "text",
         WebkitTextFillColor: "transparent",
@@ -425,7 +425,7 @@ const EnergyConnector = forwardRef<HTMLDivElement>(function EnergyConnector(_pro
         right: 0,
         height: 1,
         background:
-          "linear-gradient(90deg, transparent 0%, rgba(201,169,110,0.08) 20%, rgba(180,140,80,0.12) 40%, rgba(201,169,110,0.08) 60%, rgba(201,169,110,0.08) 80%, transparent 100%)",
+          "linear-gradient(90deg, transparent 0%, rgba(59,130,246,0.08) 20%, rgba(96,165,250,0.12) 40%, rgba(59,130,246,0.08) 60%, rgba(59,130,246,0.08) 80%, transparent 100%)",
         backgroundSize: "200% 100%",
         pointerEvents: "none",
         zIndex: 0,
@@ -577,10 +577,10 @@ function WorldCard({
         transformStyle: "preserve-3d",
         transition:
           "box-shadow 0.6s cubic-bezier(0.19,1,0.22,1), border-color 0.6s cubic-bezier(0.19,1,0.22,1), transform 0.6s cubic-bezier(0.19,1,0.22,1), filter 0.6s cubic-bezier(0.19,1,0.22,1), opacity 0.6s cubic-bezier(0.19,1,0.22,1)",
-        border: `1px solid ${isHovered ? world.borderHover : "rgba(245,240,232,0.06)"}`,
+        border: `1px solid ${isHovered ? world.borderHover : "rgba(241,245,249,0.06)"}`,
         boxShadow: isHovered
-          ? `0 0 80px ${world.glowColor}, 0 30px 60px -15px rgba(0,0,0,0.5), inset 0 1px 0 rgba(245,240,232,0.08)`
-          : "0 4px 24px -4px rgba(0,0,0,0.3), inset 0 1px 0 rgba(245,240,232,0.04)",
+          ? `0 0 80px ${world.glowColor}, 0 30px 60px -15px rgba(0,0,0,0.5), inset 0 1px 0 rgba(241,245,249,0.08)`
+          : "0 4px 24px -4px rgba(0,0,0,0.3), inset 0 1px 0 rgba(241,245,249,0.04)",
         background: world.gradient,
         minHeight: "clamp(340px, 42vh, 460px)",
         maxWidth: 440,
@@ -628,7 +628,7 @@ function WorldCard({
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(180deg, rgba(245,240,232,0.06) 0%, transparent 30%, rgba(0,0,0,0.3) 100%)",
+            "linear-gradient(180deg, rgba(241,245,249,0.06) 0%, transparent 30%, rgba(0,0,0,0.3) 100%)",
           borderRadius: 24,
           pointerEvents: "none",
         }}
@@ -641,8 +641,8 @@ function WorldCard({
           position: "absolute",
           inset: 0,
           boxShadow: isHovered
-            ? "inset 0 2px 20px rgba(245,240,232,0.04), inset 0 -4px 30px rgba(0,0,0,0.15)"
-            : "inset 0 1px 10px rgba(245,240,232,0.02), inset 0 -2px 20px rgba(0,0,0,0.1)",
+            ? "inset 0 2px 20px rgba(241,245,249,0.04), inset 0 -4px 30px rgba(0,0,0,0.15)"
+            : "inset 0 1px 10px rgba(241,245,249,0.02), inset 0 -2px 20px rgba(0,0,0,0.1)",
           borderRadius: 24,
           transition: "box-shadow 0.6s cubic-bezier(0.19,1,0.22,1)",
           pointerEvents: "none",
@@ -708,9 +708,9 @@ function WorldCard({
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              background: isHovered ? world.iconBg : "rgba(245,240,232,0.05)",
+              background: isHovered ? world.iconBg : "rgba(241,245,249,0.05)",
               backdropFilter: "blur(16px)",
-              border: `1px solid ${isHovered ? world.iconBorder : "rgba(245,240,232,0.08)"}`,
+              border: `1px solid ${isHovered ? world.iconBorder : "rgba(241,245,249,0.08)"}`,
               fontSize: "1.375rem",
               transition: "all 0.6s cubic-bezier(0.19,1,0.22,1)",
               transform: isHovered ? "scale(1.1) rotate(-3deg)" : "scale(1) rotate(0deg)",
@@ -724,11 +724,11 @@ function WorldCard({
               fontSize: "0.625rem",
               letterSpacing: "0.15em",
               textTransform: "uppercase",
-              color: isHovered ? "rgba(245,240,232,0.55)" : "rgba(245,240,232,0.3)",
+              color: isHovered ? "rgba(241,245,249,0.55)" : "rgba(241,245,249,0.3)",
               padding: "5px 12px",
               borderRadius: 8,
-              background: isHovered ? "rgba(245,240,232,0.07)" : "rgba(245,240,232,0.03)",
-              border: `1px solid ${isHovered ? "rgba(245,240,232,0.12)" : "rgba(245,240,232,0.05)"}`,
+              background: isHovered ? "rgba(241,245,249,0.07)" : "rgba(241,245,249,0.03)",
+              border: `1px solid ${isHovered ? "rgba(241,245,249,0.12)" : "rgba(241,245,249,0.05)"}`,
               transition: "all 0.6s cubic-bezier(0.19,1,0.22,1)",
             }}
           >
@@ -747,7 +747,7 @@ function WorldCard({
               fontSize: "clamp(0.625rem, 0.8vw, 0.6875rem)",
               letterSpacing: "0.2em",
               textTransform: "uppercase",
-              color: "rgba(245,240,232,0.35)",
+              color: "rgba(241,245,249,0.35)",
               display: "block",
               marginBottom: "clamp(0.5rem, 1vw, 0.75rem)",
             }}
@@ -762,7 +762,7 @@ function WorldCard({
               fontWeight: 700,
               letterSpacing: "-0.03em",
               lineHeight: 1.05,
-              color: "#f5f0e8",
+              color: "#F1F5F9",
               margin: "0 0 clamp(0.5rem, 1vw, 0.75rem) 0",
               transition: "color 0.6s cubic-bezier(0.19,1,0.22,1)",
             }}
@@ -1172,7 +1172,7 @@ export function WorldSelection({ visible, onExit }: { visible: boolean; onExit: 
         justifyContent: "center",
         padding: "clamp(1.5rem, 4vw, 4rem)",
         background:
-          "radial-gradient(ellipse 80% 70% at 50% 45%, rgba(8,7,6,1) 0%, rgba(8,7,6,1) 100%)",
+          "radial-gradient(ellipse 80% 70% at 50% 45%, rgba(11,15,26,1) 0%, rgba(11,15,26,1) 100%)",
         overflow: "auto",
       }}
     >
@@ -1214,7 +1214,7 @@ export function WorldSelection({ visible, onExit }: { visible: boolean; onExit: 
             maxWidth: 700,
             maxHeight: 700,
             borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(201,169,110,0.06) 0%, transparent 60%)",
+            background: "radial-gradient(circle, rgba(59,130,246,0.06) 0%, transparent 60%)",
             filter: "blur(100px)",
             willChange: "transform",
           }}
@@ -1230,7 +1230,7 @@ export function WorldSelection({ visible, onExit }: { visible: boolean; onExit: 
             maxWidth: 600,
             maxHeight: 600,
             borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(180,140,80,0.05) 0%, transparent 60%)",
+            background: "radial-gradient(circle, rgba(96,165,250,0.05) 0%, transparent 60%)",
             filter: "blur(90px)",
             willChange: "transform",
           }}
@@ -1247,7 +1247,7 @@ export function WorldSelection({ visible, onExit }: { visible: boolean; onExit: 
             maxWidth: 900,
             maxHeight: 900,
             borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(201,169,110,0.03) 0%, transparent 50%)",
+            background: "radial-gradient(circle, rgba(59,130,246,0.03) 0%, transparent 50%)",
             filter: "blur(120px)",
             willChange: "transform",
           }}
@@ -1284,8 +1284,8 @@ export function WorldSelection({ visible, onExit }: { visible: boolean; onExit: 
           display: "flex",
           alignItems: "center",
           gap: 8,
-          background: "rgba(245,240,232,0.04)",
-          border: "1px solid rgba(245,240,232,0.08)",
+          background: "rgba(241,245,249,0.04)",
+          border: "1px solid rgba(241,245,249,0.08)",
           borderRadius: 10,
           color: "rgba(226,232,240,0.6)",
           fontFamily: "var(--font-mono)",
@@ -1320,7 +1320,7 @@ export function WorldSelection({ visible, onExit }: { visible: boolean; onExit: 
             fontWeight: 400,
             letterSpacing: "0.35em",
             textTransform: "uppercase",
-            color: "rgba(245,240,232,0.3)",
+            color: "rgba(241,245,249,0.3)",
             display: "block",
             marginBottom: "clamp(0.75rem, 1.5vw, 1rem)",
           }}
@@ -1335,7 +1335,7 @@ export function WorldSelection({ visible, onExit }: { visible: boolean; onExit: 
             fontWeight: 700,
             letterSpacing: "-0.04em",
             lineHeight: 1.05,
-            color: "#f5f0e8",
+            color: "#F1F5F9",
             margin: 0,
           }}
         >
@@ -1384,7 +1384,7 @@ export function WorldSelection({ visible, onExit }: { visible: boolean; onExit: 
           fontSize: "0.5625rem",
           letterSpacing: "0.15em",
           textTransform: "uppercase",
-          color: "rgba(245,240,232,0.2)",
+          color: "rgba(241,245,249,0.2)",
         }}
       >
         <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
@@ -1393,8 +1393,8 @@ export function WorldSelection({ visible, onExit }: { visible: boolean; onExit: 
               padding: "2px 6px",
               borderRadius: 4,
               fontSize: "0.5rem",
-              background: "rgba(245,240,232,0.05)",
-              border: "1px solid rgba(245,240,232,0.08)",
+              background: "rgba(241,245,249,0.05)",
+              border: "1px solid rgba(241,245,249,0.08)",
             }}
           >
             ←
@@ -1404,8 +1404,8 @@ export function WorldSelection({ visible, onExit }: { visible: boolean; onExit: 
               padding: "2px 6px",
               borderRadius: 4,
               fontSize: "0.5rem",
-              background: "rgba(245,240,232,0.05)",
-              border: "1px solid rgba(245,240,232,0.08)",
+              background: "rgba(241,245,249,0.05)",
+              border: "1px solid rgba(241,245,249,0.08)",
             }}
           >
             →
@@ -1418,8 +1418,8 @@ export function WorldSelection({ visible, onExit }: { visible: boolean; onExit: 
               padding: "2px 8px",
               borderRadius: 4,
               fontSize: "0.5rem",
-              background: "rgba(245,240,232,0.05)",
-              border: "1px solid rgba(245,240,232,0.08)",
+              background: "rgba(241,245,249,0.05)",
+              border: "1px solid rgba(241,245,249,0.08)",
             }}
           >
             ⏎
@@ -1432,8 +1432,8 @@ export function WorldSelection({ visible, onExit }: { visible: boolean; onExit: 
               padding: "2px 8px",
               borderRadius: 4,
               fontSize: "0.5rem",
-              background: "rgba(245,240,232,0.05)",
-              border: "1px solid rgba(245,240,232,0.08)",
+              background: "rgba(241,245,249,0.05)",
+              border: "1px solid rgba(241,245,249,0.08)",
             }}
           >
             Esc

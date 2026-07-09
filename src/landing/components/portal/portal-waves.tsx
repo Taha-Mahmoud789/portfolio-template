@@ -156,8 +156,8 @@ export function PortalWaves({ phase }: { phase: string }) {
             width: size,
             height: size,
             borderRadius: "50%",
-            border: `${String(2 - i * 0.25)}px solid rgba(201, 169, 110, ${String(0.2 - i * 0.025)})`,
-            boxShadow: `0 0 ${String(25 + i * 10)}px rgba(201, 169, 110, ${String(0.08 - i * 0.01)})`,
+            border: `${String(2 - i * 0.25)}px solid rgba(59, 130, 246, ${String(0.2 - i * 0.025)})`,
+            boxShadow: `0 0 ${String(25 + i * 10)}px rgba(59, 130, 246, ${String(0.08 - i * 0.01)})`,
             opacity: 0,
             willChange: "transform, opacity",
           }}

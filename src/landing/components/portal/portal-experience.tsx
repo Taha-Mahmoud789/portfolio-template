@@ -427,7 +427,7 @@ export function PortalExperience({ children }: PortalExperienceProps) {
           zIndex: 105,
           borderRadius: "50%",
           background:
-            "radial-gradient(circle, rgba(220, 200, 160, 0.95) 0%, rgba(212, 184, 122, 0.6) 25%, rgba(201, 169, 110, 0.25) 55%, transparent 75%)",
+            "radial-gradient(circle, rgba(191, 219, 254, 0.95) 0%, rgba(147, 197, 253, 0.6) 25%, rgba(59, 130, 246, 0.25) 55%, transparent 75%)",
           opacity: 0,
           pointerEvents: "none",
           willChange: "transform, opacity",

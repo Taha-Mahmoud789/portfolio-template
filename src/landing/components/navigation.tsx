@@ -54,7 +54,7 @@ function CharLink({ href, label, isActive, onClick }: CharLinkProps) {
         fontWeight: 500,
         letterSpacing: "0.06em",
         textTransform: "uppercase",
-        color: isActive ? "#f5f0e8" : "rgba(180, 170, 155, 0.45)",
+        color: isActive ? "#F1F5F9" : "rgba(100, 116, 139, 0.5)",
         transition: "color 0.3s ease",
         height: "1em",
       }}
@@ -65,7 +65,7 @@ function CharLink({ href, label, isActive, onClick }: CharLinkProps) {
         className="absolute bottom-[-4px] left-0 h-[1px] origin-left transition-transform duration-300 ease-out"
         style={{
           width: "100%",
-          background: "rgba(245, 240, 232, 0.6)",
+          background: "rgba(241, 245, 249, 0.6)",
           transform: isActive ? "scaleX(1)" : "scaleX(0)",
         }}
         aria-hidden="true"
@@ -74,7 +74,7 @@ function CharLink({ href, label, isActive, onClick }: CharLinkProps) {
         className="absolute bottom-[-4px] left-0 h-[1px] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"
         style={{
           width: "100%",
-          background: "rgba(245, 240, 232, 0.4)",
+          background: "rgba(241, 245, 249, 0.4)",
         }}
         aria-hidden="true"
       />
@@ -150,9 +150,9 @@ function Hamburger({ isOpen, onClick }: HamburgerProps) {
       aria-expanded={isOpen}
       aria-controls="creative-menu"
     >
-      <span ref={line1Ref} className="block w-5 h-[1.5px] bg-[#f5f0e8]/70 origin-center" />
-      <span ref={line2Ref} className="block w-5 h-[1.5px] bg-[#f5f0e8]/70 origin-center" />
-      <span ref={line3Ref} className="block w-5 h-[1.5px] bg-[#f5f0e8]/70 origin-center" />
+      <span ref={line1Ref} className="block w-5 h-[1.5px] bg-[#F1F5F9]/70 origin-center" />
+      <span ref={line2Ref} className="block w-5 h-[1.5px] bg-[#F1F5F9]/70 origin-center" />
+      <span ref={line3Ref} className="block w-5 h-[1.5px] bg-[#F1F5F9]/70 origin-center" />
     </button>
   );
 }
@@ -196,7 +196,7 @@ function ScrollProgress() {
       className="absolute top-0 left-0 right-0 h-[1px] origin-left"
       style={{
         transform: "scaleX(0)",
-        background: "linear-gradient(90deg, rgba(201, 169, 110, 0.2), rgba(201, 169, 110, 0.05))",
+        background: "linear-gradient(90deg, rgba(59, 130, 246, 0.2), rgba(59, 130, 246, 0.05))",
       }}
       aria-hidden="true"
     />
@@ -371,11 +371,11 @@ export function Navigation() {
             maxWidth: 1200,
             padding: scrolled ? "0.75rem 1.5rem" : "0.875rem 2rem",
             borderRadius: scrolled ? 14 : 16,
-            background: scrolled ? "rgba(8, 7, 6, 0.85)" : "rgba(8, 7, 6, 0.4)",
+            background: scrolled ? "rgba(11, 15, 26, 0.85)" : "rgba(11, 15, 26, 0.4)",
             backdropFilter: "blur(20px) saturate(150%)",
             WebkitBackdropFilter: "blur(20px) saturate(150%)",
-            border: scrolled ? "1px solid rgba(245, 240, 232, 0.04)" : "1px solid transparent",
-            boxShadow: scrolled ? "0 0 0 1px rgba(245, 240, 232, 0.03)" : "none",
+            border: scrolled ? "1px solid rgba(241, 245, 249, 0.06)" : "1px solid transparent",
+            boxShadow: scrolled ? "0 0 0 1px rgba(241, 245, 249, 0.04)" : "none",
           }}
         >
           {/* Logo */}
@@ -412,9 +412,9 @@ export function Navigation() {
                 onClick={handleMultiverseEnter}
                 className="inline-flex items-center rounded-full px-4 py-2 text-[10px] font-medium uppercase tracking-[0.14em] transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/30"
                 style={{
-                  color: "rgba(201, 169, 110, 0.5)",
-                  border: "1px solid rgba(201, 169, 110, 0.12)",
-                  background: "rgba(201, 169, 110, 0.03)",
+                  color: "rgba(59, 130, 246, 0.6)",
+                  border: "1px solid rgba(59, 130, 246, 0.15)",
+                  background: "rgba(59, 130, 246, 0.04)",
                 }}
                 aria-label="Enter Multiverse"
               >
@@ -423,7 +423,7 @@ export function Navigation() {
                     width: 5,
                     height: 5,
                     borderRadius: "50%",
-                    background: "rgba(201, 169, 110, 0.4)",
+                    background: "rgba(59, 130, 246, 0.5)",
                     marginRight: 8,
                   }}
                   aria-hidden="true"
@@ -440,7 +440,7 @@ export function Navigation() {
                 }}
                 className="inline-flex items-center rounded-full px-5 py-2 text-[11px] font-medium uppercase tracking-[0.12em] text-white/70 border transition-all duration-300 hover:text-white hover:border-white/20 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/30"
                 style={{
-                  borderColor: "rgba(245, 240, 232, 0.08)",
+                  borderColor: "rgba(241, 245, 249, 0.1)",
                 }}
               >
                 Let&apos;s talk

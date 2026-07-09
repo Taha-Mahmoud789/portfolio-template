@@ -119,172 +119,248 @@ export function Footer() {
   );
 
   return (
-    <footer
-      ref={sectionRef}
-      role="contentinfo"
-      aria-label="Site footer"
-      style={{
-        position: "relative",
-        background: "#080706",
-        overflow: "hidden",
-      }}
-    >
-      {/* Top divider */}
-      <div
-        aria-hidden="true"
+    <>
+      <style>{`
+        @keyframes pulse {
+          0%, 100% { opacity: 0.5; }
+          50% { opacity: 1; }
+        }
+      `}</style>
+      <footer
+        ref={sectionRef}
+        role="contentinfo"
+        aria-label="Site footer"
         style={{
-          position: "absolute",
-          top: 0,
-          left: "10%",
-          right: "10%",
-          height: 1,
-          background:
-            "linear-gradient(90deg, transparent, rgba(245,240,232,0.04) 50%, transparent)",
-        }}
-      />
-
-      {/* ── Logo + CTA ──────────────────────────────────────── */}
-      <div
-        ref={ctaRef}
-        style={{
-          padding: "clamp(3rem, 8vh, 5rem) clamp(2rem, 6vw, 6rem) 0",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: "clamp(1.5rem, 3vh, 2.5rem)",
+          position: "relative",
+          background: "#0B0F1A",
+          overflow: "hidden",
         }}
       >
-        {/* Logo */}
-        <a
-          href="/"
-          aria-label="Taha Mahmoud — Home"
+        {/* Top divider */}
+        <div
+          aria-hidden="true"
           style={{
-            display: "inline-flex",
-            textDecoration: "none",
-            transition: "opacity 0.3s ease",
+            position: "absolute",
+            top: 0,
+            left: "10%",
+            right: "10%",
+            height: 1,
+            background:
+              "linear-gradient(90deg, transparent, rgba(241,245,249,0.04) 50%, transparent)",
           }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.opacity = "0.8";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.opacity = "1";
+        />
+
+        {/* ── Logo + CTA ──────────────────────────────────────── */}
+        <div
+          ref={ctaRef}
+          style={{
+            padding: "clamp(3rem, 8vh, 5rem) clamp(2rem, 6vw, 6rem) 0",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "clamp(1.5rem, 3vh, 2.5rem)",
           }}
         >
-          <Logo size="footer" />
-        </a>
+          {/* Logo */}
+          <a
+            href="/"
+            aria-label="Taha Mahmoud — Home"
+            style={{
+              display: "inline-flex",
+              textDecoration: "none",
+              transition: "opacity 0.3s ease",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.opacity = "0.8";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.opacity = "1";
+            }}
+          >
+            <Logo size="footer" />
+          </a>
 
-        {/* CTA */}
-        <div style={{ textAlign: "center" }}>
-          <p
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: "0.7rem",
-              fontWeight: 500,
-              letterSpacing: "0.2em",
-              textTransform: "uppercase",
-              color: "rgba(180, 170, 155, 0.35)",
-              margin: "0 0 clamp(0.75rem, 1.5vw, 1rem) 0",
-            }}
-          >
-            Currently available
-          </p>
-          <h2
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "clamp(2.5rem, 7vw, 5.5rem)",
-              fontWeight: 600,
-              letterSpacing: "-0.04em",
-              lineHeight: 0.9,
-              margin: 0,
-              color: "rgba(245, 240, 232, 0.95)",
-            }}
-          >
-            Let&apos;s{" "}
-            <span
+          {/* CTA */}
+          <div style={{ textAlign: "center" }}>
+            <p
               style={{
-                background: "linear-gradient(135deg, #c9a96e, #d4b87a, #b8944e)",
-                backgroundClip: "text",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
+                fontFamily: "var(--font-mono)",
+                fontSize: "0.7rem",
+                fontWeight: 500,
+                letterSpacing: "0.2em",
+                textTransform: "uppercase",
+                color: "rgba(100, 116, 139, 0.4)",
+                margin: "0 0 clamp(0.75rem, 1.5vw, 1rem) 0",
               }}
             >
-              Talk
-            </span>
-          </h2>
-        </div>
+              <span
+                style={{
+                  display: "inline-block",
+                  width: 6,
+                  height: 6,
+                  borderRadius: "50%",
+                  background: "rgba(59, 130, 246, 0.5)",
+                  marginRight: 8,
+                  verticalAlign: "middle",
+                  animation: "pulse 2s ease-in-out infinite",
+                }}
+              />
+              Currently available
+            </p>
+            <h2
+              style={{
+                fontFamily: "var(--font-display)",
+                fontSize: "clamp(2.5rem, 7vw, 5.5rem)",
+                fontWeight: 600,
+                letterSpacing: "-0.04em",
+                lineHeight: 0.9,
+                margin: 0,
+                color: "rgba(241, 245, 249, 0.95)",
+              }}
+            >
+              Let&apos;s{" "}
+              <span
+                style={{
+                  background:
+                    "linear-gradient(135deg, rgba(241,245,249,1) 0%, rgba(59,130,246,0.8) 50%, rgba(6,182,212,0.6) 100%)",
+                  backgroundClip: "text",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                Talk
+              </span>
+            </h2>
+          </div>
 
-        <a
-          href="mailto:hello@taha.dev"
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "10px",
-            padding: "14px 32px",
-            borderRadius: "60px",
-            background: "rgba(245, 240, 232, 0.95)",
-            color: "#080706",
-            fontFamily: "var(--font-display)",
-            fontSize: "0.9rem",
-            fontWeight: 600,
-            letterSpacing: "0.01em",
-            textDecoration: "none",
-            transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
-            boxShadow: "0 20px 50px rgba(8, 7, 6, 0.4)",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = "translateY(-2px) scale(1.02)";
-            e.currentTarget.style.boxShadow = "0 28px 70px rgba(8, 7, 6, 0.5)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = "translateY(0) scale(1)";
-            e.currentTarget.style.boxShadow = "0 20px 50px rgba(8, 7, 6, 0.4)";
-          }}
-        >
-          Say hello
-          <svg
-            width="15"
-            height="15"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <line x1="7" y1="17" x2="17" y2="7" />
-            <polyline points="7 7 17 7 17 17" />
-          </svg>
-        </a>
-      </div>
-
-      {/* ── Grid Section — 3 columns ──────────────────────── */}
-      <div
-        ref={gridRef}
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr 1fr",
-          gap: "clamp(2rem, 4vw, 3rem)",
-          padding: "clamp(2rem, 4vh, 3rem) clamp(2rem, 6vw, 6rem)",
-          maxWidth: "1000px",
-          margin: "0 auto",
-        }}
-      >
-        {/* Navigation Column */}
-        <div data-footer-col>
-          <h3
+          <a
+            href="mailto:hello@taha.dev"
             style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: "0.6rem",
-              fontWeight: 500,
-              letterSpacing: "0.2em",
-              textTransform: "uppercase",
-              color: "rgba(180, 170, 155, 0.3)",
-              margin: "0 0 clamp(0.75rem, 1.5vw, 1rem) 0",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "10px",
+              padding: "14px 32px",
+              borderRadius: "60px",
+              background: "rgba(241, 245, 249, 0.95)",
+              color: "#0B0F1A",
+              fontFamily: "var(--font-display)",
+              fontSize: "0.9rem",
+              fontWeight: 600,
+              letterSpacing: "0.01em",
+              textDecoration: "none",
+              transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
+              boxShadow: "0 20px 50px rgba(11, 15, 26, 0.4)",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translateY(-2px) scale(1.02)";
+              e.currentTarget.style.boxShadow = "0 28px 70px rgba(11, 15, 26, 0.5)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translateY(0) scale(1)";
+              e.currentTarget.style.boxShadow = "0 20px 50px rgba(11, 15, 26, 0.4)";
             }}
           >
-            Navigation
-          </h3>
-          <nav aria-label="Footer navigation">
+            Say hello
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <line x1="7" y1="17" x2="17" y2="7" />
+              <polyline points="7 7 17 7 17 17" />
+            </svg>
+          </a>
+        </div>
+
+        {/* ── Grid Section — 3 columns ──────────────────────── */}
+        <div
+          ref={gridRef}
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr 1fr",
+            gap: "clamp(2rem, 4vw, 3rem)",
+            padding: "clamp(2rem, 4vh, 3rem) clamp(2rem, 6vw, 6rem)",
+            maxWidth: "1000px",
+            margin: "0 auto",
+          }}
+        >
+          {/* Navigation Column */}
+          <div data-footer-col>
+            <h3
+              style={{
+                fontFamily: "var(--font-mono)",
+                fontSize: "0.6rem",
+                fontWeight: 500,
+                letterSpacing: "0.2em",
+                textTransform: "uppercase",
+                color: "rgba(100, 116, 139, 0.3)",
+                margin: "0 0 clamp(0.75rem, 1.5vw, 1rem) 0",
+              }}
+            >
+              Navigation
+            </h3>
+            <nav aria-label="Footer navigation">
+              <ul
+                style={{
+                  listStyle: "none",
+                  margin: 0,
+                  padding: 0,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "clamp(0.4rem, 0.8vw, 0.6rem)",
+                }}
+              >
+                {FOOTER_NAV_LINKS.map((link) => (
+                  <li key={link.href}>
+                    <a
+                      href={link.href}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleNavClick(link.href);
+                      }}
+                      style={{
+                        fontFamily: "var(--font-display)",
+                        fontSize: "clamp(0.8rem, 1vw, 0.9rem)",
+                        fontWeight: 500,
+                        color: "rgba(100, 116, 139, 0.4)",
+                        textDecoration: "none",
+                        transition: "color 0.3s ease",
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.color = "rgba(241, 245, 249, 0.9)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.color = "rgba(100, 116, 139, 0.4)";
+                      }}
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+
+          {/* Connect Column */}
+          <div data-footer-col>
+            <h3
+              style={{
+                fontFamily: "var(--font-mono)",
+                fontSize: "0.6rem",
+                fontWeight: 500,
+                letterSpacing: "0.2em",
+                textTransform: "uppercase",
+                color: "rgba(100, 116, 139, 0.3)",
+                margin: "0 0 clamp(0.75rem, 1.5vw, 1rem) 0",
+              }}
+            >
+              Connect
+            </h3>
             <ul
               style={{
                 listStyle: "none",
@@ -295,245 +371,190 @@ export function Footer() {
                 gap: "clamp(0.4rem, 0.8vw, 0.6rem)",
               }}
             >
-              {FOOTER_NAV_LINKS.map((link) => (
-                <li key={link.href}>
-                  <a
-                    href={link.href}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleNavClick(link.href);
-                    }}
-                    style={{
-                      fontFamily: "var(--font-display)",
-                      fontSize: "clamp(0.8rem, 1vw, 0.9rem)",
-                      fontWeight: 500,
-                      color: "rgba(180, 170, 155, 0.35)",
-                      textDecoration: "none",
-                      transition: "color 0.3s ease",
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.color = "rgba(245, 240, 232, 0.85)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.color = "rgba(180, 170, 155, 0.35)";
-                    }}
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
+              {SOCIAL_LINKS.map((link) => {
+                const icon = FOOTER_SOCIAL_ICONS[link.label];
+                return (
+                  <li key={link.label}>
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={link.ariaLabel}
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "8px",
+                        fontFamily: "var(--font-display)",
+                        fontSize: "clamp(0.8rem, 1vw, 0.9rem)",
+                        fontWeight: 500,
+                        color: "rgba(100, 116, 139, 0.4)",
+                        textDecoration: "none",
+                        transition: "color 0.3s ease",
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.color = "rgba(241, 245, 249, 0.9)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.color = "rgba(100, 116, 139, 0.4)";
+                      }}
+                    >
+                      <span style={{ display: "inline-flex", opacity: 0.5 }}>{icon}</span>
+                      {link.label}
+                    </a>
+                  </li>
+                );
+              })}
             </ul>
-          </nav>
+          </div>
+
+          {/* Location Column */}
+          <div data-footer-col>
+            <h3
+              style={{
+                fontFamily: "var(--font-mono)",
+                fontSize: "0.6rem",
+                fontWeight: 500,
+                letterSpacing: "0.2em",
+                textTransform: "uppercase",
+                color: "rgba(100, 116, 139, 0.3)",
+                margin: "0 0 clamp(0.75rem, 1.5vw, 1rem) 0",
+              }}
+            >
+              Based in
+            </h3>
+            <p
+              style={{
+                fontFamily: "var(--font-display)",
+                fontSize: "clamp(0.8rem, 1vw, 0.9rem)",
+                fontWeight: 500,
+                color: "rgba(100, 116, 139, 0.4)",
+                margin: 0,
+                lineHeight: 1.6,
+              }}
+            >
+              Cairo, Egypt
+            </p>
+            <p
+              style={{
+                fontFamily: "var(--font-mono)",
+                fontSize: "0.65rem",
+                color: "rgba(59, 130, 246, 0.55)",
+                margin: "10px 0 0 0",
+                letterSpacing: "0.05em",
+              }}
+            >
+              Open to remote work
+            </p>
+          </div>
         </div>
 
-        {/* Connect Column */}
-        <div data-footer-col>
-          <h3
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: "0.6rem",
-              fontWeight: 500,
-              letterSpacing: "0.2em",
-              textTransform: "uppercase",
-              color: "rgba(180, 170, 155, 0.3)",
-              margin: "0 0 clamp(0.75rem, 1.5vw, 1rem) 0",
-            }}
-          >
-            Connect
-          </h3>
-          <ul
-            style={{
-              listStyle: "none",
-              margin: 0,
-              padding: 0,
-              display: "flex",
-              flexDirection: "column",
-              gap: "clamp(0.4rem, 0.8vw, 0.6rem)",
-            }}
-          >
-            {SOCIAL_LINKS.map((link) => {
-              const icon = FOOTER_SOCIAL_ICONS[link.label];
-              return (
-                <li key={link.label}>
-                  <a
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={link.ariaLabel}
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "8px",
-                      fontFamily: "var(--font-display)",
-                      fontSize: "clamp(0.8rem, 1vw, 0.9rem)",
-                      fontWeight: 500,
-                      color: "rgba(180, 170, 155, 0.35)",
-                      textDecoration: "none",
-                      transition: "color 0.3s ease",
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.color = "rgba(245, 240, 232, 0.85)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.color = "rgba(180, 170, 155, 0.35)";
-                    }}
-                  >
-                    <span style={{ display: "inline-flex", opacity: 0.5 }}>{icon}</span>
-                    {link.label}
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-
-        {/* Location Column */}
-        <div data-footer-col>
-          <h3
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: "0.6rem",
-              fontWeight: 500,
-              letterSpacing: "0.2em",
-              textTransform: "uppercase",
-              color: "rgba(180, 170, 155, 0.3)",
-              margin: "0 0 clamp(0.75rem, 1.5vw, 1rem) 0",
-            }}
-          >
-            Based in
-          </h3>
-          <p
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "clamp(0.8rem, 1vw, 0.9rem)",
-              fontWeight: 500,
-              color: "rgba(180, 170, 155, 0.35)",
-              margin: 0,
-              lineHeight: 1.6,
-            }}
-          >
-            Cairo, Egypt
-          </p>
-          <p
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: "0.65rem",
-              color: "rgba(201, 169, 110, 0.55)",
-              margin: "10px 0 0 0",
-              letterSpacing: "0.05em",
-            }}
-          >
-            Open to remote work
-          </p>
-        </div>
-      </div>
-
-      {/* ── Bottom Bar ────────────────────────────────────── */}
-      <div
-        ref={bottomRef}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          flexWrap: "wrap",
-          gap: "0.75rem",
-          padding: "clamp(1rem, 2vh, 1.5rem) clamp(2rem, 6vw, 6rem)",
-          borderTop: "1px solid rgba(245, 240, 232, 0.03)",
-        }}
-      >
-        <p
+        {/* ── Bottom Bar ────────────────────────────────────── */}
+        <div
+          ref={bottomRef}
           style={{
-            fontFamily: "var(--font-mono)",
-            fontSize: "0.6rem",
-            fontWeight: 400,
-            letterSpacing: "0.08em",
-            color: "rgba(180, 170, 155, 0.2)",
-            margin: 0,
             display: "flex",
             alignItems: "center",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
             gap: "0.75rem",
+            padding: "clamp(1rem, 2vh, 1.5rem) clamp(2rem, 6vw, 6rem)",
+            borderTop: "1px solid rgba(241, 245, 249, 0.03)",
           }}
         >
-          <span>&copy; {new Date().getFullYear()} Taha Mahmoud</span>
-          <span
-            aria-hidden="true"
+          <p
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: "0.6rem",
+              fontWeight: 400,
+              letterSpacing: "0.08em",
+              color: "rgba(100, 116, 139, 0.2)",
+              margin: 0,
+              display: "flex",
+              alignItems: "center",
+              gap: "0.75rem",
+            }}
+          >
+            <span>&copy; {new Date().getFullYear()} Taha Mahmoud</span>
+            <span
+              aria-hidden="true"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "4px",
+                color: "rgba(100, 116, 139, 0.12)",
+              }}
+            >
+              <span
+                style={{
+                  padding: "1px 5px",
+                  borderRadius: 3,
+                  border: "1px solid rgba(100, 116, 139, 0.1)",
+                  fontSize: "0.55rem",
+                }}
+              >
+                ⌘K
+              </span>
+            </span>
+          </p>
+
+          {/* Back to top */}
+          <button
+            type="button"
+            onClick={() => {
+              scrollTo("#hero");
+            }}
             style={{
               display: "inline-flex",
               alignItems: "center",
-              gap: "4px",
-              color: "rgba(180, 170, 155, 0.12)",
+              gap: "6px",
+              fontFamily: "var(--font-mono)",
+              fontSize: "0.6rem",
+              fontWeight: 400,
+              letterSpacing: "0.08em",
+              color: "rgba(100, 116, 139, 0.25)",
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              padding: 0,
+              transition: "color 0.3s ease",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = "rgba(241, 245, 249, 0.65)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = "rgba(100, 116, 139, 0.25)";
+            }}
+            aria-label="Back to top"
+          >
+            Back to top
+            <svg
+              width="10"
+              height="10"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <polyline points="18 15 12 9 6 15" />
+            </svg>
+          </button>
+
+          <p
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: "0.6rem",
+              fontWeight: 400,
+              letterSpacing: "0.08em",
+              color: "rgba(100, 116, 139, 0.15)",
+              margin: 0,
             }}
           >
-            <span
-              style={{
-                padding: "1px 5px",
-                borderRadius: 3,
-                border: "1px solid rgba(180, 170, 155, 0.1)",
-                fontSize: "0.55rem",
-              }}
-            >
-              ⌘K
-            </span>
-          </span>
-        </p>
-
-        {/* Back to top */}
-        <button
-          type="button"
-          onClick={() => {
-            scrollTo("#hero");
-          }}
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "6px",
-            fontFamily: "var(--font-mono)",
-            fontSize: "0.6rem",
-            fontWeight: 400,
-            letterSpacing: "0.08em",
-            color: "rgba(180, 170, 155, 0.25)",
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            padding: 0,
-            transition: "color 0.3s ease",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.color = "rgba(245, 240, 232, 0.65)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.color = "rgba(180, 170, 155, 0.25)";
-          }}
-          aria-label="Back to top"
-        >
-          Back to top
-          <svg
-            width="10"
-            height="10"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <polyline points="18 15 12 9 6 15" />
-          </svg>
-        </button>
-
-        <p
-          style={{
-            fontFamily: "var(--font-mono)",
-            fontSize: "0.6rem",
-            fontWeight: 400,
-            letterSpacing: "0.08em",
-            color: "rgba(180, 170, 155, 0.15)",
-            margin: 0,
-          }}
-        >
-          Crafted with care.
-        </p>
-      </div>
-    </footer>
+            Crafted with care.
+          </p>
+        </div>
+      </footer>
+    </>
   );
 }

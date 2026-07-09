@@ -1,8 +1,8 @@
 /**
- * Process Section — TRIONN-inspired numbered steps
+ * Process Section — Horizontal timeline layout
  *
- * Horizontal/vertical journey. Large numbers.
- * 01, 02, 03. Not cards. Editorial layout.
+ * Steps displayed in a horizontal row on desktop, vertical on mobile.
+ * Each step is a glass card with a connecting line and circular node.
  */
 
 import { useRef, useEffect } from "react";
@@ -36,7 +36,6 @@ export function Process() {
         ctx = gsap.context(() => {
           const tl = gsap.timeline({ defaults: { ease: ANIMATION_EASINGS.expoOut } });
 
-          // Header — clip-path mask reveal per line
           if (headerRef.current) {
             const lines = headerRef.current.querySelectorAll<HTMLElement>("[data-header-line]");
             if (lines.length > 0) {
@@ -44,53 +43,27 @@ export function Process() {
                 tl.fromTo(
                   line,
                   { clipPath: "inset(0 100% 0 0)", opacity: 1 },
-                  {
-                    clipPath: "inset(0 0% 0 0)",
-                    duration: 0.9,
-                  },
+                  { clipPath: "inset(0 0% 0 0)", duration: 0.9 },
                   i * 0.15,
                 );
               });
             }
           }
 
-          // Steps — staggered clip-path reveal
           if (stepsRef.current) {
-            const stepItems = stepsRef.current.querySelectorAll<HTMLElement>("[data-process-step]");
-            if (stepItems.length > 0) {
-              stepItems.forEach((step, i) => {
-                const number = step.querySelector<HTMLElement>("[data-step-number]");
-                const content = step.querySelector<HTMLElement>("[data-step-content]");
-
-                const stepTl = gsap.timeline();
-
-                // Number — clip-path reveal
-                if (number) {
-                  stepTl.fromTo(
-                    number,
-                    { clipPath: "inset(0 0 100% 0)", opacity: 1 },
-                    {
-                      clipPath: "inset(0 0 0% 0)",
-                      duration: 0.8,
-                    },
-                    0,
-                  );
-                }
-
-                // Content — clip-path reveal
-                if (content) {
-                  stepTl.fromTo(
-                    content,
-                    { clipPath: "inset(0 0 100% 0)", opacity: 1 },
-                    {
-                      clipPath: "inset(0 0 0% 0)",
-                      duration: 0.8,
-                    },
-                    0.15,
-                  );
-                }
-
-                tl.add(stepTl, i * 0.2);
+            const stepCards = stepsRef.current.querySelectorAll<HTMLElement>("[data-process-step]");
+            if (stepCards.length > 0) {
+              stepCards.forEach((card, i) => {
+                gsap.fromTo(
+                  card,
+                  { y: 40, opacity: 0 },
+                  {
+                    y: 0,
+                    opacity: 1,
+                    duration: 0.8,
+                    delay: i * 0.15,
+                  },
+                );
               });
             }
           }
@@ -115,10 +88,9 @@ export function Process() {
       style={{
         position: "relative",
         padding: "clamp(5rem, 12vh, 10rem) clamp(1.5rem, 5vw, 6rem)",
-        background: "#080706",
+        background: "#0B0F1A",
       }}
     >
-      {/* Top divider */}
       <div
         aria-hidden="true"
         style={{
@@ -128,18 +100,12 @@ export function Process() {
           right: "10%",
           height: 1,
           background:
-            "linear-gradient(90deg, transparent 0%, rgba(245, 240, 232, 0.06) 50%, transparent 100%)",
+            "linear-gradient(90deg, transparent 0%, rgba(241, 245, 249, 0.06) 50%, transparent 100%)",
         }}
       />
 
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-        {/* Header */}
-        <div
-          ref={headerRef}
-          style={{
-            marginBottom: "clamp(3rem, 6vw, 5rem)",
-          }}
-        >
+        <div ref={headerRef} style={{ marginBottom: "clamp(3rem, 6vw, 5rem)" }}>
           <h2
             id="process-heading"
             style={{
@@ -154,7 +120,7 @@ export function Process() {
             <span
               data-header-line
               style={{
-                color: "rgba(245, 240, 232, 0.95)",
+                color: "rgba(241, 245, 249, 0.95)",
                 display: "block",
                 willChange: "clip-path",
               }}
@@ -168,7 +134,7 @@ export function Process() {
                 display: "block",
                 willChange: "clip-path",
                 background:
-                  "linear-gradient(135deg, rgba(245,240,232,1) 0%, rgba(201,169,110,0.7) 100%)",
+                  "linear-gradient(135deg, rgba(241,245,249,1) 0%, rgba(59,130,246,0.7) 100%)",
                 backgroundClip: "text",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
@@ -179,79 +145,148 @@ export function Process() {
           </h2>
         </div>
 
-        {/* Steps */}
-        <div
-          ref={stepsRef}
-          style={{
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          {PROCESS_STEPS.map((step, index) => (
+        <div ref={stepsRef}>
+          {/* Timeline container */}
+          <div
+            style={{
+              position: "relative",
+              display: "flex",
+              flexDirection: "row",
+              flexWrap: "wrap",
+              gap: "clamp(1rem, 2vw, 1.5rem)",
+              alignItems: "flex-start",
+            }}
+          >
+            {/* Connecting line — desktop horizontal, hidden on mobile since cards stack */}
             <div
-              key={step.number}
-              data-process-step
+              aria-hidden="true"
               style={{
-                display: "grid",
-                gridTemplateColumns: "clamp(60px, 10vw, 120px) 1fr",
-                gap: "clamp(1.5rem, 4vw, 4rem)",
-                alignItems: "start",
-                padding: "clamp(2rem, 4vw, 3.5rem) 0",
-                borderBottom:
-                  index < PROCESS_STEPS.length - 1 ? "1px solid rgba(245, 240, 232, 0.04)" : "none",
+                position: "absolute",
+                top: 6,
+                left: 0,
+                right: 0,
+                height: 1,
+                background:
+                  "linear-gradient(90deg, rgba(59, 130, 246, 0.15), rgba(59, 130, 246, 0.05))",
+                zIndex: 0,
               }}
-            >
-              {/* Number */}
+            />
+
+            {PROCESS_STEPS.map((step) => (
               <div
-                data-step-number
+                key={step.number}
+                data-process-step
                 style={{
-                  fontFamily: "var(--font-display)",
-                  fontSize: "clamp(3rem, 7vw, 6rem)",
-                  fontWeight: 600,
-                  letterSpacing: "-0.04em",
-                  lineHeight: 1,
-                  background:
-                    "linear-gradient(135deg, rgba(245,240,232,1) 0%, rgba(201,169,110,0.7) 100%)",
-                  backgroundClip: "text",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  willChange: "clip-path",
+                  position: "relative",
+                  flex: "1 1 0",
+                  minWidth: 200,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  zIndex: 1,
+                  opacity: 0,
+                }}
+                onMouseEnter={(e) => {
+                  const card = e.currentTarget.querySelector<HTMLElement>("[data-step-card]");
+                  if (card) {
+                    gsap.to(card, {
+                      y: -4,
+                      borderColor: "rgba(59, 130, 246, 0.4)",
+                      boxShadow: "0 0 20px rgba(59, 130, 246, 0.08)",
+                      duration: 0.3,
+                      ease: "power2.out",
+                    });
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  const card = e.currentTarget.querySelector<HTMLElement>("[data-step-card]");
+                  if (card) {
+                    gsap.to(card, {
+                      y: 0,
+                      borderColor: "rgba(255, 255, 255, 0.06)",
+                      boxShadow: "none",
+                      duration: 0.3,
+                      ease: "power2.out",
+                    });
+                  }
                 }}
               >
-                {step.number}
-              </div>
+                {/* Step node circle */}
+                <div
+                  aria-hidden="true"
+                  style={{
+                    width: 12,
+                    height: 12,
+                    borderRadius: "50%",
+                    background: "rgba(59, 130, 246, 0.5)",
+                    border: "2px solid rgba(59, 130, 246, 0.3)",
+                    marginBottom: "clamp(1rem, 2vw, 1.5rem)",
+                    flexShrink: 0,
+                  }}
+                />
 
-              {/* Content */}
-              <div data-step-content style={{ willChange: "clip-path" }}>
-                <h3
+                {/* Card */}
+                <div
+                  data-step-card
                   style={{
-                    fontFamily: "var(--font-display)",
-                    fontSize: "clamp(1.5rem, 3.5vw, 2.75rem)",
-                    fontWeight: 600,
-                    letterSpacing: "-0.03em",
-                    lineHeight: 1.1,
-                    color: "rgba(245, 240, 232, 0.95)",
-                    margin: "0 0 clamp(0.75rem, 1.5vw, 1.25rem) 0",
+                    background: "rgba(255, 255, 255, 0.03)",
+                    border: "1px solid rgba(255, 255, 255, 0.06)",
+                    borderRadius: 16,
+                    padding: "clamp(1.5rem, 3vw, 2rem)",
+                    width: "100%",
+                    willChange: "transform",
                   }}
                 >
-                  {step.title}
-                </h3>
-                <p
-                  style={{
-                    fontFamily: "var(--font-body)",
-                    fontSize: "clamp(0.9375rem, 1.1vw, 1.0625rem)",
-                    fontWeight: 400,
-                    lineHeight: 1.75,
-                    color: "rgba(214, 204, 190, 0.45)",
-                    margin: 0,
-                    maxWidth: 600,
-                  }}
-                >
-                  {step.description}
-                </p>
+                  {/* Number */}
+                  <div
+                    style={{
+                      fontFamily: "var(--font-display)",
+                      fontSize: "clamp(2rem, 4vw, 3rem)",
+                      fontWeight: 700,
+                      lineHeight: 1,
+                      letterSpacing: "-0.04em",
+                      background:
+                        "linear-gradient(135deg, rgba(241,245,249,1) 0%, rgba(59,130,246,0.7) 100%)",
+                      backgroundClip: "text",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      marginBottom: "clamp(0.75rem, 1.5vw, 1rem)",
+                    }}
+                  >
+                    {step.number}
+                  </div>
+
+                  {/* Title */}
+                  <h3
+                    style={{
+                      fontFamily: "var(--font-display)",
+                      fontSize: "clamp(1rem, 1.5vw, 1.25rem)",
+                      fontWeight: 600,
+                      lineHeight: 1.2,
+                      color: "rgba(241, 245, 249, 0.95)",
+                      margin: "0 0 clamp(0.5rem, 1vw, 0.75rem) 0",
+                    }}
+                  >
+                    {step.title}
+                  </h3>
+
+                  {/* Description */}
+                  <p
+                    style={{
+                      fontFamily: "var(--font-body)",
+                      fontSize: "clamp(0.875rem, 1vw, 1rem)",
+                      fontWeight: 400,
+                      lineHeight: 1.7,
+                      color: "rgba(148, 163, 184, 0.5)",
+                      margin: 0,
+                    }}
+                  >
+                    {step.description}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>

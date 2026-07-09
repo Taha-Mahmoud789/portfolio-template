@@ -64,9 +64,9 @@ export function BackToTop() {
         width: SIZE,
         height: SIZE,
         borderRadius: "50%",
-        background: "rgba(8, 7, 6, 0.8)",
+        background: "rgba(11, 15, 26, 0.8)",
         backdropFilter: "blur(12px)",
-        border: "1px solid rgba(245, 240, 232, 0.06)",
+        border: "1px solid rgba(241, 245, 249, 0.06)",
         cursor: "pointer",
         display: "flex",
         alignItems: "center",
@@ -88,7 +88,7 @@ export function BackToTop() {
           cy={SIZE / 2}
           r={RADIUS}
           fill="none"
-          stroke="#C9A96E"
+          stroke="#3B82F6"
           strokeWidth={STROKE}
           strokeLinecap="round"
         />
@@ -98,7 +98,7 @@ export function BackToTop() {
         height="16"
         viewBox="0 0 16 16"
         fill="none"
-        stroke="rgba(245, 240, 232, 0.7)"
+        stroke="rgba(241, 245, 249, 0.7)"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"

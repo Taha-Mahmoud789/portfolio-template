@@ -40,7 +40,7 @@ export function PortalOverlay({ active }: { active: boolean }) {
         inset: 0,
         zIndex: 100,
         background:
-          "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(8, 7, 6, 0.94) 0%, rgba(8, 7, 6, 0.98) 100%)",
+          "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(11, 15, 26, 0.94) 0%, rgba(11, 15, 26, 0.98) 100%)",
         opacity: 0,
         pointerEvents: active ? "all" : "none",
         willChange: "opacity",

@@ -261,7 +261,7 @@ export function ProjectTransitionOverlay() {
           position: "fixed",
           inset: 0,
           zIndex: 9998,
-          background: "#080706",
+          background: "#0B0F1A",
           opacity: 0,
           pointerEvents: "all",
         }}
@@ -291,8 +291,8 @@ export function ProjectTransitionOverlay() {
             borderRadius: 12,
             overflow: "hidden",
             background: accentRgb
-              ? `linear-gradient(180deg, rgba(${accentRgb}, 0.04) 0%, rgba(8, 7, 6, 0.6) 100%)`
-              : "#080706",
+              ? `linear-gradient(180deg, rgba(${accentRgb}, 0.04) 0%, rgba(11, 15, 26, 0.6) 100%)`
+              : "#0B0F1A",
             willChange: "transform",
             transformOrigin: "center center",
           }}
@@ -340,7 +340,7 @@ export function ProjectTransitionOverlay() {
               inset: 0,
               opacity: 0.015,
               backgroundImage:
-                "linear-gradient(rgba(245,240,232,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(245,240,232,0.1) 1px, transparent 1px)",
+                "linear-gradient(rgba(241,245,249,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(241,245,249,0.1) 1px, transparent 1px)",
               backgroundSize: "80px 80px",
             }}
           />
@@ -357,7 +357,7 @@ export function ProjectTransitionOverlay() {
               fontWeight: 700,
               letterSpacing: "-0.05em",
               lineHeight: 0.8,
-              color: accentRgb ? `rgba(${accentRgb}, 0.03)` : "rgba(245,240,232,0.02)",
+              color: accentRgb ? `rgba(${accentRgb}, 0.03)` : "rgba(241,245,249,0.02)",
               userSelect: "none",
               pointerEvents: "none",
               willChange: "transform, opacity",
@@ -372,7 +372,7 @@ export function ProjectTransitionOverlay() {
               position: "absolute",
               inset: 0,
               background:
-                "radial-gradient(ellipse at center, transparent 40%, rgba(8, 7, 6, 0.3) 100%)",
+                "radial-gradient(ellipse at center, transparent 40%, rgba(11, 15, 26, 0.3) 100%)",
               pointerEvents: "none",
             }}
           />

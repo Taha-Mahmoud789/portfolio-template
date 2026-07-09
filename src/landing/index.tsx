@@ -10,7 +10,6 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { Hero } from "./components/hero";
 import { NoiseGrain } from "./components/noise-grain";
 import { Navigation } from "./components/navigation";
-import { Intro } from "./components/intro";
 import { About } from "./components/about";
 import { Projects } from "./components/projects";
 import { Expertise } from "./components/expertise";
@@ -81,8 +80,8 @@ function LandingContent({ onPreloaderDone }: { onPreloaderDone: () => void }) {
     <div
       style={{
         minHeight: "100vh",
-        background: "#080706",
-        color: "#f5f0e8",
+        background: "#0B0F1A",
+        color: "#F1F5F9",
         position: "relative",
         overflow: "hidden",
       }}
@@ -97,7 +96,6 @@ function LandingContent({ onPreloaderDone }: { onPreloaderDone: () => void }) {
       {/* Content sections */}
       {isReady && (
         <>
-          <Intro />
           <About />
           <Projects />
           <Expertise />

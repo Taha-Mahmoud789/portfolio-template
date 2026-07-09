@@ -74,7 +74,7 @@ export function Intro() {
       style={{
         position: "relative",
         padding: "clamp(6rem, 16vh, 14rem) clamp(1.5rem, 5vw, 6rem)",
-        background: "#080706",
+        background: "#0B0F1A",
         overflow: "hidden",
       }}
     >
@@ -88,7 +88,7 @@ export function Intro() {
           bottom: "10%",
           width: 1,
           background:
-            "linear-gradient(180deg, transparent 0%, rgba(245, 240, 232, 0.06) 50%, transparent 100%)",
+            "linear-gradient(180deg, transparent 0%, rgba(241, 245, 249, 0.06) 50%, transparent 100%)",
           transformOrigin: "top",
         }}
       />
@@ -106,7 +106,7 @@ export function Intro() {
             style={{
               fontSize: "clamp(2.25rem, 6vw, 5rem)",
               lineHeight: 1.05,
-              color: "rgba(214, 204, 190, 0.5)",
+              color: "rgba(148, 163, 184, 0.5)",
               willChange: "clip-path",
               marginBottom: "clamp(0.25rem, 0.5vw, 0.5rem)",
             }}
@@ -119,12 +119,12 @@ export function Intro() {
             style={{
               fontSize: "clamp(2.25rem, 6vw, 5rem)",
               lineHeight: 1.05,
-              color: "rgba(214, 204, 190, 0.5)",
+              color: "rgba(148, 163, 184, 0.5)",
               willChange: "clip-path",
               marginBottom: "clamp(0.25rem, 0.5vw, 0.5rem)",
             }}
           >
-            <span style={{ color: "rgba(245, 240, 232, 0.95)" }}>{INTRO.line2.split(" ")[0]}</span>{" "}
+            <span style={{ color: "rgba(241, 245, 249, 0.95)" }}>{INTRO.line2.split(" ")[0]}</span>{" "}
             {INTRO.line2.split(" ").slice(1).join(" ")}
           </div>
 
@@ -133,7 +133,7 @@ export function Intro() {
             style={{
               fontSize: "clamp(2.25rem, 6vw, 5rem)",
               lineHeight: 1.05,
-              color: "rgba(214, 204, 190, 0.5)",
+              color: "rgba(148, 163, 184, 0.5)",
               willChange: "clip-path",
             }}
           >

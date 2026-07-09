@@ -7,7 +7,7 @@
  * Override these per-world to create distinct visual identities.
  */
 
-import { gray, brand, success, warning, danger, info, white } from "../primitives/colors";
+import { gray, brand, success, warning, danger, info } from "../primitives/colors";
 
 export const color = {
   // --- Core ---
@@ -29,25 +29,25 @@ export const color = {
   "accent-subtle": brand[50],
 
   // --- Surface ---
-  background: white,
-  "background-alt": gray[50],
-  surface: white,
-  "surface-raised": white,
-  "surface-overlay": white,
-  "surface-sunken": gray[50],
-  "surface-inset": gray[100],
+  background: gray[900],
+  "background-alt": gray[800],
+  surface: gray[800],
+  "surface-raised": gray[700],
+  "surface-overlay": gray[700],
+  "surface-sunken": gray[950],
+  "surface-inset": gray[800],
 
   // --- Foreground ---
-  foreground: gray[900],
-  "foreground-secondary": gray[600],
-  "foreground-muted": gray[400],
-  "foreground-subtle": gray[300],
-  "foreground-inverse": white,
+  foreground: gray[100],
+  "foreground-secondary": gray[400],
+  "foreground-muted": gray[500],
+  "foreground-subtle": gray[600],
+  "foreground-inverse": gray[900],
 
   // --- Border ---
-  border: gray[200],
-  "border-strong": gray[300],
-  "border-subtle": gray[100],
+  border: gray[800],
+  "border-strong": gray[700],
+  "border-subtle": gray[800],
   "border-focus": brand[500],
 
   // --- Status ---
@@ -75,9 +75,9 @@ export const color = {
   "focus-ring": brand[500],
   "hover-overlay": "rgba(0, 0, 0, 0.05)",
   "active-overlay": "rgba(0, 0, 0, 0.1)",
-  "disabled-bg": gray[100],
-  "disabled-fg": gray[400],
-  "disabled-border": gray[200],
+  "disabled-bg": gray[800],
+  "disabled-fg": gray[600],
+  "disabled-border": gray[800],
 
   // --- Selection ---
   "selection-bg": brand[100],

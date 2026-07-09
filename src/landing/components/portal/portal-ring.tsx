@@ -174,7 +174,7 @@ export function PortalRing({ phase }: { phase: string }) {
     tl.to(
       outerRef.current,
       {
-        borderColor: "rgba(201, 169, 110, 0.7)",
+        borderColor: "rgba(59, 130, 246, 0.7)",
         opacity: 1,
         duration: 0.5,
         ease: ANIMATION_EASINGS.expoOut,
@@ -300,7 +300,7 @@ export function PortalRing({ phase }: { phase: string }) {
           inset: "-15%",
           borderRadius: "50%",
           background:
-            "conic-gradient(from 0deg, transparent 0%, rgba(201, 169, 110, 0.08) 10%, transparent 20%, rgba(180, 140, 80, 0.06) 35%, transparent 45%, rgba(201, 169, 110, 0.04) 60%, transparent 70%, rgba(201, 169, 110, 0.06) 85%, transparent 95%)",
+            "conic-gradient(from 0deg, transparent 0%, rgba(59, 130, 246, 0.08) 10%, transparent 20%, rgba(96, 165, 250, 0.06) 35%, transparent 45%, rgba(59, 130, 246, 0.04) 60%, transparent 70%, rgba(59, 130, 246, 0.06) 85%, transparent 95%)",
           opacity: 0,
           filter: "blur(8px)",
         }}
@@ -313,9 +313,9 @@ export function PortalRing({ phase }: { phase: string }) {
           position: "absolute",
           inset: 0,
           borderRadius: "50%",
-          border: "2px solid rgba(201, 169, 110, 0.4)",
+          border: "2px solid rgba(59, 130, 246, 0.4)",
           boxShadow:
-            "0 0 60px rgba(201, 169, 110, 0.18), 0 0 120px rgba(201, 169, 110, 0.08), inset 0 0 50px rgba(201, 169, 110, 0.06)",
+            "0 0 60px rgba(59, 130, 246, 0.18), 0 0 120px rgba(59, 130, 246, 0.08), inset 0 0 50px rgba(59, 130, 246, 0.06)",
           opacity: 0,
           willChange: "transform, opacity",
         }}
@@ -328,8 +328,8 @@ export function PortalRing({ phase }: { phase: string }) {
           position: "absolute",
           inset: "12%",
           borderRadius: "50%",
-          border: "1.5px solid rgba(180, 140, 80, 0.3)",
-          boxShadow: "0 0 30px rgba(180, 140, 80, 0.1), inset 0 0 22px rgba(180, 140, 80, 0.05)",
+          border: "1.5px solid rgba(96, 165, 250, 0.3)",
+          boxShadow: "0 0 30px rgba(96, 165, 250, 0.1), inset 0 0 22px rgba(96, 165, 250, 0.05)",
           opacity: 0,
           willChange: "transform, opacity",
         }}
@@ -342,8 +342,8 @@ export function PortalRing({ phase }: { phase: string }) {
           position: "absolute",
           inset: "23%",
           borderRadius: "50%",
-          border: "2.5px solid rgba(201, 169, 110, 0.25)",
-          boxShadow: "0 0 40px rgba(201, 169, 110, 0.08), 0 0 80px rgba(201, 169, 110, 0.04)",
+          border: "2.5px solid rgba(59, 130, 246, 0.25)",
+          boxShadow: "0 0 40px rgba(59, 130, 246, 0.08), 0 0 80px rgba(59, 130, 246, 0.04)",
           opacity: 0,
           willChange: "transform, opacity",
         }}
@@ -357,7 +357,7 @@ export function PortalRing({ phase }: { phase: string }) {
           inset: "5%",
           borderRadius: "50%",
           background:
-            "conic-gradient(from 90deg, transparent 0%, rgba(201, 169, 110, 0.12) 10%, transparent 20%, transparent 55%, rgba(212, 184, 122, 0.1) 65%, transparent 75%)",
+            "conic-gradient(from 90deg, transparent 0%, rgba(59, 130, 246, 0.12) 10%, transparent 20%, transparent 55%, rgba(147, 197, 253, 0.1) 65%, transparent 75%)",
           opacity: 0,
           willChange: "transform, opacity",
         }}
@@ -371,7 +371,7 @@ export function PortalRing({ phase }: { phase: string }) {
           inset: "-4%",
           borderRadius: "50%",
           background:
-            "conic-gradient(from 0deg, transparent 0%, rgba(201, 169, 110, 0.25) 6%, transparent 12%, transparent 48%, rgba(180, 140, 80, 0.18) 54%, transparent 60%)",
+            "conic-gradient(from 0deg, transparent 0%, rgba(59, 130, 246, 0.25) 6%, transparent 12%, transparent 48%, rgba(96, 165, 250, 0.18) 54%, transparent 60%)",
           opacity: 0,
           filter: "blur(1px)",
           willChange: "transform, opacity",
@@ -386,7 +386,7 @@ export function PortalRing({ phase }: { phase: string }) {
           inset: "4%",
           borderRadius: "50%",
           background:
-            "conic-gradient(from 180deg, transparent 0%, rgba(201, 169, 110, 0.12) 12%, transparent 24%, transparent 68%, rgba(201, 169, 110, 0.1) 80%, transparent 92%)",
+            "conic-gradient(from 180deg, transparent 0%, rgba(59, 130, 246, 0.12) 12%, transparent 24%, transparent 68%, rgba(59, 130, 246, 0.1) 80%, transparent 92%)",
           opacity: 0,
           filter: "blur(1px)",
           willChange: "transform, opacity",
@@ -401,7 +401,7 @@ export function PortalRing({ phase }: { phase: string }) {
           inset: "28%",
           borderRadius: "50%",
           background:
-            "radial-gradient(circle, rgba(212, 184, 122, 0.2) 0%, rgba(201, 169, 110, 0.1) 35%, transparent 65%)",
+            "radial-gradient(circle, rgba(147, 197, 253, 0.2) 0%, rgba(59, 130, 246, 0.1) 35%, transparent 65%)",
           filter: "blur(16px)",
           opacity: 0,
           willChange: "transform, opacity",
@@ -416,7 +416,7 @@ export function PortalRing({ phase }: { phase: string }) {
           inset: "35%",
           borderRadius: "50%",
           background:
-            "radial-gradient(circle, rgba(220, 200, 160, 0.25) 0%, rgba(212, 184, 122, 0.1) 40%, transparent 70%)",
+            "radial-gradient(circle, rgba(191, 219, 254, 0.25) 0%, rgba(147, 197, 253, 0.1) 40%, transparent 70%)",
           filter: "blur(10px)",
           opacity: 0,
           willChange: "transform, opacity",
@@ -434,7 +434,7 @@ export function PortalRing({ phase }: { phase: string }) {
           height: "170%",
           borderRadius: "50%",
           background:
-            "radial-gradient(circle, rgba(220, 200, 160, 0.35) 0%, rgba(201, 169, 110, 0.15) 25%, transparent 55%)",
+            "radial-gradient(circle, rgba(191, 219, 254, 0.35) 0%, rgba(59, 130, 246, 0.15) 25%, transparent 55%)",
           filter: "blur(10px)",
           opacity: 0,
           willChange: "transform, opacity",
