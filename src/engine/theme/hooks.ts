@@ -17,11 +17,7 @@ import {
   getPreviousThemeId,
   getRandomThemeId,
 } from "./utilities";
-import type {
-  ThemeDefinition,
-  ThemeCategory,
-  ThemeContextValue,
-} from "./types";
+import type { ThemeDefinition, ThemeCategory, ThemeContextValue, ColorBlindMode } from "./types";
 
 // ============================================================================
 // Core Hooks
@@ -55,7 +51,7 @@ export function useThemeToken(tokenPath: string): string {
       if (current === null || current === undefined) return "";
       current = (current as Record<string, unknown>)[part];
     }
-    return String(current ?? "");
+    return current?.toString() ?? "";
   }, [theme, tokenPath]);
 }
 
@@ -103,7 +99,7 @@ export function useNextTheme(): () => void {
 
   return useCallback(() => {
     const nextId = getNextThemeId(themeId);
-    setTheme(nextId);
+    void setTheme(nextId);
   }, [themeId, setTheme]);
 }
 
@@ -116,7 +112,7 @@ export function usePreviousTheme(): () => void {
 
   return useCallback(() => {
     const prevId = getPreviousThemeId(themeId);
-    setTheme(prevId);
+    void setTheme(prevId);
   }, [themeId, setTheme]);
 }
 
@@ -130,7 +126,7 @@ export function useRandomTheme(): () => void {
   return useCallback(() => {
     const randomId = getRandomThemeId();
     if (randomId !== themeId) {
-      setTheme(randomId);
+      void setTheme(randomId);
     }
   }, [themeId, setTheme]);
 }
@@ -166,8 +162,6 @@ export function useToggleHighContrast(): () => void {
 /**
  * Hook to set color blind mode.
  */
-export function useSetColorBlindMode(): (
-  mode: import("./types").ColorBlindMode
-) => void {
+export function useSetColorBlindMode(): (mode: ColorBlindMode) => void {
   return useThemeEngineStore((state) => state.setColorBlindMode);
 }

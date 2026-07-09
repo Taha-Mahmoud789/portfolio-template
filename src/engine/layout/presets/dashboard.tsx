@@ -5,7 +5,12 @@
  * Responsive: sidebar collapses on mobile.
  */
 
-import { forwardRef, type ReactNode, type CSSProperties, type ComponentPropsWithoutRef } from "react";
+import {
+  forwardRef,
+  type ReactNode,
+  type CSSProperties,
+  type ComponentPropsWithoutRef,
+} from "react";
 import { cn } from "@/utils";
 import { useBreakpoint } from "../responsive/hooks";
 import { resolveResponsive, type Responsive } from "../responsive/responsive-props";
@@ -61,7 +66,7 @@ export const DashboardLayout = forwardRef<HTMLDivElement, DashboardLayoutProps>(
 
     const containerStyle: CSSProperties = {
       display: "grid",
-      gridTemplateColumns: sidebarHidden ? "1fr" : `${resolvedWidth} 1fr`,
+      gridTemplateColumns: sidebarHidden ? "1fr" : `${String(resolvedWidth)} 1fr`,
       gridTemplateRows: header ? `${headerHeight} 1fr` : "1fr",
       gridTemplateAreas: header
         ? sidebarHidden
@@ -92,18 +97,10 @@ export const DashboardLayout = forwardRef<HTMLDivElement, DashboardLayoutProps>(
     };
 
     return (
-      <div
-        ref={ref}
-        className={cn("w-full", className)}
-        style={containerStyle}
-        {...props}
-      >
+      <div ref={ref} className={cn("w-full", className)} style={containerStyle} {...props}>
         {/* Sidebar */}
         {!sidebarHidden && (
-          <aside
-            className="overflow-y-auto"
-            style={sidebarStyle}
-          >
+          <aside className="overflow-y-auto" style={sidebarStyle}>
             {sidebar}
           </aside>
         )}
@@ -119,19 +116,12 @@ export const DashboardLayout = forwardRef<HTMLDivElement, DashboardLayoutProps>(
         )}
 
         {/* Main Content */}
-        <main
-          className="min-w-0 overflow-auto"
-          style={contentStyle}
-        >
+        <main className="min-w-0 overflow-auto" style={contentStyle}>
           {children}
         </main>
 
         {/* Footer */}
-        {footer && (
-          <footer className="border-t border-border">
-            {footer}
-          </footer>
-        )}
+        {footer && <footer className="border-t border-border">{footer}</footer>}
       </div>
     );
   },

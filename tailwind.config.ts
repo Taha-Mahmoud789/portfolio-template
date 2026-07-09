@@ -1,80 +1,189 @@
 import type { Config } from "tailwindcss";
-import { color } from "./src/theme/tokens/semantic/color";
-import { typography } from "./src/theme/tokens/semantic/typography";
-import { spacingSemantic } from "./src/theme/tokens/semantic/spacing";
-import { radiusSemantic } from "./src/theme/tokens/semantic/radius";
-import { elevation, blurSemantic } from "./src/theme/tokens/semantic/elevation";
-import { motion } from "./src/theme/tokens/semantic/motion";
-import { borderSemantic } from "./src/theme/tokens/semantic/border";
-import { opacitySemantic } from "./src/theme/tokens/semantic/opacity";
-import { size } from "./src/theme/tokens/semantic/size";
-import { grid } from "./src/theme/tokens/semantic/grid";
-import { zIndexSemantic } from "./src/theme/tokens/semantic/z-index";
 
 export default {
   content: ["./index.html", "./src/**/*.{ts,tsx}"],
   theme: {
     extend: {
-      colors: color,
-      fontFamily: {
-        sans: [typography["font-sans"]],
-        heading: [typography["font-heading"]],
-        mono: [typography["font-mono"]],
+      colors: {
+        primary: {
+          DEFAULT: "var(--color-primary)",
+          hover: "var(--color-primary-hover)",
+          active: "var(--color-primary-active)",
+          subtle: "var(--color-primary-subtle)",
+          muted: "var(--color-primary-muted)",
+        },
+        secondary: {
+          DEFAULT: "var(--color-secondary)",
+          hover: "var(--color-secondary-hover)",
+          active: "var(--color-secondary-active)",
+          subtle: "var(--color-secondary-subtle)",
+          muted: "var(--color-secondary-muted)",
+        },
+        accent: {
+          DEFAULT: "var(--color-accent)",
+          hover: "var(--color-accent-hover)",
+          active: "var(--color-accent-active)",
+          subtle: "var(--color-accent-subtle)",
+        },
+        background: {
+          DEFAULT: "var(--color-background)",
+          alt: "var(--color-background-alt)",
+        },
+        surface: {
+          DEFAULT: "var(--color-surface)",
+          raised: "var(--color-surface-raised)",
+          overlay: "var(--color-surface-overlay)",
+          sunken: "var(--color-surface-sunken)",
+          inset: "var(--color-surface-inset)",
+        },
+        foreground: {
+          DEFAULT: "var(--color-foreground)",
+          secondary: "var(--color-foreground-secondary)",
+          muted: "var(--color-foreground-muted)",
+          subtle: "var(--color-foreground-subtle)",
+          inverse: "var(--color-foreground-inverse)",
+        },
+        border: {
+          DEFAULT: "var(--color-border)",
+          strong: "var(--color-border-strong)",
+          subtle: "var(--color-border-subtle)",
+          focus: "var(--color-border-focus)",
+        },
+        success: {
+          DEFAULT: "var(--color-success)",
+          hover: "var(--color-success-hover)",
+          subtle: "var(--color-success-subtle)",
+          foreground: "var(--color-success-foreground)",
+        },
+        warning: {
+          DEFAULT: "var(--color-warning)",
+          hover: "var(--color-warning-hover)",
+          subtle: "var(--color-warning-subtle)",
+          foreground: "var(--color-warning-foreground)",
+        },
+        danger: {
+          DEFAULT: "var(--color-danger)",
+          hover: "var(--color-danger-hover)",
+          subtle: "var(--color-danger-subtle)",
+          foreground: "var(--color-danger-foreground)",
+        },
+        info: {
+          DEFAULT: "var(--color-info)",
+          hover: "var(--color-info-hover)",
+          subtle: "var(--color-info-subtle)",
+          foreground: "var(--color-info-foreground)",
+        },
+        focus: "var(--color-focus-ring)",
+        disabled: {
+          bg: "var(--color-disabled-bg)",
+          fg: "var(--color-disabled-fg)",
+          border: "var(--color-disabled-border)",
+        },
+        selection: {
+          bg: "var(--color-selection-bg)",
+          fg: "var(--color-selection-fg)",
+        },
+        overlay: {
+          heavy: "var(--color-overlay-heavy)",
+          medium: "var(--color-overlay-medium)",
+          light: "var(--color-overlay-light)",
+          lightest: "var(--color-overlay-lightest)",
+        },
       },
-      fontSize: Object.fromEntries(
-        Object.entries(typography)
-          .filter(([k]) => k.startsWith("text-"))
-          .map(([k, v]) => {
-            const key = k.replace("text-", "");
-            if (Array.isArray(v)) {
-              return [key, v];
-            }
-            return [key, v];
-          }),
-      ),
-      fontWeight: Object.fromEntries(
-        Object.entries(typography)
-          .filter(
-            ([k]) =>
-              k.startsWith("font-") && !["font-sans", "font-heading", "font-mono"].includes(k),
-          )
-          .map(([k, v]) => [k.replace("font-", ""), v]),
-      ),
-      letterSpacing: Object.fromEntries(
-        Object.entries(typography)
-          .filter(([k]) => k.startsWith("tracking-"))
-          .map(([k, v]) => [k.replace("tracking-", ""), v]),
-      ),
-      lineHeight: Object.fromEntries(
-        Object.entries(typography)
-          .filter(([k]) => k.startsWith("leading-"))
-          .map(([k, v]) => [k.replace("leading-", ""), v]),
-      ),
-      spacing: spacingSemantic,
-      borderRadius: radiusSemantic,
-      boxShadow: elevation,
-      backdropBlur: blurSemantic,
-      transitionDuration: Object.fromEntries(
-        Object.entries(motion)
-          .filter(([k]) => !k.startsWith("ease") && k !== "spring" && k !== "bounce")
-          .map(([k, v]) => [k, v]),
-      ),
-      transitionTimingFunction: Object.fromEntries(
-        Object.entries(motion)
-          .filter(([k]) => k.startsWith("ease") || k === "spring" || k === "bounce")
-          .map(([k, v]) => [k, v]),
-      ),
-      borderWidth: borderSemantic,
-      opacity: opacitySemantic,
-      width: size,
-      height: size,
-      minWidth: size,
-      minHeight: size,
-      maxWidth: size,
-      maxHeight: size,
-      gap: grid,
-      margin: grid,
-      zIndex: zIndexSemantic,
+      fontFamily: {
+        sans: ["var(--font-sans)"],
+        heading: ["var(--font-heading)"],
+        mono: ["var(--font-mono)"],
+        display: ["var(--font-display)"],
+        body: ["var(--font-body)"],
+      },
+      spacing: {
+        "section-xs": "var(--spacing-section-xs)",
+        "section-sm": "var(--spacing-section-sm)",
+        "section-md": "var(--spacing-section-md)",
+        "section-lg": "var(--spacing-section-lg)",
+        "section-xl": "var(--spacing-section-xl)",
+        "section-2xl": "var(--spacing-section-2xl)",
+        "component-xs": "var(--spacing-component-xs)",
+        "component-sm": "var(--spacing-component-sm)",
+        "component-md": "var(--spacing-component-md)",
+        "component-lg": "var(--spacing-component-lg)",
+        "component-xl": "var(--spacing-component-xl)",
+        "inline-xs": "var(--spacing-inline-xs)",
+        "inline-sm": "var(--spacing-inline-sm)",
+        "inline-md": "var(--spacing-inline-md)",
+        "inline-lg": "var(--spacing-inline-lg)",
+        "inline-xl": "var(--spacing-inline-xl)",
+      },
+      borderRadius: {
+        sm: "var(--radius-sm)",
+        DEFAULT: "var(--radius-md)",
+        md: "var(--radius-md)",
+        lg: "var(--radius-lg)",
+        xl: "var(--radius-xl)",
+        "2xl": "var(--radius-2xl)",
+        full: "var(--radius-full)",
+      },
+      boxShadow: {
+        sm: "var(--elevation-sm)",
+        DEFAULT: "var(--elevation-md)",
+        md: "var(--elevation-md)",
+        lg: "var(--elevation-lg)",
+        xl: "var(--elevation-xl)",
+        "2xl": "var(--elevation-2xl)",
+        inner: "var(--elevation-inner)",
+      },
+      transitionDuration: {
+        fast: "var(--duration-fast)",
+        normal: "var(--duration-normal)",
+        slow: "var(--duration-slow)",
+        slower: "var(--duration-slower)",
+        instant: "var(--duration-instant)",
+      },
+      transitionTimingFunction: {
+        "ease-out": "var(--ease-out)",
+        "ease-in": "var(--ease-in)",
+        "ease-in-out": "var(--ease-in-out)",
+        "ease-bounce": "var(--ease-bounce)",
+        "ease-spring": "var(--ease-spring)",
+      },
+      borderWidth: {
+        DEFAULT: "var(--border-width-default)",
+        0: "0",
+        1: "var(--border-width-thin)",
+        2: "var(--border-width-medium)",
+        4: "var(--border-width-thick)",
+      },
+      opacity: {
+        0: "var(--opacity-0)",
+        5: "var(--opacity-5)",
+        10: "var(--opacity-10)",
+        20: "var(--opacity-20)",
+        25: "var(--opacity-25)",
+        30: "var(--opacity-30)",
+        40: "var(--opacity-40)",
+        50: "var(--opacity-50)",
+        60: "var(--opacity-60)",
+        70: "var(--opacity-70)",
+        75: "var(--opacity-75)",
+        80: "var(--opacity-80)",
+        90: "var(--opacity-90)",
+        95: "var(--opacity-95)",
+        100: "var(--opacity-100)",
+      },
+      zIndex: {
+        base: "var(--z-index-base)",
+        dropdown: "var(--z-index-dropdown)",
+        sticky: "var(--z-index-sticky)",
+        fixed: "var(--z-index-fixed)",
+        "overlay-back": "var(--z-index-overlay-back)",
+        modal: "var(--z-index-modal)",
+        "overlay-front": "var(--z-index-overlay-front)",
+        popover: "var(--z-index-popover)",
+        tooltip: "var(--z-index-tooltip)",
+        toast: "var(--z-index-toast)",
+        max: "var(--z-index-max)",
+      },
     },
   },
   plugins: [],

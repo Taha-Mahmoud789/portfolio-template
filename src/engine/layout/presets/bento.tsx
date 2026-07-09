@@ -5,7 +5,12 @@
  * Commonly used for feature showcases and dashboards.
  */
 
-import { forwardRef, type ReactNode, type CSSProperties, type ComponentPropsWithoutRef } from "react";
+import {
+  forwardRef,
+  type ReactNode,
+  type CSSProperties,
+  type ComponentPropsWithoutRef,
+} from "react";
 import { cn } from "@/utils";
 import { useBreakpoint } from "../responsive/hooks";
 import { resolveResponsive, type Responsive } from "../responsive/responsive-props";
@@ -44,7 +49,7 @@ export const BentoLayout = forwardRef<HTMLDivElement, BentoLayoutProps>(
 
     const containerStyle: CSSProperties = {
       display: "grid",
-      gridTemplateColumns: `repeat(${resolvedColumns}, 1fr)`,
+      gridTemplateColumns: `repeat(${String(resolvedColumns)}, 1fr)`,
       gridAutoRows: `minmax(${minItemHeight}, auto)`,
       gap,
       ...style,
@@ -53,11 +58,7 @@ export const BentoLayout = forwardRef<HTMLDivElement, BentoLayoutProps>(
     return (
       <div
         ref={ref}
-        className={cn(
-          "w-full",
-          fullWidth && "max-w-none",
-          className,
-        )}
+        className={cn("w-full", fullWidth && "max-w-none", className)}
         style={containerStyle}
         {...props}
       >
@@ -102,8 +103,8 @@ export const BentoCard = forwardRef<HTMLElement, BentoCardProps>(
     ref,
   ) => {
     const cardStyle: CSSProperties = {
-      gridColumn: colSpan > 1 ? `span ${colSpan}` : undefined,
-      gridRow: rowSpan > 1 ? `span ${rowSpan}` : undefined,
+      gridColumn: colSpan > 1 ? `span ${String(colSpan)}` : undefined,
+      gridRow: rowSpan > 1 ? `span ${String(rowSpan)}` : undefined,
       borderRadius: radius,
       padding,
       ...(background ? { background } : {}),
@@ -113,10 +114,7 @@ export const BentoCard = forwardRef<HTMLElement, BentoCardProps>(
     return (
       <article
         ref={ref}
-        className={cn(
-          "bg-surface overflow-hidden transition-all",
-          className,
-        )}
+        className={cn("bg-surface overflow-hidden transition-all", className)}
         style={cardStyle}
         {...props}
       >

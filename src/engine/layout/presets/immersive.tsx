@@ -5,7 +5,12 @@
  * Designed for scroll storytelling experiences.
  */
 
-import { forwardRef, type ReactNode, type CSSProperties, type ComponentPropsWithoutRef } from "react";
+import {
+  forwardRef,
+  type ReactNode,
+  type CSSProperties,
+  type ComponentPropsWithoutRef,
+} from "react";
 import { cn } from "@/utils";
 import { usePrefersReducedMotion } from "../responsive/hooks";
 import { safeAreaPadding } from "../safe-area";
@@ -52,12 +57,7 @@ export const ImmersiveLayout = forwardRef<HTMLDivElement, ImmersiveLayoutProps>(
     const prefersReducedMotion = usePrefersReducedMotion();
 
     return (
-      <div
-        ref={ref}
-        className={cn("w-full", className)}
-        style={containerStyle}
-        {...props}
-      >
+      <div ref={ref} className={cn("w-full", className)} style={containerStyle} {...props}>
         {children}
         {showScrollIndicator && !prefersReducedMotion && (
           <div
@@ -107,7 +107,7 @@ export const ImmersiveSection = forwardRef<HTMLDivElement, ImmersiveSectionProps
   (
     {
       children,
-      snapAlign = "start",
+      snapAlign: _snapAlign = "start",
       fullscreen = true,
       align = "center",
       background,
@@ -128,9 +128,12 @@ export const ImmersiveSection = forwardRef<HTMLDivElement, ImmersiveSectionProps
       ...(fullscreen ? { minHeight: "100dvh" } : {}),
       ...(background
         ? {
-            background: backgroundOpacity < 1
-              ? `${background}${Math.round(backgroundOpacity * 255).toString(16).padStart(2, "0")}`
-              : background,
+            background:
+              backgroundOpacity < 1
+                ? `${background}${Math.round(backgroundOpacity * 255)
+                    .toString(16)
+                    .padStart(2, "0")}`
+                : background,
           }
         : {}),
       ...style,

@@ -31,7 +31,7 @@ export function useBreakpoint(): Breakpoint | "xs" {
 
     // Use matchMedia for each breakpoint for efficiency
     const mqls = BREAKPOINT_ORDER.map((bp) => {
-      const mql = window.matchMedia(`(min-width: ${BREAKPOINTS[bp]}px)`);
+      const mql = window.matchMedia(`(min-width: ${String(BREAKPOINTS[bp])}px)`);
       mql.addEventListener("change", handleResize);
       return mql;
     });
@@ -139,7 +139,7 @@ export function useDevicePixelRatio(): number {
     }
 
     // Listen for resolution changes (zoom, display changes)
-    const mql = window.matchMedia(`(resolution: ${dpr}dppx)`);
+    const mql = window.matchMedia(`(resolution: ${String(dpr)}dppx)`);
     mql.addEventListener("change", handleChange);
     return () => mql.removeEventListener("change", handleChange);
   }, [dpr]);
@@ -286,9 +286,10 @@ export function useScrollPosition(element?: React.RefObject<HTMLElement | null>)
           setPosition({
             x: el.scrollLeft,
             y: el.scrollTop,
-            progress: el.scrollHeight > el.clientHeight
-              ? el.scrollTop / (el.scrollHeight - el.clientHeight)
-              : 0,
+            progress:
+              el.scrollHeight > el.clientHeight
+                ? el.scrollTop / (el.scrollHeight - el.clientHeight)
+                : 0,
           });
         }
       });

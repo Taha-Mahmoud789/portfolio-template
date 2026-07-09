@@ -4,7 +4,12 @@
  * Default values, fallbacks, and configuration constants for the Theme Engine.
  */
 
-import type { ThemeId, ThemeRegistryConfig, ThemeMotionIntensity, ThemeAnimationPreset } from "./types";
+import type {
+  ThemeId,
+  ThemeRegistryConfig,
+  ThemeMotionIntensity,
+  ThemeAnimationPreset,
+} from "./types";
 
 // ============================================================================
 // Default Theme Configuration
@@ -43,12 +48,15 @@ export const ALL_THEME_IDS: readonly ThemeId[] = [
 // Motion Intensity Presets
 // ============================================================================
 
-export const MOTION_INTENSITY_PRESETS: Record<ThemeMotionIntensity, {
-  durationMultiplier: number;
-  enableParticles: boolean;
-  enableParallax: boolean;
-  enableHoverEffects: boolean;
-}> = {
+export const MOTION_INTENSITY_PRESETS: Record<
+  ThemeMotionIntensity,
+  {
+    durationMultiplier: number;
+    enableParticles: boolean;
+    enableParallax: boolean;
+    enableHoverEffects: boolean;
+  }
+> = {
   off: {
     durationMultiplier: 0,
     enableParticles: false,
@@ -85,17 +93,24 @@ export const MOTION_INTENSITY_PRESETS: Record<ThemeMotionIntensity, {
 // Animation Preset Defaults
 // ============================================================================
 
-export const ANIMATION_PRESET_DEFAULTS: Record<ThemeAnimationPreset, {
-  duration: string;
-  easing: string;
-  stagger: string;
-}> = {
+export const ANIMATION_PRESET_DEFAULTS: Record<
+  ThemeAnimationPreset,
+  {
+    duration: string;
+    easing: string;
+    stagger: string;
+  }
+> = {
   none: { duration: "0ms", easing: "linear", stagger: "0ms" },
   subtle: { duration: "150ms", easing: "ease-out", stagger: "50ms" },
   moderate: { duration: "300ms", easing: "ease-in-out", stagger: "75ms" },
   expressive: { duration: "500ms", easing: "cubic-bezier(0.4, 0, 0.2, 1)", stagger: "100ms" },
   dramatic: { duration: "700ms", easing: "cubic-bezier(0.4, 0, 0.2, 1)", stagger: "150ms" },
-  kinetic: { duration: "400ms", easing: "cubic-bezier(0.68, -0.55, 0.265, 1.55)", stagger: "100ms" },
+  kinetic: {
+    duration: "400ms",
+    easing: "cubic-bezier(0.68, -0.55, 0.265, 1.55)",
+    stagger: "100ms",
+  },
   glitch: { duration: "200ms", easing: "steps(4, end)", stagger: "50ms" },
   organic: { duration: "600ms", easing: "cubic-bezier(0.25, 0.46, 0.45, 0.94)", stagger: "120ms" },
   mechanical: { duration: "250ms", easing: "cubic-bezier(0.77, 0, 0.175, 1)", stagger: "80ms" },
@@ -130,7 +145,7 @@ export const THEME_TRANSITION_DURATION = 300; // ms
 
 export const THEME_TRANSITION_EASING = "cubic-bezier(0.4, 0, 0.2, 1)";
 
-export const THEME_TRANSITION_CSS = `all ${THEME_TRANSITION_DURATION}ms ${THEME_TRANSITION_EASING}`;
+export const THEME_TRANSITION_CSS = `all ${String(THEME_TRANSITION_DURATION)}ms ${THEME_TRANSITION_EASING}`;
 
 // ============================================================================
 // Theme Storage

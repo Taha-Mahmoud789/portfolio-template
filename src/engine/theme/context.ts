@@ -16,9 +16,11 @@ import { DEFAULT_THEME_ID } from "./constants";
 const defaultTheme = ThemeRegistry.get(DEFAULT_THEME_ID);
 
 const defaultContextValue: ThemeContextValue = {
-  theme: defaultTheme as ThemeContextValue["theme"],
+  theme: defaultTheme!,
   themeId: DEFAULT_THEME_ID,
-  setTheme: async () => {},
+  setTheme: async () => {
+    // No-op default
+  },
   getThemeToken: () => "",
   isTransitioning: false,
   reducedMotion: false,
@@ -42,12 +44,6 @@ export const ThemeEngineContext = createContext<ThemeContextValue>(defaultContex
  */
 export function useThemeEngineContext(): ThemeContextValue {
   const context = useContext(ThemeEngineContext);
-
-  if (!context) {
-    throw new Error(
-      "useThemeEngineContext must be used within a ThemeEngineProvider"
-    );
-  }
 
   return context;
 }

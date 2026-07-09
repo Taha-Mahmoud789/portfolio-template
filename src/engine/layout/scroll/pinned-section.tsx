@@ -5,7 +5,12 @@
  * Used for scroll-triggered animations and parallax.
  */
 
-import { forwardRef, type ReactNode, type CSSProperties, type ComponentPropsWithoutRef } from "react";
+import {
+  forwardRef,
+  type ReactNode,
+  type CSSProperties,
+  type ComponentPropsWithoutRef,
+} from "react";
 import { cn } from "@/utils";
 
 interface PinnedSectionProps extends ComponentPropsWithoutRef<"div"> {
@@ -35,7 +40,7 @@ export const PinnedSection = forwardRef<HTMLDivElement, PinnedSectionProps>(
     },
     ref,
   ) => {
-    const offsetValue = typeof offset === "number" ? `${offset}px` : offset;
+    const offsetValue = typeof offset === "number" ? `${String(offset)}px` : offset;
 
     const containerStyle: CSSProperties = {
       height,

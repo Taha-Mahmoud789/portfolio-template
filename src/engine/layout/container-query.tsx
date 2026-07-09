@@ -120,7 +120,7 @@ export function ContainerQueryProvider({
   const style = useMemo(() => {
     const vars: Record<string, string> = {};
     for (const { key, width } of sortedWidths) {
-      vars[`--cq-${key}`] = `${width}px`;
+      vars[`--cq-${key}`] = `${String(width)}px`;
     }
     return vars;
   }, [sortedWidths]);
@@ -154,7 +154,7 @@ export function ContainerQueryProvider({
 
 export function useContainerQuery(name: string): ContainerQueryState {
   const ctx = useContext(ContainerContext);
-  if (!ctx || ctx.name !== name) {
+  if (ctx?.name !== name) {
     return { width: 0, height: 0, query: {} };
   }
   return ctx.state;
@@ -181,9 +181,7 @@ export function useContainerSize<T extends HTMLElement>(
         const { width, height } = entry.contentRect;
         const query = evaluateWidth(sortedWidths, width);
         setState((prev) =>
-          prev.width === width && prev.height === height
-            ? prev
-            : { width, height, query },
+          prev.width === width && prev.height === height ? prev : { width, height, query },
         );
       }
     });
@@ -205,10 +203,7 @@ export function useContainerRange(
   widths: Record<string, number>,
 ): string | undefined {
   const { width } = useContainerQuery(name);
-  const sorted = useMemo(
-    () => Object.entries(widths).sort(([, a], [, b]) => b - a),
-    [widths],
-  );
+  const sorted = useMemo(() => Object.entries(widths).sort(([, a], [, b]) => b - a), [widths]);
 
   for (const [key, w] of sorted) {
     if (width >= w) return key;
@@ -218,12 +213,9 @@ export function useContainerRange(
 
 // ─── CSS Utilities ───────────────────────────────────────────────
 
-export function containerQueryCSS(
-  name: string,
-  widths: Record<string, number>,
-): string {
+export function containerQueryCSS(name: string, widths: Record<string, number>): string {
   return Object.entries(widths)
     .sort(([, a], [, b]) => a - b)
-    .map(([, w]) => `@container ${name} (min-width: ${w}px)`)
+    .map(([, w]) => `@container ${name} (min-width: ${String(w)}px)`)
     .join("\n");
 }

@@ -2,11 +2,10 @@
  * Error Boundary
  *
  * Reusable class component that catches rendering errors.
- * Reports to the global error handler and renders a fallback.
+ * Renders a fallback UI when errors occur.
  */
 
 import { Component, type ErrorInfo, type ReactNode } from "react";
-import { reportError } from "./global-error-handler";
 import { ErrorFallback } from "./error-fallback";
 
 interface ErrorBoundaryProps {
@@ -29,7 +28,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
-    reportError(error, this.props.boundaryId ?? "error-boundary");
+    console.error(`[ErrorBoundary:${this.props.boundaryId ?? "error-boundary"}]`, error, errorInfo);
     this.props.onError?.(error, errorInfo);
   }
 

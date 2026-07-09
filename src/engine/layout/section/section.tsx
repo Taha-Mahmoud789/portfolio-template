@@ -4,7 +4,12 @@
  * Semantic <section> with responsive padding, background, container, and sticky support.
  */
 
-import { forwardRef, type ReactNode, type CSSProperties, type ComponentPropsWithoutRef } from "react";
+import {
+  forwardRef,
+  type ReactNode,
+  type CSSProperties,
+  type ComponentPropsWithoutRef,
+} from "react";
 import { cn } from "@/utils";
 import { useBreakpoint } from "../responsive/hooks";
 import { resolveResponsive, type Responsive } from "../responsive/responsive-props";
@@ -49,16 +54,16 @@ const SECTION_PADDING_X: Record<SectionSize, string> = {
 
 const BACKGROUND_MAP: Record<SectionBackground, string> = {
   none: "",
-  "surface": "bg-surface",
+  surface: "bg-surface",
   "surface-raised": "bg-surface-raised",
   "surface-overlay": "bg-surface-overlay",
   "surface-sunken": "bg-surface-sunken",
   "surface-inset": "bg-surface-inset",
-  "primary": "bg-primary text-foreground-inverse",
+  primary: "bg-primary text-foreground-inverse",
   "primary-subtle": "bg-primary-subtle",
-  "secondary": "bg-secondary text-foreground-inverse",
-  "foreground": "bg-foreground text-foreground-inverse",
-  "custom": "",
+  secondary: "bg-secondary text-foreground-inverse",
+  foreground: "bg-foreground text-foreground-inverse",
+  custom: "",
 };
 
 const CONTAINER_WIDTH: Record<string, string> = {
@@ -73,8 +78,11 @@ const CONTAINER_WIDTH: Record<string, string> = {
   none: "",
 };
 
-function getStickyStyles(sticky: boolean | "top" | "bottom", offset?: string | number): CSSProperties {
-  const offsetValue = typeof offset === "number" ? `${offset}px` : offset;
+function getStickyStyles(
+  sticky: boolean | "top" | "bottom",
+  offset?: string | number,
+): CSSProperties {
+  const offsetValue = typeof offset === "number" ? `${String(offset)}px` : offset;
   if (sticky === true || sticky === "top") {
     return { position: "sticky", top: offsetValue ?? "0", zIndex: 10 };
   }
@@ -150,7 +158,9 @@ export const Section = forwardRef<HTMLElement, SectionProps>(
         style={{
           ...sectionStyle,
           ...(resolvedMargin !== undefined
-            ? { "--section-px": `var(--spacing-${resolvedPadding ?? resolvedSize})` } as CSSProperties
+            ? ({
+                "--section-px": `var(--spacing-${resolvedPadding ?? resolvedSize})`,
+              } as CSSProperties)
             : {}),
         }}
         {...props}

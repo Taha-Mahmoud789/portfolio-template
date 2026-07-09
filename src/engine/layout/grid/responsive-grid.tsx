@@ -10,11 +10,23 @@
  * - Alignment per axis
  */
 
-import { forwardRef, type ReactNode, type CSSProperties, type ComponentPropsWithoutRef } from "react";
+import {
+  forwardRef,
+  type ReactNode,
+  type CSSProperties,
+  type ComponentPropsWithoutRef,
+} from "react";
 import { cn } from "@/utils";
 import { useBreakpoint } from "../responsive/hooks";
 import { resolveResponsive, type Responsive } from "../responsive/responsive-props";
-import type { GridColumns, GridAutoFlow, GridAlign, GridJustify, GridSpan, SpacingToken } from "../types";
+import type {
+  GridColumns,
+  GridAutoFlow,
+  GridAlign,
+  GridJustify,
+  GridSpan,
+  SpacingToken,
+} from "../types";
 
 // ─── Types ───────────────────────────────────────────────────────
 
@@ -96,9 +108,11 @@ export const ResponsiveGrid = forwardRef<HTMLDivElement, ResponsiveGridProps>(
     const resolvedColumns = resolveResponsive(columns, bp);
     const resolvedGap = resolveResponsive(gap, bp);
     const resolvedRowGap = rowGap !== undefined ? resolveResponsive(rowGap, bp) : undefined;
-    const resolvedColumnGap = columnGap !== undefined ? resolveResponsive(columnGap, bp) : undefined;
+    const resolvedColumnGap =
+      columnGap !== undefined ? resolveResponsive(columnGap, bp) : undefined;
     const resolvedAreas = areas !== undefined ? resolveResponsive(areas, bp) : undefined;
-    const resolvedColumnSizes = columnSizes !== undefined ? resolveResponsive(columnSizes, bp) : undefined;
+    const resolvedColumnSizes =
+      columnSizes !== undefined ? resolveResponsive(columnSizes, bp) : undefined;
     const resolvedRowSizes = rowSizes !== undefined ? resolveResponsive(rowSizes, bp) : undefined;
 
     // Auto-fill mode
@@ -109,13 +123,11 @@ export const ResponsiveGrid = forwardRef<HTMLDivElement, ResponsiveGridProps>(
       gridAutoFlow: flow,
       ...(isAutoFill
         ? { gridTemplateColumns: `repeat(auto-fill, minmax(${minItemWidth}, 1fr))` }
-        : { gridTemplateColumns: `repeat(${resolvedColumns}, 1fr)` }),
-      ...(resolvedColumnSizes && !isAutoFill
-        ? { gridTemplateColumns: resolvedColumnSizes }
-        : {}),
+        : { gridTemplateColumns: `repeat(${String(resolvedColumns)}, 1fr)` }),
+      ...(resolvedColumnSizes && !isAutoFill ? { gridTemplateColumns: resolvedColumnSizes } : {}),
       ...(resolvedRowSizes ? { gridTemplateRows: resolvedRowSizes } : {}),
       ...(resolvedAreas ? { gridTemplateAreas: resolvedAreas.join("\n") } : {}),
-      ...(rows ? { gridTemplateRows: `repeat(${rows}, 1fr)` } : {}),
+      ...(rows ? { gridTemplateRows: `repeat(${String(rows)}, 1fr)` } : {}),
       ...(resolvedColumnGap !== undefined
         ? { columnGap: GAP_MAP[resolvedColumnGap] }
         : { columnGap: GAP_MAP[resolvedGap] }),
@@ -130,12 +142,7 @@ export const ResponsiveGrid = forwardRef<HTMLDivElement, ResponsiveGridProps>(
     return (
       <div
         ref={ref}
-        className={cn(
-          "w-full",
-          fullWidth && "max-w-none",
-          centered && "mx-auto",
-          className,
-        )}
+        className={cn("w-full", fullWidth && "max-w-none", centered && "mx-auto", className)}
         style={gridStyle}
         {...props}
       >
@@ -175,15 +182,15 @@ interface GridCellProps extends ComponentPropsWithoutRef<"div"> {
 function spanToTailwind(span: GridSpan, axis: "col" | "row"): string {
   if (span === "full") return `${axis}-span-full`;
   if (span === "auto") return `${axis}-auto`;
-  return `${axis}-span-${span}`;
+  return `${axis}-span-${String(span)}`;
 }
 
 function startToTailwind(start: number, axis: "col" | "row"): string {
-  return `${axis}-start-${start}`;
+  return `${axis}-start-${String(start)}`;
 }
 
 function endToTailwind(end: number, axis: "col" | "row"): string {
-  return `${axis}-end-${end}`;
+  return `${axis}-end-${String(end)}`;
 }
 
 export const GridCell = forwardRef<HTMLDivElement, GridCellProps>(

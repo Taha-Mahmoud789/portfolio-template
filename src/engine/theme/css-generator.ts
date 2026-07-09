@@ -36,10 +36,7 @@ import { CSS_VAR_PREFIX } from "./constants";
 // Helper Functions
 // ============================================================================
 
-function flattenObject(
-  obj: unknown,
-  prefix: string
-): Record<string, string> {
+function flattenObject(obj: unknown, prefix: string): Record<string, string> {
   const result: Record<string, string> = {};
 
   if (typeof obj !== "object" || obj === null || Array.isArray(obj)) {
@@ -87,7 +84,11 @@ function generateTypographyVariables(typography: ThemeTypography): Record<string
       const [size, lineHeight] = value as [string, { lineHeight: string }];
       vars[`--${CSS_VAR_PREFIX}-font-size-${key}`] = size;
       vars[`--${CSS_VAR_PREFIX}-line-height-${key}`] = lineHeight.lineHeight;
-    } else if (key.startsWith("font-") && !key.startsWith("font-size-") && typeof value === "number") {
+    } else if (
+      key.startsWith("font-") &&
+      !key.startsWith("font-size-") &&
+      typeof value === "number"
+    ) {
       vars[`--${CSS_VAR_PREFIX}-font-weight-${key.replace("font-", "")}`] = String(value);
     } else if (key.startsWith("tracking-") && typeof value === "string") {
       vars[`--${CSS_VAR_PREFIX}-tracking-${key.replace("tracking-", "")}`] = value;
@@ -351,7 +352,7 @@ export function generateThemeCSSString(theme: ThemeDefinition): string {
  */
 export function applyThemeToElement(
   theme: ThemeDefinition,
-  element: HTMLElement = document.documentElement
+  element: HTMLElement = document.documentElement,
 ): void {
   const vars = generateThemeCSSVariables(theme);
   for (const [key, value] of Object.entries(vars)) {
@@ -362,9 +363,7 @@ export function applyThemeToElement(
 /**
  * Remove all theme CSS variables from an element.
  */
-export function removeThemeFromElement(
-  element: HTMLElement = document.documentElement
-): void {
+export function removeThemeFromElement(element: HTMLElement = document.documentElement): void {
   const keys = Array.from(element.style);
   for (const key of keys) {
     if (key.startsWith(`--${CSS_VAR_PREFIX}`)) {
@@ -376,10 +375,7 @@ export function removeThemeFromElement(
 /**
  * Get a single theme token value.
  */
-export function getThemeToken(
-  theme: ThemeDefinition,
-  tokenPath: string
-): string {
+export function getThemeToken(theme: ThemeDefinition, tokenPath: string): string {
   const parts = tokenPath.split(".");
   let current: unknown = theme;
 
@@ -390,5 +386,5 @@ export function getThemeToken(
     current = (current as Record<string, unknown>)[part];
   }
 
-  return String(current ?? "");
+  return current?.toString() ?? "";
 }

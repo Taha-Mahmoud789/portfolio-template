@@ -84,9 +84,6 @@ class ThemeLoaderImpl implements ThemeLoaderInterface {
    */
   private async doLoadTheme(themeId: ThemeId): Promise<ThemeDefinition> {
     const importer = THEME_IMPORTS[themeId];
-    if (!importer) {
-      throw new Error(`No importer found for theme "${themeId}"`);
-    }
 
     // Add a small delay for smooth transitions
     const [module] = await Promise.all([

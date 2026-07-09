@@ -94,8 +94,6 @@ function validateColors(
   errors: ValidationError[],
   warnings: ValidationError[],
 ): void {
-  if (!colors) return;
-
   const requiredColors = [
     "primary",
     "secondary",
@@ -120,16 +118,12 @@ function validateColors(
 }
 
 function validateTypography(typography: Record<string, unknown>, errors: ValidationError[]): void {
-  if (!typography) return;
-
   validateRequired(typography, "font-sans", "typography", errors);
   validateRequired(typography, "font-heading", "typography", errors);
   validateRequired(typography, "font-mono", "typography", errors);
 }
 
 function validateSpacing(spacing: Record<string, unknown>, errors: ValidationError[]): void {
-  if (!spacing) return;
-
   const requiredSpacing = ["space-0", "space-1", "space-2", "space-4", "space-8"];
   for (const key of requiredSpacing) {
     validateRequired(spacing, key, "spacing", errors);
@@ -137,8 +131,6 @@ function validateSpacing(spacing: Record<string, unknown>, errors: ValidationErr
 }
 
 function validateRadius(radius: Record<string, unknown>, errors: ValidationError[]): void {
-  if (!radius) return;
-
   validateRequired(radius, "radius-none", "radius", errors);
   validateRequired(radius, "radius-full", "radius", errors);
   validateRequired(radius, "radius-button", "radius", errors);
@@ -146,8 +138,6 @@ function validateRadius(radius: Record<string, unknown>, errors: ValidationError
 }
 
 function validateShadows(shadows: Record<string, unknown>, errors: ValidationError[]): void {
-  if (!shadows) return;
-
   validateRequired(shadows, "shadow-none", "shadows", errors);
   validateRequired(shadows, "shadow-sm", "shadows", errors);
   validateRequired(shadows, "shadow-lg", "shadows", errors);
@@ -163,15 +153,6 @@ function validateShadows(shadows: Record<string, unknown>, errors: ValidationErr
 export function validateTheme(theme: Partial<ThemeDefinition>): ValidationResult {
   const errors: ValidationError[] = [];
   const warnings: ValidationError[] = [];
-
-  if (!theme) {
-    errors.push({
-      path: "theme",
-      message: "Theme definition is required",
-      severity: "error",
-    });
-    return { valid: false, errors, warnings };
-  }
 
   // Validate required top-level properties
   validateRequired(theme, "id", "theme", errors);

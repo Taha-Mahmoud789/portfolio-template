@@ -5,7 +5,12 @@
  * Commonly used for "scrollytelling" and horizontal galleries.
  */
 
-import { forwardRef, type ReactNode, type CSSProperties, type ComponentPropsWithoutRef } from "react";
+import {
+  forwardRef,
+  type ReactNode,
+  type CSSProperties,
+  type ComponentPropsWithoutRef,
+} from "react";
 import { cn } from "@/utils";
 
 interface HorizontalScrollProps extends ComponentPropsWithoutRef<"div"> {
@@ -30,7 +35,7 @@ export const HorizontalScroll = forwardRef<HTMLDivElement, HorizontalScrollProps
       pinned = false,
       pinHeight = "100dvh",
       gap = "1rem",
-      itemWidth = "80vw",
+      itemWidth: _itemWidth = "80vw",
       hideScrollbar = true,
       className,
       style,
@@ -59,7 +64,8 @@ export const HorizontalScroll = forwardRef<HTMLDivElement, HorizontalScrollProps
         ref={ref}
         className={cn(
           "flex items-stretch w-full",
-          hideScrollbar && "[&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]",
+          hideScrollbar &&
+            "[&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]",
           className,
         )}
         style={containerStyle}
@@ -85,25 +91,11 @@ interface HorizontalScrollItemProps extends ComponentPropsWithoutRef<"div"> {
 }
 
 export const HorizontalScrollItem = forwardRef<HTMLDivElement, HorizontalScrollItemProps>(
-  (
-    {
-      children,
-      width = "80vw",
-      snap = true,
-      className,
-      style,
-      ...props
-    },
-    ref,
-  ) => {
+  ({ children, width = "80vw", snap = true, className, style, ...props }, ref) => {
     return (
       <div
         ref={ref}
-        className={cn(
-          "shrink-0 h-full",
-          snap && "snap-center",
-          className,
-        )}
+        className={cn("shrink-0 h-full", snap && "snap-center", className)}
         style={{
           width,
           ...style,

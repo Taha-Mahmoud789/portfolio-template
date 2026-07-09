@@ -11,18 +11,19 @@ import type { Responsive } from "./responsive/responsive-props";
 // ─── Container Sizes ─────────────────────────────────────────────
 
 export type ContainerSize =
-  | "sm"    // 640px
-  | "md"    // 768px
-  | "lg"    // 1024px
-  | "xl"    // 1280px
-  | "2xl"   // 1536px
-  | "3xl"   // 1728px
+  | "sm" // 640px
+  | "md" // 768px
+  | "lg" // 1024px
+  | "xl" // 1280px
+  | "2xl" // 1536px
+  | "3xl" // 1728px
   | "prose" // 65ch
   | "full"; // 100%
 
 // ─── Spacing Tokens ──────────────────────────────────────────────
 
-export type SpacingToken = "none" | "2xs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
+export type SpacingToken =
+  "none" | "2xs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
 
 // ─── Section Variants ────────────────────────────────────────────
 
@@ -85,7 +86,7 @@ export type SplitDivider = "line" | "space" | "none";
 
 export type SidebarPosition = "left" | "right";
 
-export type SidebarWidth = "narrow" | "default" | "wide" | Responsive<string | number>;
+export type SidebarWidth = Responsive<string | number>;
 
 export type SidebarCollapse = "none" | "stack" | "overlay";
 

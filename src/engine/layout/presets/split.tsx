@@ -5,7 +5,12 @@
  * Supports vertical stacking on mobile.
  */
 
-import { forwardRef, type ReactNode, type CSSProperties, type ComponentPropsWithoutRef } from "react";
+import {
+  forwardRef,
+  type ReactNode,
+  type CSSProperties,
+  type ComponentPropsWithoutRef,
+} from "react";
 import { cn } from "@/utils";
 import { useBreakpoint } from "../responsive/hooks";
 import { resolveResponsive, type Responsive } from "../responsive/responsive-props";
@@ -47,7 +52,7 @@ export const SplitLayout = forwardRef<HTMLDivElement, SplitLayoutProps>(
       ratio = "1fr 1fr",
       gap = "2rem",
       align = "stretch",
-      mobileStack = "vertical",
+      mobileStack: _mobileStack = "vertical",
       mobileGap,
       fullHeight = false,
       divider = false,
@@ -79,7 +84,9 @@ export const SplitLayout = forwardRef<HTMLDivElement, SplitLayoutProps>(
       <div
         ref={ref}
         className={cn(
-          isHorizontal && divider && "[&>section:not(:last-child)]:border-r [&>section:not(:last-child)]:border-border",
+          isHorizontal &&
+            divider &&
+            "[&>section:not(:last-child)]:border-r [&>section:not(:last-child)]:border-border",
           className,
         )}
         style={containerStyle}

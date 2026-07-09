@@ -1,18 +1,17 @@
-/**
- * usePageTransition Hook
- *
- * Creates page transition animations.
- */
-
-import { useAnimationConfig } from "./use-animation-config";
-import type { UsePageTransitionOptions, UsePageTransitionReturn } from "../types/hooks";
-import { ANIMATION_DURATIONS, ANIMATION_EASINGS } from "../constants";
 import type { Variants, TargetAndTransition } from "framer-motion";
 
-export function usePageTransition(options: UsePageTransitionOptions = {}): UsePageTransitionReturn {
-  const { type = "fade", direction = "up", duration = ANIMATION_DURATIONS.normal } = options;
+interface UsePageTransitionOptions {
+  type?: "fade" | "slide" | "scale" | "rotate" | "portal";
+  direction?: "up" | "down" | "left" | "right";
+  duration?: number;
+}
 
-  const { durationMultiplier } = useAnimationConfig();
+interface UsePageTransitionReturn {
+  variants: Variants;
+}
+
+export function usePageTransition(options: UsePageTransitionOptions = {}): UsePageTransitionReturn {
+  const { type = "fade", direction = "up", duration = 0.3 } = options;
 
   const variants: Variants = {
     initial: getInitialState(type, direction),
@@ -24,16 +23,14 @@ export function usePageTransition(options: UsePageTransitionOptions = {}): UsePa
       rotate: 0,
       filter: "blur(0px)",
       transition: {
-        duration: duration * durationMultiplier,
-        ease: ANIMATION_EASINGS.easeOut,
+        duration,
+        ease: "expo.out",
       },
     },
-    exit: getExitState(type, direction, duration * durationMultiplier),
+    exit: getExitState(type, direction, duration),
   };
 
-  return {
-    variants,
-  };
+  return { variants };
 }
 
 function getInitialState(type: string, direction: string): TargetAndTransition {
@@ -56,7 +53,7 @@ function getInitialState(type: string, direction: string): TargetAndTransition {
 }
 
 function getExitState(type: string, direction: string, duration: number): TargetAndTransition {
-  const transition = { duration: duration * 0.5, ease: ANIMATION_EASINGS.easeIn };
+  const transition = { duration: duration * 0.5, ease: "expo.in" as const };
 
   switch (type) {
     case "slide":

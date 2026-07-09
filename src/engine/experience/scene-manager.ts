@@ -73,7 +73,7 @@ class SceneManagerImpl {
     // Call scene callbacks
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     scene.onEnter?.();
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+
     scene.onActivate?.();
 
     // Wait for transition (respects reduced motion)

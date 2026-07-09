@@ -10,7 +10,7 @@ import { useThemeEngineStore } from "./store";
 import { generateThemeCSSVariables } from "./css-generator";
 import { validateTheme as validateThemeUtil } from "./validation";
 import { mergeThemes } from "./utilities";
-import type { ThemeId, ThemeDefinition, ThemeCategory, ThemeAPI } from "./types";
+import type { ThemeId, ThemeDefinition, ThemeCategory, ThemeAPI, ColorBlindMode } from "./types";
 
 // ============================================================================
 // Theme API Implementation
@@ -40,7 +40,7 @@ export const themeAPI: ThemeAPI = {
    */
   getPreviousTheme(): ThemeDefinition | null {
     const id = useThemeEngineStore.getState().previousThemeId;
-    return id ? ThemeRegistry.get(id) ?? null : null;
+    return id ? (ThemeRegistry.get(id) ?? null) : null;
   },
 
   /**
@@ -65,7 +65,7 @@ export const themeAPI: ThemeAPI = {
       current = (current as Record<string, unknown>)[part];
     }
 
-    return String(current ?? "");
+    return current?.toString() ?? "";
   },
 
   // --- Registry ---
@@ -103,10 +103,7 @@ export const themeAPI: ThemeAPI = {
   /**
    * Merge two theme definitions.
    */
-  mergeThemes(
-    base: ThemeDefinition,
-    override: Partial<ThemeDefinition>
-  ): ThemeDefinition {
+  mergeThemes(base: ThemeDefinition, override: Partial<ThemeDefinition>): ThemeDefinition {
     return mergeThemes(base, override);
   },
 
@@ -136,9 +133,7 @@ export const themeAPI: ThemeAPI = {
   /**
    * Set color blind mode.
    */
-  setColorBlindMode(
-    mode: import("./types").ColorBlindMode
-  ): void {
+  setColorBlindMode(mode: ColorBlindMode): void {
     useThemeEngineStore.getState().setColorBlindMode(mode);
   },
 

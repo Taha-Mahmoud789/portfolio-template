@@ -15,9 +15,9 @@ import { ALL_THEME_IDS } from "./constants";
  * Deep merge two theme definitions.
  * The override theme takes precedence over the base theme.
  */
-export function mergeThemes<T extends Partial<ThemeDefinition>>(
-  base: T,
-  override: Partial<ThemeDefinition>
+export function mergeThemes(
+  base: Partial<ThemeDefinition>,
+  override: Partial<ThemeDefinition>,
 ): ThemeDefinition {
   return deepMerge(base, override) as ThemeDefinition;
 }
@@ -33,11 +33,7 @@ function deepMerge(target: unknown, source: unknown): unknown {
       const sourceValue = (source as Record<string, unknown>)[key];
       const targetValue = result[key];
 
-      if (
-        isObject(sourceValue) &&
-        isObject(targetValue) &&
-        !Array.isArray(sourceValue)
-      ) {
+      if (isObject(sourceValue) && isObject(targetValue) && !Array.isArray(sourceValue)) {
         result[key] = deepMerge(targetValue, sourceValue);
       } else if (sourceValue !== undefined) {
         result[key] = sourceValue;
@@ -79,7 +75,7 @@ export function cssVarToToken(cssVar: string): string {
  */
 export function getThemesByCategory(
   themes: ThemeDefinition[],
-  category: ThemeCategory
+  category: ThemeCategory,
 ): ThemeDefinition[] {
   return themes.filter((theme) => theme.category === category);
 }
@@ -87,29 +83,21 @@ export function getThemesByCategory(
 /**
  * Search themes by name or description.
  */
-export function searchThemes(
-  themes: ThemeDefinition[],
-  query: string
-): ThemeDefinition[] {
+export function searchThemes(themes: ThemeDefinition[], query: string): ThemeDefinition[] {
   const lowerQuery = query.toLowerCase();
   return themes.filter(
     (theme) =>
       theme.name.toLowerCase().includes(lowerQuery) ||
       theme.description.toLowerCase().includes(lowerQuery) ||
-      theme.tags.some((tag) => tag.toLowerCase().includes(lowerQuery))
+      theme.tags.some((tag) => tag.toLowerCase().includes(lowerQuery)),
   );
 }
 
 /**
  * Get themes by tag.
  */
-export function getThemesByTag(
-  themes: ThemeDefinition[],
-  tag: string
-): ThemeDefinition[] {
-  return themes.filter((theme) =>
-    theme.tags.some((t) => t.toLowerCase() === tag.toLowerCase())
-  );
+export function getThemesByTag(themes: ThemeDefinition[], tag: string): ThemeDefinition[] {
+  return themes.filter((theme) => theme.tags.some((t) => t.toLowerCase() === tag.toLowerCase()));
 }
 
 // ============================================================================
@@ -152,7 +140,7 @@ export function createReducedMotionVersion(theme: ThemeDefinition): ThemeDefinit
  */
 export function createColorBlindVersion(
   theme: ThemeDefinition,
-  mode: "protanopia" | "deuteranopia" | "tritanopia"
+  mode: "protanopia" | "deuteranopia" | "tritanopia",
 ): ThemeDefinition {
   // Color blind friendly palettes
   const palettes = {
@@ -202,7 +190,7 @@ export function createColorBlindVersion(
  */
 export function compareThemes(
   theme1: ThemeDefinition,
-  theme2: ThemeDefinition
+  theme2: ThemeDefinition,
 ): Record<string, { theme1: unknown; theme2: unknown }> {
   const differences: Record<string, { theme1: unknown; theme2: unknown }> = {};
 
@@ -225,7 +213,7 @@ export function compareThemes(
   compare(
     theme1 as unknown as Record<string, unknown>,
     theme2 as unknown as Record<string, unknown>,
-    ""
+    "",
   );
 
   return differences;

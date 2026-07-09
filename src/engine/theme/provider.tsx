@@ -35,10 +35,7 @@ interface ThemeEngineProviderProps {
 // Provider Component
 // ============================================================================
 
-export function ThemeEngineProvider({
-  children,
-  preload = true,
-}: ThemeEngineProviderProps) {
+export function ThemeEngineProvider({ children, preload = true }: ThemeEngineProviderProps) {
   const isInitialized = useRef(false);
 
   // Get store state
@@ -87,7 +84,7 @@ export function ThemeEngineProvider({
       }
     };
 
-    initializeTheme();
+    void initializeTheme();
 
     // Preload other themes if enabled
     if (preload) {
@@ -152,9 +149,9 @@ export function ThemeEngineProvider({
         current = (current as Record<string, unknown>)[part];
       }
 
-      return String(current ?? "");
+      return current?.toString() ?? "";
     },
-    [currentTheme]
+    [currentTheme],
   );
 
   // Context value
@@ -178,12 +175,8 @@ export function ThemeEngineProvider({
       reducedMotion,
       highContrast,
       colorBlindMode,
-    ]
+    ],
   );
 
-  return (
-    <ThemeEngineContext.Provider value={contextValue}>
-      {children}
-    </ThemeEngineContext.Provider>
-  );
+  return <ThemeEngineContext.Provider value={contextValue}>{children}</ThemeEngineContext.Provider>;
 }

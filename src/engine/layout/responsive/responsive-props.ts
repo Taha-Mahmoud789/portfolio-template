@@ -23,7 +23,9 @@ export type Responsive<T> = T | Partial<Record<Breakpoint, T>>;
 /**
  * Check if a value is a responsive object (vs a static value).
  */
-export function isResponsiveValue<T>(value: Responsive<T>): value is Partial<Record<Breakpoint, T>> {
+export function isResponsiveValue<T>(
+  value: Responsive<T>,
+): value is Partial<Record<Breakpoint, T>> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
@@ -66,8 +68,7 @@ export function resolveResponsive<T>(
   }
 
   // If no value found walking backwards, try walking forwards (for "xs" below sm)
-  for (let i = 0; i < BREAKPOINT_ORDER.length; i++) {
-    const bp = BREAKPOINT_ORDER[i];
+  for (const bp of BREAKPOINT_ORDER) {
     if (bp !== undefined && responsiveObj[bp] !== undefined) {
       return responsiveObj[bp];
     }
@@ -89,9 +90,7 @@ export function resolveResponsive<T>(
  * // resolveResponsiveMap({ sm: 1, md: 2, lg: 3 })
  * // => { sm: 1, md: 2, lg: 3, xl: 3, "2xl": 3 }
  */
-export function resolveResponsiveMap<T>(
-  value: Responsive<T>,
-): Record<Breakpoint, T> {
+export function resolveResponsiveMap<T>(value: Responsive<T>): Record<Breakpoint, T> {
   if (!isResponsiveValue(value)) {
     const map = {} as Record<Breakpoint, T>;
     for (const bp of BREAKPOINT_ORDER) {
